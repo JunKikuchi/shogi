@@ -1,4 +1,7 @@
-module ShogiBoard.Piece (Piece) where
+module ShogiBoard.Piece
+  ( Piece
+  , Promoted
+  ) where
 
 import ShogiBoard.Color
 

@@ -33,6 +33,7 @@ checkmate color shogi = check color shogi && check_moves && check_drops
     boards  = catMaybes [Board.move from to board | from <- squares, to <- Board.moves from board]
     squares = Board.squares color board
     board   = getBoard shogi
+    stand   = getStand shogi
 
 -- | 王手判定
 check :: Color -> Shogi -> Bool
