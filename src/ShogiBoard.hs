@@ -1,9 +1,10 @@
 module ShogiBoard where
 
-import qualified Data.Map as Map
-import ShogiBoard.Color
-import ShogiBoard.Piece
+import ShogiBoard.Board
+import ShogiBoard.Stand
 import ShogiBoard.Square
+import ShogiBoard.Piece
+import ShogiBoard.Color
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -21,12 +22,6 @@ import ShogiBoard.Square
 -- | 将棋
 data Shogi = Shogi Board Stand deriving (Eq, Show)
 
--- | 将棋盤
-newtype Board = Board (Map.Map Square Piece) deriving (Eq, Show)
-
--- | 駒台
-newtype Stand = Stand [Piece] deriving (Eq, Show)
-
 -- | 駒の移動元の升目
 type MoveFrom = Square
 
@@ -35,7 +30,10 @@ type MoveTo = Square
 
 -- | 詰み判定
 checkmate :: Color -> Shogi -> Bool
-checkmate = undefined
+checkmate color shogi = check color shogi && check_moves && check_drops
+  where
+    check_moves = undefined
+    check_drops = undefined
 
 -- | 王手判定
 check :: Color -> Shogi -> Bool
