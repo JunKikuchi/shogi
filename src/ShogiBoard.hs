@@ -57,5 +57,5 @@ moves :: MoveFrom -> Shogi -> [MoveTo]
 moves = undefined
 
 -- | 持ち駒を指せる升目
-drops :: Piece -> Shogi -> [MoveTo]
+drops :: Piece -> Shogi -> [Square]
 drops = undefined
