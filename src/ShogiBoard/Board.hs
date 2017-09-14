@@ -2,9 +2,12 @@ module ShogiBoard.Board
   ( Board
   , squares
   , move
+  , drop
   , moves
+  , drops
   ) where
 
+import Prelude hiding (drop)
 import qualified Data.Map as Map
 import ShogiBoard.Square
 import ShogiBoard.Piece
@@ -22,5 +25,11 @@ squares = undefined
 move :: MoveFrom -> MoveTo -> Board -> Maybe Board
 move = undefined
 
+drop :: Piece -> Square -> Board -> Maybe Board
+drop = undefined
+
 moves :: MoveFrom -> Board -> [MoveTo]
 moves = undefined
+
+drops :: Color -> Board -> [Square]
+drops = undefined

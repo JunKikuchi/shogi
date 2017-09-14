@@ -1,6 +1,7 @@
 module ShogiBoard where
 
-import Data.Maybe
+import Data.Maybe (catMaybes)
+import Data.List (nub)
 import ShogiBoard.Board as Board
 import ShogiBoard.Stand as Stand
 import ShogiBoard.Square
@@ -27,13 +28,17 @@ data Shogi = Shogi { getBoard :: Board, getStand :: Stand } deriving (Eq, Show)
 checkmate :: Color -> Shogi -> Bool
 checkmate color shogi = check color shogi && check_moves && check_drops
   where
-    check_moves = all id $ map (\board' -> check color shogi { getBoard = board' }) boards
-    check_drops = undefined
-
-    boards  = catMaybes [Board.move from to board | from <- squares, to <- Board.moves from board]
-    squares = Board.squares color board
-    board   = getBoard shogi
-    stand   = getStand shogi
+    check_moves = check' boards
+      where
+        boards  = catMaybes [Board.move from to board | from <- squares, to <- Board.moves from board]
+        squares = Board.squares color board
+    check_drops = check' drops
+      where
+        drops  = catMaybes [Board.drop piece to board | piece <- pieces, to <- Board.drops color board]
+        pieces = nub $ Stand.pieces color stand
+        stand  = getStand shogi
+    check' = all id . map (\board' -> check color shogi { getBoard = board' })
+    board  = getBoard shogi
 
 -- | 王手判定
 check :: Color -> Shogi -> Bool
