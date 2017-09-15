@@ -2,6 +2,7 @@ module ShogiBoard where
 
 import Data.Maybe (catMaybes)
 import Data.List (nub)
+import Control.Monad (guard)
 import ShogiBoard.Board as Board
 import ShogiBoard.Stand as Stand
 import ShogiBoard.Square
@@ -48,6 +49,7 @@ check color = Board.check color . getBoard
 move :: MoveFrom -> MoveTo -> Color -> Shogi -> Maybe Shogi
 move from to color shogi = do
   board <- Board.move from to color $ getBoard shogi
+  guard $ not $ Board.check color board
   return shogi { getBoard = board }
 
 -- | 持ち駒を指す
@@ -55,6 +57,7 @@ drop :: Piece -> Square -> Color -> Shogi -> Maybe Shogi
 drop piece to color shogi = do
   (piece', stand) <- Stand.take piece     color $ getStand shogi
   board'          <- Board.drop piece' to color $ getBoard shogi
+  guard $ not $ Board.check color board'
   return shogi { getBoard = board', getStand = stand }
 
 -- | 駒を動かせる升目
