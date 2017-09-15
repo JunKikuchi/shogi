@@ -30,7 +30,7 @@ checkmate color shogi = check color shogi && check_moves && check_drops
   where
     check_moves = check' boards
       where
-        boards  = catMaybes [Board.move from to board | (from, _) <- pieces, to <- Board.moves from board]
+        boards = catMaybes [Board.move from to board | (from, _) <- pieces, to <- Board.moves from board]
         pieces = Board.pieces color board
     check_drops = check' drops
       where
