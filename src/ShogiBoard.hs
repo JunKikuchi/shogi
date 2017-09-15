@@ -30,11 +30,11 @@ checkmate color shogi = ShogiBoard.check color shogi && check_moves && check_dro
   where
     check_moves = check' boards
       where
-        boards = catMaybes [Board.move from to board | (from, _) <- pieces, to <- Board.moves from board]
+        boards = catMaybes [Board.move from to color board | (from, _) <- pieces, to <- Board.moves from color board]
         pieces = Board.pieces color board
     check_drops = check' drops
       where
-        drops  = catMaybes [Board.drop piece to board | piece <- pieces, to <- Board.drops piece board]
+        drops  = catMaybes [Board.drop piece to color board | piece <- pieces, to <- Board.drops piece color board]
         pieces = nub $ Stand.pieces color stand
         stand  = getStand shogi
     check' = all id . map (\board' -> ShogiBoard.check color shogi { getBoard = board' })
@@ -45,17 +45,17 @@ check :: Color -> Shogi -> Bool
 check color = Board.check color . getBoard
 
 -- | 駒を動かす
-move :: MoveFrom -> MoveTo -> Shogi -> Maybe Shogi
+move :: MoveFrom -> MoveTo -> Color -> Shogi -> Maybe Shogi
 move = undefined
 
 -- | 持ち駒を指す
-drop :: Piece -> MoveTo -> Shogi -> Maybe Shogi
+drop :: Piece -> MoveTo -> Color -> Shogi -> Maybe Shogi
 drop = undefined
 
 -- | 駒を動かせる升目
-moves :: MoveFrom -> Shogi -> [MoveTo]
+moves :: MoveFrom -> Color -> Shogi -> [MoveTo]
 moves = undefined
 
 -- | 持ち駒を指せる升目
-drops :: Piece -> Shogi -> [Square]
+drops :: Piece -> Color -> Shogi -> [Square]
 drops = undefined

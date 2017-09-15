@@ -23,14 +23,14 @@ check = undefined
 pieces :: Color -> Board -> [(Square, Piece)]
 pieces = undefined
 
-move :: MoveFrom -> MoveTo -> Board -> Maybe Board
+move :: MoveFrom -> MoveTo -> Color -> Board -> Maybe Board
 move = undefined
 
-drop :: Piece -> Square -> Board -> Maybe Board
+drop :: Piece -> Square -> Color -> Board -> Maybe Board
 drop = undefined
 
-moves :: MoveFrom -> Board -> [MoveTo]
+moves :: MoveFrom -> Color -> Board -> [MoveTo]
 moves = undefined
 
-drops :: Piece -> Board -> [Square]
+drops :: Piece -> Color -> Board -> [Square]
 drops = undefined
