@@ -1,6 +1,6 @@
 module ShogiBoard where
 
-import Data.Maybe (catMaybes, maybe)
+import Data.Maybe (catMaybes)
 import Data.List (nub)
 import ShogiBoard.Board as Board
 import ShogiBoard.Stand as Stand
@@ -46,10 +46,9 @@ check color = Board.check color . getBoard
 
 -- | 駒を動かす
 move :: MoveFrom -> MoveTo -> Color -> Shogi -> Maybe Shogi
-move from to color shogi = maybe Nothing board'' board'
-  where
-    board'        = Board.move from to color $ getBoard shogi
-    board'' board = Just shogi { getBoard = board }
+move from to color shogi = do
+  board <- Board.move from to color $ getBoard shogi
+  return shogi { getBoard = board }
 
 -- | 持ち駒を指す
 drop :: Piece -> MoveTo -> Color -> Shogi -> Maybe Shogi
