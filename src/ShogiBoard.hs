@@ -51,8 +51,11 @@ move from to color shogi = do
   return shogi { getBoard = board }
 
 -- | 持ち駒を指す
-drop :: Piece -> MoveTo -> Color -> Shogi -> Maybe Shogi
-drop = undefined
+drop :: Piece -> Square -> Color -> Shogi -> Maybe Shogi
+drop piece to color shogi = do
+  (piece', stand) <- Stand.take piece     color $ getStand shogi
+  board'          <- Board.drop piece' to color $ getBoard shogi
+  return shogi { getBoard = board', getStand = stand }
 
 -- | 駒を動かせる升目
 moves :: MoveFrom -> Color -> Shogi -> [MoveTo]
