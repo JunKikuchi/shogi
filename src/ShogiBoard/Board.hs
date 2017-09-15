@@ -1,6 +1,6 @@
 module ShogiBoard.Board
   ( Board
-  , squares
+  , pieces
   , move
   , drop
   , moves
@@ -19,8 +19,8 @@ newtype Board = Board (Map.Map Square Piece) deriving (Eq, Show)
 toList :: Board -> [(Square, Piece)]
 toList = undefined
 
-squares :: Color -> Board -> [Square]
-squares = undefined
+pieces :: Color -> Board -> [(Square, Piece)]
+pieces = undefined
 
 move :: MoveFrom -> MoveTo -> Board -> Maybe Board
 move = undefined
