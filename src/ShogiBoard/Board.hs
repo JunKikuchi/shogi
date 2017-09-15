@@ -31,5 +31,5 @@ drop = undefined
 moves :: MoveFrom -> Board -> [MoveTo]
 moves = undefined
 
-drops :: Color -> Board -> [Square]
+drops :: Piece -> Board -> [Square]
 drops = undefined

@@ -34,7 +34,7 @@ checkmate color shogi = check color shogi && check_moves && check_drops
         squares = Board.squares color board
     check_drops = check' drops
       where
-        drops  = catMaybes [Board.drop piece to board | piece <- pieces, to <- Board.drops color board]
+        drops  = catMaybes [Board.drop piece to board | piece <- pieces, to <- Board.drops piece board]
         pieces = nub $ Stand.pieces color stand
         stand  = getStand shogi
     check' = all id . map (\board' -> check color shogi { getBoard = board' })
