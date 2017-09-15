@@ -16,9 +16,6 @@ import ShogiBoard.Color
 -- | 将棋盤
 newtype Board = Board (Map.Map Square Piece) deriving (Eq, Show)
 
-toList :: Board -> [(Square, Piece)]
-toList = undefined
-
 pieces :: Color -> Board -> [(Square, Piece)]
 pieces = undefined
 
