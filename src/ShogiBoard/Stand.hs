@@ -2,6 +2,7 @@ module ShogiBoard.Stand
   ( Stand
   , pieces
   , take
+  , include
   ) where
 
 import Prelude hiding (take)
@@ -16,3 +17,6 @@ pieces = undefined
 
 take :: Piece -> Color -> Stand -> Maybe (Piece, Stand)
 take = undefined
+
+include :: Piece -> Color -> Stand -> Bool
+include = undefined

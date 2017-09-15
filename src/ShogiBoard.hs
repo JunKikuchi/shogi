@@ -1,6 +1,7 @@
 module ShogiBoard where
 
 import Data.List (nub)
+import Data.Maybe (maybe)
 import Control.Monad (guard)
 import ShogiBoard.Board as Board
 import ShogiBoard.Stand as Stand
@@ -54,8 +55,10 @@ drop piece to color shogi = do
 
 -- | 駒を動かせる升目
 moves :: MoveFrom -> Color -> Shogi -> [MoveTo]
-moves = undefined
+moves from color shogi = Board.moves from color $ getBoard shogi
 
 -- | 持ち駒を指せる升目
 drops :: Piece -> Color -> Shogi -> [Square]
-drops = undefined
+drops piece color shogi = do
+  guard $ Stand.include piece color $ getStand shogi
+  Board.drops piece color $ getBoard shogi
