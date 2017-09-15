@@ -26,7 +26,7 @@ data Shogi = Shogi { getBoard :: Board, getStand :: Stand } deriving (Eq, Show)
 
 -- | 詰み判定
 checkmate :: Color -> Shogi -> Bool
-checkmate color shogi = check color shogi && check_moves && check_drops
+checkmate color shogi = ShogiBoard.check color shogi && check_moves && check_drops
   where
     check_moves = check' boards
       where
@@ -37,12 +37,12 @@ checkmate color shogi = check color shogi && check_moves && check_drops
         drops  = catMaybes [Board.drop piece to board | piece <- pieces, to <- Board.drops piece board]
         pieces = nub $ Stand.pieces color stand
         stand  = getStand shogi
-    check' = all id . map (\board' -> check color shogi { getBoard = board' })
+    check' = all id . map (\board' -> ShogiBoard.check color shogi { getBoard = board' })
     board  = getBoard shogi
 
 -- | 王手判定
 check :: Color -> Shogi -> Bool
-check = undefined
+check color = Board.check color . getBoard
 
 -- | 駒を動かす
 move :: MoveFrom -> MoveTo -> Shogi -> Maybe Shogi

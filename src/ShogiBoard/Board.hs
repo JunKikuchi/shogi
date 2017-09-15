@@ -1,5 +1,6 @@
 module ShogiBoard.Board
   ( Board
+  , check
   , pieces
   , move
   , drop
@@ -15,6 +16,9 @@ import ShogiBoard.Color
 
 -- | 将棋盤
 newtype Board = Board (Map.Map Square Piece) deriving (Eq, Show)
+
+check :: Color -> Board -> Bool
+check = undefined
 
 pieces :: Color -> Board -> [(Square, Piece)]
 pieces = undefined
