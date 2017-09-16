@@ -1,4 +1,12 @@
-module ShogiBoard where
+module ShogiBoard
+  ( ShogiBoard
+  , checkmate
+  , ShogiBoard.check
+  , ShogiBoard.move
+  , ShogiBoard.drop
+  , ShogiBoard.moves
+  , ShogiBoard.drops
+  ) where
 
 import Data.List (nub)
 import Data.Maybe (maybe)
