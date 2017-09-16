@@ -42,7 +42,7 @@ checkmate color shogi = ShogiBoard.check color shogi && null moves' && null drop
       ShogiBoard.moves from color shogi
     drops' = do
       piece <- nub $ standPieces color shogi
-      ShogiBoard.drops piece color shogi
+      ShogiBoard.drops piece shogi
 
 -- | 王手判定
 check :: Color -> ShogiBoard -> Bool
@@ -74,7 +74,7 @@ moves :: MoveFrom -> Color -> ShogiBoard -> [MoveTo]
 moves from color shogi = Board.moves from color $ getBoard shogi
 
 -- | 持ち駒を指せる升目
-drops :: Piece -> Color -> ShogiBoard -> [Square]
-drops piece color shogi = do
-  guard $ Stand.include piece color $ getStand shogi
-  Board.drops piece color $ getBoard shogi
+drops :: Piece -> ShogiBoard -> [Square]
+drops piece shogi = do
+  guard $ Stand.include piece $ getStand shogi
+  Board.drops piece $ getBoard shogi

@@ -1,6 +1,7 @@
 module ShogiBoard.Board
   ( Board
   , fromList
+  , toList
   , check
   , pieces
   , move
@@ -20,15 +21,33 @@ newtype Board = Board (Map.Map Square Piece) deriving (Eq, Show)
 
 -- | 升目と駒のリストから将棋盤作成
 fromList :: [(Square, Piece)] -> Board
-fromList = undefined
+fromList = Board . Map.fromList
+
+-- | 将棋盤の升目と駒のリスト
+toList :: Board -> [(Square, Piece)]
+toList (Board board) = Map.toList board
 
 -- | 王手判定
 check :: Color -> Board -> Bool
-check = undefined
+check color board = case kingSquare color board of
+  Just square -> elem square moves'
+  Nothing     -> False
+  where
+    moves' = do
+      (from, _) <- pieces turnedColor board
+      (to,   _) <- moves from turnedColor board
+      return to
+    turnedColor = turn color
+
+-- | 王の升目
+kingSquare :: Color -> Board -> Maybe Square
+kingSquare color board = if null kings then Nothing else Just $ fst $ head kings
+  where
+    kings = filter (\(_, piece) -> piece == king color) $ pieces color board
 
 -- | 手番の駒リスト
 pieces :: Color -> Board -> [(Square, Piece)]
-pieces = undefined
+pieces color = filter (\(_, piece) -> color == getColor piece) . toList
 
 -- | 駒を動かす
 move :: MoveFrom -> MoveTo -> Color -> Board -> Maybe Board
@@ -43,5 +62,5 @@ moves :: MoveFrom -> Color -> Board -> [MoveTo]
 moves = undefined
 
 -- | 持ち駒を指せる升目リスト
-drops :: Piece -> Color -> Board -> [Square]
-drops = undefined
+drops :: Piece -> Board -> [Square]
+drops piece board = undefined

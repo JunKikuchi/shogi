@@ -1,5 +1,8 @@
 module ShogiBoard.Piece
   ( Piece
+  , getType
+  , getPromoted
+  , getColor
   , Promoted
   , pawn
   , lance

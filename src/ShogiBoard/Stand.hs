@@ -1,6 +1,7 @@
 module ShogiBoard.Stand
   ( Stand
   , fromList
+  , toList
   , pieces
   , take
   , include
@@ -16,11 +17,14 @@ newtype Stand = Stand [Piece] deriving (Eq, Show)
 fromList :: [Piece] -> Stand
 fromList = undefined
 
+toList :: Stand -> [Piece]
+toList = undefined
+
 pieces :: Color -> Stand -> [Piece]
 pieces = undefined
 
 take :: Piece -> Color -> Stand -> Maybe (Piece, Stand)
 take = undefined
 
-include :: Piece -> Color -> Stand -> Bool
+include :: Piece -> Stand -> Bool
 include = undefined
