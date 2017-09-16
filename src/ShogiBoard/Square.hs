@@ -1,7 +1,7 @@
 module ShogiBoard.Square
   ( Square
-  , File
-  , Rank
+  , File(..)
+  , Rank(..)
   , MoveFrom
   , MoveTo
   ) where

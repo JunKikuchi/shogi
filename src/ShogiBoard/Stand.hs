@@ -1,5 +1,6 @@
 module ShogiBoard.Stand
   ( Stand
+  , fromList
   , pieces
   , take
   , include
@@ -11,6 +12,9 @@ import ShogiBoard.Color
 
 -- | 駒台
 newtype Stand = Stand [Piece] deriving (Eq, Show)
+
+fromList :: [Piece] -> Stand
+fromList = undefined
 
 pieces :: Color -> Stand -> [Piece]
 pieces = undefined

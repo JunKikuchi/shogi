@@ -1,5 +1,5 @@
 module ShogiBoard
-  ( ShogiBoard
+  ( ShogiBoard(..)
   , checkmate
   , ShogiBoard.check
   , ShogiBoard.move
