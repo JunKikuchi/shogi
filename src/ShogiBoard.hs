@@ -23,10 +23,10 @@ import ShogiBoard.Color
 --}
 
 -- | 将棋
-data Shogi = Shogi { getBoard :: Board, getStand :: Stand } deriving (Eq, Show)
+data ShogiBoard = ShogiBoard { getBoard :: Board, getStand :: Stand } deriving (Eq, Show)
 
 -- | 詰み判定
-checkmate :: Color -> Shogi -> Bool
+checkmate :: Color -> ShogiBoard -> Bool
 checkmate color shogi = ShogiBoard.check color shogi && null moves' && null drops'
   where
     moves' = do
@@ -37,36 +37,36 @@ checkmate color shogi = ShogiBoard.check color shogi && null moves' && null drop
       ShogiBoard.drops piece color shogi
 
 -- | 王手判定
-check :: Color -> Shogi -> Bool
+check :: Color -> ShogiBoard -> Bool
 check color = Board.check color . getBoard
 
 -- | 将棋盤の駒
-boardPieces :: Color -> Shogi -> [(Square, Piece)]
+boardPieces :: Color -> ShogiBoard -> [(Square, Piece)]
 boardPieces color = Board.pieces color . getBoard
 
 -- | 駒台の駒
-standPieces :: Color -> Shogi -> [Piece]
+standPieces :: Color -> ShogiBoard -> [Piece]
 standPieces color = Stand.pieces color . getStand
 
 -- | 駒を動かす
-move :: MoveFrom -> MoveTo -> Color -> Shogi -> Maybe Shogi
+move :: MoveFrom -> MoveTo -> Color -> ShogiBoard -> Maybe ShogiBoard
 move from to color shogi = do
   board <- Board.move from to color $ getBoard shogi
   return shogi { getBoard = board }
 
 -- | 持ち駒を指す
-drop :: Piece -> Square -> Color -> Shogi -> Maybe Shogi
+drop :: Piece -> Square -> Color -> ShogiBoard -> Maybe ShogiBoard
 drop piece to color shogi = do
   (piece', stand) <- Stand.take piece     color $ getStand shogi
   board'          <- Board.drop piece' to color $ getBoard shogi
   return shogi { getBoard = board', getStand = stand }
 
 -- | 駒を動かせる升目
-moves :: MoveFrom -> Color -> Shogi -> [MoveTo]
+moves :: MoveFrom -> Color -> ShogiBoard -> [MoveTo]
 moves from color shogi = Board.moves from color $ getBoard shogi
 
 -- | 持ち駒を指せる升目
-drops :: Piece -> Color -> Shogi -> [Square]
+drops :: Piece -> Color -> ShogiBoard -> [Square]
 drops piece color shogi = do
   guard $ Stand.include piece color $ getStand shogi
   Board.drops piece color $ getBoard shogi
