@@ -1,4 +1,4 @@
-module ShogiBoard.Color (Color) where 
+module ShogiBoard.Color (Color(..)) where
 
 -- | 先手後手
 data Color = Black -- 先手
