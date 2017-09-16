@@ -30,15 +30,23 @@ checkmate :: Color -> Shogi -> Bool
 checkmate color shogi = ShogiBoard.check color shogi && null moves' && null drops'
   where
     moves' = do
-      (from, _) <- Board.pieces color $ getBoard shogi
+      (from, _) <- boardPieces color shogi
       ShogiBoard.moves from color shogi
     drops' = do
-      piece <- nub $ Stand.pieces color $ getStand shogi
+      piece <- nub $ standPieces color shogi
       ShogiBoard.drops piece color shogi
 
 -- | 王手判定
 check :: Color -> Shogi -> Bool
 check color = Board.check color . getBoard
+
+-- | 将棋盤の駒
+boardPieces :: Color -> Shogi -> [(Square, Piece)]
+boardPieces color = Board.pieces color . getBoard
+
+-- | 駒台の駒
+standPieces :: Color -> Shogi -> [Piece]
+standPieces color = Stand.pieces color . getStand
 
 -- | 駒を動かす
 move :: MoveFrom -> MoveTo -> Color -> Shogi -> Maybe Shogi
