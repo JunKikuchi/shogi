@@ -10,7 +10,7 @@ module ShogiBoard.Board
   , drops
   ) where
 
-import Prelude hiding (drop)
+import Prelude hiding (drop, lookup)
 import qualified Data.Map as Map
 import ShogiBoard.Square
 import ShogiBoard.Piece
@@ -60,6 +60,10 @@ drop = undefined
 -- | 駒を動かせる升目リスト
 moves :: MoveFrom -> Color -> Board -> [MoveTo]
 moves = undefined
+
+-- | 升目の駒
+lookup :: Square -> Board -> Maybe Piece
+lookup square (Board board) = Map.lookup square board
 
 -- | 持ち駒を指せる升目リスト
 drops :: Piece -> Board -> [Square]
