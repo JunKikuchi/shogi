@@ -11,6 +11,7 @@ module ShogiBoard.Board
   ) where
 
 import Prelude hiding (drop, lookup)
+import Data.Maybe (maybe)
 import qualified Data.Map as Map
 import ShogiBoard.Square
 import ShogiBoard.Piece
@@ -29,9 +30,7 @@ toList (Board board) = Map.toList board
 
 -- | 王手判定
 check :: Color -> Board -> Bool
-check color board = case kingSquare color board of
-  Just square -> elem square moves'
-  Nothing     -> False
+check color board = maybe True (flip elem moves') $ kingSquare color board
   where
     moves' = do
       (from, _) <- pieces turnedColor board
