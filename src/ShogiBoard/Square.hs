@@ -6,7 +6,7 @@ module ShogiBoard.Square
   , MoveTo
   ) where
 
-import ShogiBoard.Piece (Promoted)
+import ShogiBoard.Promoted
 
 -- | 升目
 type Square = (File, Rank)

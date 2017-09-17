@@ -16,6 +16,8 @@ module ShogiBoard.Piece
   ) where
 
 import ShogiBoard.Color
+import ShogiBoard.Promoted
+import ShogiBoard.Square
 
 -- | 駒
 data Piece = Piece
@@ -34,9 +36,6 @@ data Type = Pawn   -- 歩兵
           | Rook   -- 飛車
           | King   -- 王将
           deriving (Eq, Ord, Enum, Bounded, Show)
-
--- | 成駒
-type Promoted = Bool
 
 -- | 歩兵
 pawn :: Promoted -> Color -> Piece
