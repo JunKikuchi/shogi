@@ -4,8 +4,10 @@ module ShogiBoard.Square
   , Rank(..)
   , MoveFrom
   , MoveTo
+  , appendMoveTo
   ) where
 
+import ShogiBoard.Color
 import ShogiBoard.Promoted
 
 -- | 升目
@@ -22,3 +24,7 @@ type MoveFrom = Square
 
 -- | 駒の移動先の升目
 type MoveTo = (Square, Promoted)
+
+-- | 駒の移動先
+appendMoveTo :: Color -> Square -> [MoveTo] -> [MoveTo]
+appendMoveTo = undefined

@@ -11,10 +11,11 @@ module ShogiBoard.Board
   ) where
 
 import Prelude hiding (drop, lookup)
-import Data.Maybe (maybe)
+import Data.Maybe (maybe, maybeToList)
 import qualified Data.Map as Map
+import Control.Monad (guard)
 import ShogiBoard.Square
-import ShogiBoard.Piece
+import ShogiBoard.Piece as Piece
 import ShogiBoard.Color
 
 -- | 将棋盤
@@ -58,7 +59,19 @@ drop = undefined
 
 -- | 駒を動かせる升目リスト
 moves :: MoveFrom -> Color -> Board -> [MoveTo]
-moves = undefined
+moves from color board = do
+  piece <- maybeToList $ lookup from board
+  guard $ getColor piece == color
+  squares <- Piece.moves piece from
+  moves' squares color board
+  where
+    moves' [] _ _ = []
+    moves' (square:squares) color board = do
+      case lookup square board of
+        (Just piece) -> if getColor piece == color
+                        then []
+                        else appendMoveTo color square []
+        Nothing      -> appendMoveTo color square $ moves' squares color board
 
 -- | 升目の駒
 lookup :: Square -> Board -> Maybe Piece
