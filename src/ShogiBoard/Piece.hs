@@ -13,6 +13,7 @@ module ShogiBoard.Piece
   , rook
   , king
   , promote
+  , moves
   ) where
 
 import ShogiBoard.Color
@@ -75,3 +76,7 @@ promote (Piece _ True _) = Nothing
 promote (Piece Gold _ _) = Nothing
 promote (Piece King _ _) = Nothing
 promote piece = Just piece { getPromoted = True }
+
+-- | 駒が動ける升目
+moves :: Piece -> Square -> [[Square]]
+moves = undefined

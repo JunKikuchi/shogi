@@ -6,7 +6,7 @@ module ShogiBoard.Board
   , pieces
   , move
   , drop
-  , moves
+  , ShogiBoard.Board.moves
   , drops
   ) where
 
@@ -35,7 +35,7 @@ check color board = case kingSquare color board of
   where
     moves' = do
       (from, _) <- pieces turnedColor board
-      (to,   _) <- moves from turnedColor board
+      (to,   _) <- ShogiBoard.Board.moves from turnedColor board
       return to
     turnedColor = turn color
 
@@ -67,4 +67,4 @@ lookup square (Board board) = Map.lookup square board
 
 -- | 持ち駒を指せる升目リスト
 drops :: Piece -> Board -> [Square]
-drops piece board = undefined
+drops = undefined
