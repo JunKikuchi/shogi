@@ -68,7 +68,7 @@ rook = Piece Rook
 
 -- | 王将
 king :: Color -> Piece
-king = Piece Gold False
+king = Piece King False
 
 -- | 成る
 promote :: Piece -> Maybe Piece
@@ -79,4 +79,98 @@ promote piece = Just piece { getPromoted = True }
 
 -- | 駒が動ける升目
 moves :: Piece -> Square -> [[Square]]
-moves = undefined
+moves (Piece Pawn   False Black) square = map (one . ($ square)) [upper ]
+moves (Piece Pawn   False White) square = map (one . ($ square)) [bottom]
+moves (Piece Pawn   True  color) square = moves (gold color) square
+
+moves (Piece Lance  False Black) square = map ($ square) [upper]
+moves (Piece Lance  False White) square = map ($ square) [bottom]
+moves (Piece Lance  True  color) square = moves (gold color) square
+
+moves (Piece Knight False Black) (file, rank)
+  | rank <= R2 = undefined
+  | file == F1 = [left']
+  | file == F9 = [right']
+  | otherwise  = [left', right']
+  where
+    left'  = [(succ file, pred . pred $ rank)]
+    right' = [(pred file, pred . pred $ rank)]
+moves (Piece Knight False White) (file, rank)
+  | rank >= R8 = undefined
+  | file == F1 = [left']
+  | file == F9 = [right']
+  | otherwise  = [left', right']
+  where
+    left'  = [(succ file, succ . succ $ rank)]
+    right' = [(pred file, succ . succ $ rank)]
+moves (Piece Knight True  color) square = moves (gold color) square
+
+moves (Piece Silver False Black) square = map (one . ($ square)) [upperLeft,  upper,  upperRight,  bottomRight, bottomLeft]
+moves (Piece Silver False White) square = map (one . ($ square)) [bottomLeft, bottom, bottomRight, upperRight,  upperLeft ]
+moves (Piece Silver True  color) square = moves (gold color) square
+
+moves (Piece Gold   False Black) square = map (one . ($ square)) [left, upperLeft,  upper,  upperRight,  right, bottom]
+moves (Piece Gold   False White) square = map (one . ($ square)) [left, bottomLeft, bottom, bottomRight, right, upper ]
+moves (Piece Gold   True  _    ) square = undefined
+
+moves (Piece Bishop False _    ) square = map ($ square) [            upperLeft,              upperRight,              bottomRight,               bottomLeft]
+moves (Piece Bishop True  _    ) square = map ($ square) [one . left, upperLeft, one . upper, upperRight, one . right, bottomRight, one . bottom, bottomLeft]
+
+moves (Piece Rook   False _    ) square = map ($ square) [left,                  upper,                   right,                    bottom                 ]
+moves (Piece Rook   True  _    ) square = map ($ square) [left, one . upperLeft, upper, one . upperRight, right, one . bottomRight, bottom, one .bottomLeft]
+
+moves (Piece King   False _    ) square = map (one . ($ square)) [left, upperLeft, upper, upperRight, right, bottomRight, bottom, bottomLeft]
+moves (Piece King   True  _    ) square = undefined
+
+-- | ひとつの升目を動かす
+one :: [Square] -> [Square]
+one = take 1
+
+-- | 左の動き
+left :: Square -> [Square]
+left (file, rank) = [(file', rank) | file' <- leftFiles file]
+
+-- | 左上の動き
+upperLeft :: Square -> [Square]
+upperLeft (file, rank) = zip (leftFiles file) (upperRanks rank)
+
+-- | 上の動き
+upper :: Square -> [Square]
+upper (_,    R1  ) = []
+upper (file, rank) = [(file, rank') | rank' <- upperRanks rank]
+
+-- | 右上の動き
+upperRight :: Square -> [Square]
+upperRight (file, rank) = zip (rightFiles file) (upperRanks rank)
+
+-- | 右の動き
+right :: Square -> [Square]
+right (file, rank) = [(file', rank) | file' <- rightFiles file]
+
+-- | 右下の動き
+bottomRight :: Square -> [Square]
+bottomRight (file, rank) = zip (rightFiles file) (bottomRanks rank)
+
+-- | 下の動き
+bottom :: Square -> [Square]
+bottom (file, rank) = [(file, rank') | rank' <- bottomRanks rank]
+
+-- | 左下の動き
+bottomLeft :: Square -> [Square]
+bottomLeft (file, rank) = zip (leftFiles file) (bottomRanks rank)
+
+-- | 左向きの段
+leftFiles F9   = []
+leftFiles file = drop 1 $ enumFrom file
+
+-- | 右向きの段
+rightFiles F1   = []
+rightFiles file = drop 1 $ enumFromThen file $ pred file
+
+-- | 上向きの筋
+upperRanks R1   = []
+upperRanks rank = drop 1 $ enumFromThen rank $ pred rank
+
+-- | 下向きの筋
+bottomRanks R9   = []
+bottomRanks rank = drop 1 $ enumFrom rank
