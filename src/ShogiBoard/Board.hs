@@ -60,9 +60,10 @@ move from moveTo@(to, promoted) color board = do
 
 -- | 持ち駒を指す
 drop :: Piece -> Square -> Board -> Maybe Board
-drop piece square board = maybe (Just drop') (const Nothing) $ lookup square board
+drop piece square board = if drops' then Just drop' else Nothing
   where
-    drop' = board { getBoard = Map.insert square piece $ getBoard board }
+    drops' = elem square $ ShogiBoard.Board.drops piece board
+    drop'  = board { getBoard = Map.insert square piece $ getBoard board }
 
 -- | 駒を動かせる升目リスト
 moves :: MoveFrom -> Color -> Board -> [MoveTo]
