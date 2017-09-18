@@ -31,7 +31,7 @@ toList (Board board) = Map.toList board
 
 -- | 王手判定
 check :: Color -> Board -> Bool
-check color board = maybe True (flip elem moves') $ kingSquare color board
+check color board = maybe False (flip elem moves') $ kingSquare color board
   where
     moves' = do
       (from, _) <- pieces turnedColor board

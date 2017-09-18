@@ -12,7 +12,7 @@ import ShogiBoard.Piece
 tests :: TestTree
 tests = testGroup "check"
   [ testCase "後手王手" $ check Black 後手王手 @?= True
-  , testCase "先手王手" $ check Black 先手王手 @?= True
+  , testCase "先手王手" $ check White 先手王手 @?= True
   ]
 
 {--
