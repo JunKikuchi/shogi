@@ -6,7 +6,7 @@ import Data.List ((\\))
 import ShogiBoard
 import ShogiBoard.Board as Board hiding (drops)
 import ShogiBoard.Stand as Stand
-import ShogiBoard.Piece
+import ShogiBoard.Piece hiding (drops)
 import ShogiBoard.Square
 import ShogiBoard.Color
 

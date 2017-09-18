@@ -15,6 +15,7 @@ module ShogiBoard.Piece
   , promote
   , promotions
   , moves
+  , drops
   ) where
 
 import ShogiBoard.Color
@@ -191,3 +192,7 @@ upperRanks rank = drop 1 $ enumFromThen rank $ pred rank
 -- | 下向きの筋
 bottomRanks R9   = []
 bottomRanks rank = drop 1 $ enumFrom rank
+
+-- | 駒を打てる升目
+drops :: Piece -> [Square]
+drops = undefined

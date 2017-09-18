@@ -7,7 +7,7 @@ module ShogiBoard.Board
   , move
   , drop
   , ShogiBoard.Board.moves
-  , drops
+  , ShogiBoard.Board.drops
   ) where
 
 import Prelude hiding (drop, lookup)
@@ -86,4 +86,4 @@ lookup square (Board board) = Map.lookup square board
 
 -- | 持ち駒を指せる升目リスト
 drops :: Piece -> Board -> [Square]
-drops = undefined
+drops piece board = filter (\square -> (lookup square board) == Nothing) $ Piece.drops piece
