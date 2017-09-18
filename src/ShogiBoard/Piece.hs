@@ -195,4 +195,10 @@ bottomRanks rank = drop 1 $ enumFrom rank
 
 -- | 駒を打てる升目
 drops :: Piece -> [Square]
-drops = undefined
+drops (Piece Pawn   _ Black) = [(file, rank) | file <- [F1 .. F9], rank <- [R2 .. R9]]
+drops (Piece Pawn   _ White) = [(file, rank) | file <- [F1 .. F9], rank <- [R1 .. R8]]
+drops (Piece Lance  _ Black) = [(file, rank) | file <- [F1 .. F9], rank <- [R2 .. R9]]
+drops (Piece Lance  _ White) = [(file, rank) | file <- [F1 .. F9], rank <- [R1 .. R8]]
+drops (Piece Knight _ Black) = [(file, rank) | file <- [F1 .. F9], rank <- [R3 .. R9]]
+drops (Piece Knight _ White) = [(file, rank) | file <- [F1 .. F9], rank <- [R1 .. R7]]
+drops _                      = [(file, rank) | file <- [F1 .. F9], rank <- [R1 .. R9]]
