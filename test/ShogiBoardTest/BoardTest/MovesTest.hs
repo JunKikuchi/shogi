@@ -11,6 +11,7 @@ tests :: TestTree
 tests = testGroup "moves"
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
+                                R8
                  歩             R9
     --}
   [ testCase "先手歩兵" $ moves (F5, R9) Black (fromList [((F5, R9), pawn False Black)]) @?= [((F5, R8), False)]
@@ -18,11 +19,13 @@ tests = testGroup "moves"
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
                 V歩             R1
+                                R2
     --}
   , testCase "後手歩兵" $ moves (F5, R1) White (fromList [((F5, R1), pawn False White)]) @?= [((F5, R2), False)]
 
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
+                                R7
                  金             R8
                  歩             R9
     --}
@@ -30,6 +33,7 @@ tests = testGroup "moves"
 
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
+                                R7
                 V金             R8
                  歩             R9
     --}
