@@ -135,7 +135,7 @@ tests = testGroup "checkmate"
       [ ((F6, R7), lance False White)
       , ((F5, R7), lance False White)
       , ((F4, R7), lance False White)
-      , ((F4, R9), king Black)
+      , ((F5, R9), king Black)
       ]
     stand = Stand.fromList [pawn False Black]
 
@@ -153,7 +153,7 @@ tests = testGroup "checkmate"
       [ ((F6, R3), lance False Black)
       , ((F5, R3), lance False Black)
       , ((F4, R3), lance False Black)
-      , ((F4, R1), king White)
+      , ((F5, R1), king White)
       ]
     stand = Stand.fromList [pawn False White]
 
