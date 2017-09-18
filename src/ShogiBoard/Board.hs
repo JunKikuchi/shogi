@@ -69,9 +69,9 @@ moves from color board = do
     moves' (square:squares) piece board = do
       case lookup square board of
         (Just piece') -> if getColor piece' == getColor piece
-                        then []
-                        else moveTo'
-        Nothing      -> moveTo' ++ moves' squares piece board
+                         then []
+                         else moveTo'
+        Nothing       -> moveTo' ++ moves' squares piece board
       where
         moveTo' = [(square, promotion) | promotion <- promotions piece square]
 

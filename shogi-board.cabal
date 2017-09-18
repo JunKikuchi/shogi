@@ -37,7 +37,8 @@ test-suite shogi-board-test
                      , smallcheck
                      -- , tasty-quickcheck
                      , shogi-board
-  other-modules:       ShogiBoardTest.CheckmateTest
+  other-modules:       ShogiBoardTest.CheckTest
+                     , ShogiBoardTest.CheckmateTest
                      , ShogiBoardTest.PieceTest
                      , ShogiBoardTest.PieceTest.MovesTest
                      , ShogiBoardTest.PieceTest.PromotionsTest
