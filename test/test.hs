@@ -5,6 +5,6 @@ import ShogiBoardTest.PieceTest     as PieceTest
 
 main :: IO ()
 main = defaultMain $ testGroup "ShogiBoard"
-  [ CheckmateTest.tests
-  , PieceTest.tests
+  [ PieceTest.tests
+  , CheckmateTest.tests
   ]
