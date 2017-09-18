@@ -39,6 +39,7 @@ test-suite shogi-board-test
                      , shogi-board
   other-modules:       ShogiBoardTest.CheckTest
                      , ShogiBoardTest.CheckmateTest
+                     , ShogiBoardTest.MovesTest
                      , ShogiBoardTest.PieceTest
                      , ShogiBoardTest.PieceTest.MovesTest
                      , ShogiBoardTest.PieceTest.PromotionsTest

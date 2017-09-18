@@ -75,7 +75,13 @@ drop piece to color shogi = do
 
 -- | 駒を動かせる升目
 moves :: MoveFrom -> Color -> ShogiBoard -> [MoveTo]
-moves from color shogi = Board.moves from color $ getBoard shogi
+moves from color shogi = do
+  to     <- Board.moves from color board
+  board' <- maybeToList $ Board.move from to color board
+  guard $ not $ Board.check color board'
+  return to
+  where
+    board = getBoard shogi
 
 -- | 持ち駒を指せる升目
 drops :: Piece -> ShogiBoard -> [Square]
