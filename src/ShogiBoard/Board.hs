@@ -56,11 +56,13 @@ move from moveTo@(to, promoted) color board = do
   guard $ getColor piece == color
   guard $ elem moveTo $ ShogiBoard.Board.moves from color board
   let deletedBoard = Map.delete from (getBoard board)
-  return board { getBoard = Map.alter (const $ Just piece { getPromoted = promoted }) to deletedBoard }
+  return board { getBoard = Map.insert to piece { getPromoted = promoted } deletedBoard }
 
 -- | 持ち駒を指す
-drop :: Piece -> Square -> Color -> Board -> Maybe Board
-drop = undefined
+drop :: Piece -> Square -> Board -> Maybe Board
+drop piece square board = maybe (Just drop') (const Nothing) $ lookup square board
+  where
+    drop' = board { getBoard = Map.insert square piece $ getBoard board }
 
 -- | 駒を動かせる升目リスト
 moves :: MoveFrom -> Color -> Board -> [MoveTo]

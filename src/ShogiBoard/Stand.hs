@@ -4,7 +4,7 @@ module ShogiBoard.Stand
   , toList
   , pieces
   , take
-  , include
+  , included
   ) where
 
 import Prelude hiding (take)
@@ -26,5 +26,5 @@ pieces color (Stand stand) = filter (\piece -> getColor piece == color) stand
 take :: Piece -> Color -> Stand -> Maybe (Piece, Stand)
 take = undefined
 
-include :: Piece -> Stand -> Bool
-include piece (Stand stand) = elem piece stand
+included :: Piece -> Stand -> Bool
+included piece (Stand stand) = elem piece stand
