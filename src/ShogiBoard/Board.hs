@@ -88,4 +88,10 @@ lookup square (Board board) = Map.lookup square board
 
 -- | 持ち駒を指せる升目リスト
 drops :: Piece -> Board -> [Square]
-drops piece board = filter (\square -> (lookup square board) == Nothing) $ Piece.drops piece
+drops piece board
+  | getType piece == Pawn = filterPawnFiles squares
+  | otherwise             = squares
+  where
+    filterPawnFiles = filter (\(file, _) -> not $ elem file pawnFiles)
+    pawnFiles       = map (fst . fst) $ filter (\(_, piece) -> getType piece == Pawn && getPromoted piece == False) $ pieces (getColor piece) board
+    squares         = filter (\square -> (lookup square board) == Nothing) $ Piece.drops piece

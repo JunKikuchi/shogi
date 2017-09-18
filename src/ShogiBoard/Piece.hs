@@ -1,5 +1,6 @@
 module ShogiBoard.Piece
   ( Piece
+  , Type(..)
   , getType
   , getPromoted
   , getColor
