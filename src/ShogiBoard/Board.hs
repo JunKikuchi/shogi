@@ -63,15 +63,17 @@ moves from color board = do
   piece <- maybeToList $ lookup from board
   guard $ getColor piece == color
   squares <- Piece.moves piece from
-  moves' squares color board
+  moves' squares piece board
   where
     moves' [] _ _ = []
-    moves' (square:squares) color board = do
+    moves' (square:squares) piece board = do
       case lookup square board of
-        (Just piece) -> if getColor piece == color
+        (Just piece') -> if getColor piece' == getColor piece
                         then []
-                        else appendMoveTo color square []
-        Nothing      -> appendMoveTo color square $ moves' squares color board
+                        else moveTo'
+        Nothing      -> moveTo' ++ moves' squares piece board
+      where
+        moveTo' = [(square, promotion) | promotion <- promotions piece square]
 
 -- | 升目の駒
 lookup :: Square -> Board -> Maybe Piece
