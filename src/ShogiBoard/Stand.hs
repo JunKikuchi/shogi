@@ -27,4 +27,4 @@ take :: Piece -> Color -> Stand -> Maybe (Piece, Stand)
 take = undefined
 
 include :: Piece -> Stand -> Bool
-include = undefined
+include piece (Stand stand) = elem piece stand

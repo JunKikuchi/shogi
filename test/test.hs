@@ -5,6 +5,7 @@ import ShogiBoardTest.BoardTest     as BoardTest
 import ShogiBoardTest.CheckTest     as CheckTest
 import ShogiBoardTest.CheckmateTest as CheckmateTest
 import ShogiBoardTest.MovesTest     as MovesTest
+import ShogiBoardTest.DropsTest     as DropsTest
 
 main :: IO ()
 main = defaultMain $ testGroup "ShogiBoard"
@@ -13,4 +14,5 @@ main = defaultMain $ testGroup "ShogiBoard"
   , CheckTest.tests
   , CheckmateTest.tests
   , MovesTest.tests
+  , DropsTest.tests
   ]
