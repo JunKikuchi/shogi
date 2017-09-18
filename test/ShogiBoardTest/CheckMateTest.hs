@@ -20,7 +20,7 @@ tests = testGroup "checkmate"
   , testCase "先手合駒ありで詰まず" $ checkmate Black 先手合駒あり @?= False
   , testCase "後手合駒ありで詰まず" $ checkmate White 後手合駒あり @?= False
   , testCase "先手駒を取って詰まず" $ checkmate Black 先手駒取り   @?= False
-  , testCase "後手駒を取って詰まず" $ checkmate Black 後手駒取り   @?= False
+  , testCase "後手駒を取って詰まず" $ checkmate White 後手駒取り   @?= False
   ]
 
 {--
@@ -100,7 +100,7 @@ tests = testGroup "checkmate"
       [ ((F6, R7), lance False White)
       , ((F5, R7), lance False White)
       , ((F4, R7), lance False White)
-      , ((F4, R9), king Black)
+      , ((F5, R9), king Black)
       ]
     stand = Stand.fromList []
 
@@ -117,7 +117,7 @@ tests = testGroup "checkmate"
       [ ((F6, R3), lance False Black)
       , ((F5, R3), lance False Black)
       , ((F4, R3), lance False Black)
-      , ((F4, R1), king White)
+      , ((F5, R1), king White)
       ]
     stand = Stand.fromList []
 

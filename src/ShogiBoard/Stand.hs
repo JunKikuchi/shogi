@@ -15,13 +15,13 @@ import ShogiBoard.Color
 newtype Stand = Stand [Piece] deriving (Eq, Show)
 
 fromList :: [Piece] -> Stand
-fromList = undefined
+fromList = Stand
 
 toList :: Stand -> [Piece]
-toList = undefined
+toList (Stand stand) = stand
 
 pieces :: Color -> Stand -> [Piece]
-pieces = undefined
+pieces color (Stand stand) = filter (\piece -> getColor piece == color) stand
 
 take :: Piece -> Color -> Stand -> Maybe (Piece, Stand)
 take = undefined

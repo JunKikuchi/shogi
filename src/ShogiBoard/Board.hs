@@ -19,7 +19,7 @@ import ShogiBoard.Piece as Piece
 import ShogiBoard.Color
 
 -- | 将棋盤
-newtype Board = Board (Map.Map Square Piece) deriving (Eq, Show)
+newtype Board = Board { getBoard :: (Map.Map Square Piece) } deriving (Eq, Show)
 
 -- | 升目と駒のリストから将棋盤作成
 fromList :: [(Square, Piece)] -> Board
@@ -51,7 +51,12 @@ pieces color = filter (\(_, piece) -> color == getColor piece) . toList
 
 -- | 駒を動かす
 move :: MoveFrom -> MoveTo -> Color -> Board -> Maybe Board
-move = undefined
+move from moveTo@(to, promoted) color board = do
+  piece <- lookup from board
+  guard $ getColor piece == color
+  guard $ elem moveTo $ ShogiBoard.Board.moves from color board
+  let deletedBoard = Map.delete from (getBoard board)
+  return board { getBoard = Map.alter (const $ Just piece { getPromoted = promoted }) to deletedBoard }
 
 -- | 持ち駒を指す
 drop :: Piece -> Square -> Color -> Board -> Maybe Board

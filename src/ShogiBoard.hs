@@ -9,7 +9,7 @@ module ShogiBoard
   ) where
 
 import Data.List (nub)
-import Data.Maybe (maybe)
+import Data.Maybe (maybe, maybeToList)
 import Control.Monad (guard)
 import ShogiBoard.Board as Board
 import ShogiBoard.Stand as Stand
@@ -39,10 +39,17 @@ checkmate color shogi = ShogiBoard.check color shogi && null moves' && null drop
   where
     moves' = do
       (from, _) <- boardPieces color shogi
-      ShogiBoard.moves from color shogi
+      to        <- Board.moves from color board'
+      board     <- maybeToList $ Board.move from to color board'
+      guard $ not $ Board.check color board
+      return board
     drops' = do
       piece <- nub $ standPieces color shogi
-      ShogiBoard.drops piece shogi
+      to    <- Board.drops piece board'
+      board <- maybeToList $ Board.drop piece to color board'
+      guard $ not $ Board.check color board
+      return board
+    board' = getBoard shogi
 
 -- | 王手判定
 check :: Color -> ShogiBoard -> Bool
