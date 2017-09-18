@@ -13,6 +13,7 @@ module ShogiBoard.Piece
   , rook
   , king
   , promote
+  , promotions
   , moves
   ) where
 
@@ -76,6 +77,22 @@ promote (Piece _ True _) = Nothing
 promote (Piece Gold _ _) = Nothing
 promote (Piece King _ _) = Nothing
 promote piece = Just piece { getPromoted = True }
+
+-- | 成り不成
+promotions :: Piece -> Square -> [Promoted]
+promotions (Piece _      True  _    ) _         = [False]
+promotions (Piece Pawn   False Black) (_, R1)   = [True]
+promotions (Piece Pawn   False White) (_, R9)   = [True]
+promotions (Piece Lance  False Black) (_, R1)   = [True]
+promotions (Piece Lance  False White) (_, R9)   = [True]
+promotions (Piece Knight False Black) (_, R1)   = [True]
+promotions (Piece Knight False Black) (_, R2)   = [True]
+promotions (Piece Knight False White) (_, R8)   = [True]
+promotions (Piece Knight False White) (_, R9)   = [True]
+promotions (Piece Gold   False _    ) _         = [False]
+promotions (Piece King   False _    ) _         = [False]
+promotions (Piece _      False Black) (_, rank) = if rank <= R3 then [False, True] else [False]
+promotions (Piece _      False White) (_, rank) = if rank >= R7 then [False, True] else [False]
 
 -- | 駒が動ける升目
 moves :: Piece -> Square -> [[Square]]
