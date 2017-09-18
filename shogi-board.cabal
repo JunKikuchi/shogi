@@ -43,6 +43,7 @@ test-suite shogi-board-test
                      , ShogiBoardTest.DropsTest
                      , ShogiBoardTest.PieceTest
                      , ShogiBoardTest.PieceTest.MovesTest
+                     , ShogiBoardTest.PieceTest.DropsTest
                      , ShogiBoardTest.PieceTest.PromotionsTest
                      , ShogiBoardTest.BoardTest
                      , ShogiBoardTest.BoardTest.MoveTest
