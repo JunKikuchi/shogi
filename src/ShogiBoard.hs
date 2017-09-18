@@ -37,16 +37,12 @@ data ShogiBoard = ShogiBoard { getBoard :: Board, getStand :: Stand } deriving (
 checkmate :: Color -> ShogiBoard -> Bool
 checkmate color shogi = ShogiBoard.check color shogi && null moves' && null drops'
   where
-    moves' = check' $ do
+    moves' = do
       (from, _) <- boardPieces color shogi
-      to        <- Board.moves from color board'
-      maybeToList $ Board.move from to color board'
-    drops' = check' $ do
+      ShogiBoard.moves from color shogi
+    drops' = do
       piece <- nub $ standPieces color shogi
-      to    <- Board.drops piece board'
-      maybeToList $ Board.drop piece to board'
-    board' = getBoard shogi
-    check' = filter (not . Board.check color)
+      ShogiBoard.drops piece shogi
 
 -- | 王手判定
 check :: Color -> ShogiBoard -> Bool
