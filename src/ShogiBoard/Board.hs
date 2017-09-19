@@ -8,6 +8,7 @@ module ShogiBoard.Board
   , drop
   , ShogiBoard.Board.moves
   , ShogiBoard.Board.drops
+  , lookup
   ) where
 
 import Prelude hiding (drop, lookup)
@@ -83,10 +84,6 @@ moves from color board = do
       where
         moveTo' = [(square, promotion) | promotion <- promotions piece square]
 
--- | 升目の駒
-lookup :: Square -> Board -> Maybe Piece
-lookup square (Board board) = Map.lookup square board
-
 -- | 持ち駒を指せる升目リスト
 drops :: Piece -> Board -> [Square]
 drops piece board
@@ -96,3 +93,7 @@ drops piece board
     filterPawnFiles = filter (\(file, _) -> not $ elem file pawnFiles)
     pawnFiles       = map (fst . fst) $ filter (\(_, piece) -> getType piece == Pawn && getPromoted piece == False) $ pieces (getColor piece) board
     squares         = filter (\square -> (lookup square board) == Nothing) $ Piece.drops piece
+
+-- | 升目の駒
+lookup :: Square -> Board -> Maybe Piece
+lookup square (Board board) = Map.lookup square board
