@@ -59,8 +59,13 @@ standPieces color = Stand.pieces color . getStand
 -- | 駒を動かす
 move :: MoveFrom -> MoveTo -> Color -> ShogiBoard -> Maybe ShogiBoard
 move from to color shogi = do
-  board <- Board.move from to color $ getBoard shogi
-  return shogi { getBoard = board }
+  stand' <- return . maybe stand (flip Stand.put stand) $ Board.lookup (fst to) board
+  board' <- Board.move from to color board
+  guard $ not $ Board.check color board'
+  return shogi { getBoard = board', getStand = stand' }
+  where
+    board = getBoard shogi
+    stand = getStand shogi
 
 -- | 持ち駒を指す
 drop :: Piece -> Square -> Color -> ShogiBoard -> Maybe ShogiBoard
