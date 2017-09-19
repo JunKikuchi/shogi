@@ -44,7 +44,7 @@ checkmate color shogi = ShogiBoard.check color shogi && null moves' && null drop
   where
     moves' = do
       (from, _) <- boardPieces color shogi
-      ShogiBoard.moves from color shogi
+      ShogiBoard.moves (from, color) shogi
     drops' = do
       piece <- nub $ standPieces color shogi
       ShogiBoard.drops piece shogi
@@ -62,10 +62,10 @@ standPieces :: Color -> ShogiBoard -> [Piece]
 standPieces color = Stand.pieces color . getStand
 
 -- | 駒を動かす
-move :: MoveFrom -> MoveTo -> Color -> ShogiBoard -> Maybe ShogiBoard
-move from to color shogi = do
+move :: MoveFrom -> MoveTo -> ShogiBoard -> Maybe ShogiBoard
+move from@(_, color) to shogi = do
   stand' <- return . maybe stand (flip Stand.put stand) $ Board.lookup (fst to) board
-  board' <- Board.move from to color board
+  board' <- Board.move from to board
   guard $ not $ Board.check color board'
   return shogi { getBoard = board', getStand = stand' }
   where
@@ -85,10 +85,10 @@ drop piece to shogi = do
     color = getColor piece
 
 -- | 駒を動かせる升目
-moves :: MoveFrom -> Color -> ShogiBoard -> [MoveTo]
-moves from color shogi = do
-  to     <- Board.moves from color board
-  board' <- maybeToList $ Board.move from to color board
+moves :: MoveFrom -> ShogiBoard -> [MoveTo]
+moves from@(_, color) shogi = do
+  to     <- Board.moves from board
+  board' <- maybeToList $ Board.move from to board
   guard $ not $ Board.check color board'
   return to
   where

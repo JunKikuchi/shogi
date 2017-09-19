@@ -36,7 +36,7 @@ check color board = maybe False (flip elem moves') $ kingSquare color board
   where
     moves' = do
       (from, _) <- pieces turnedColor board
-      (to,   _) <- ShogiBoard.Board.moves from turnedColor board
+      (to,   _) <- ShogiBoard.Board.moves (from, turnedColor) board
       return to
     turnedColor = turn color
 
@@ -51,12 +51,12 @@ pieces :: Color -> Board -> [(Square, Piece)]
 pieces color = filter (\(_, piece) -> color == getColor piece) . toList
 
 -- | 駒を動かす
-move :: MoveFrom -> MoveTo -> Color -> Board -> Maybe Board
-move from moveTo@(to, promoted) color board = do
-  piece <- lookup from board
+move :: MoveFrom -> MoveTo -> Board -> Maybe Board
+move from@(from', color) moveTo@(to, promoted) board = do
+  piece <- lookup from' board
   guard $ getColor piece == color
-  guard $ elem moveTo $ ShogiBoard.Board.moves from color board
-  let deletedBoard = Map.delete from (getBoard board)
+  guard $ elem moveTo $ ShogiBoard.Board.moves from board
+  let deletedBoard = Map.delete from' (getBoard board)
   return board { getBoard = Map.insert to piece { getPromoted = promoted } deletedBoard }
 
 -- | 持ち駒を指す
@@ -67,11 +67,11 @@ drop piece square board = if drops' then Just drop' else Nothing
     drop'  = board { getBoard = Map.insert square piece $ getBoard board }
 
 -- | 駒を動かせる升目リスト
-moves :: MoveFrom -> Color -> Board -> [MoveTo]
-moves from color board = do
-  piece <- maybeToList $ lookup from board
+moves :: MoveFrom -> Board -> [MoveTo]
+moves from@(from', color) board = do
+  piece <- maybeToList $ lookup from' board
   guard $ getColor piece == color
-  squares <- Piece.moves piece from
+  squares <- Piece.moves piece from'
   moves' squares piece board
   where
     moves' [] _ _ = []
