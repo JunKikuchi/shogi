@@ -3,6 +3,7 @@ module ShogiBoard.Stand
   , fromList
   , toList
   , pieces
+  , put
   , take
   , included
   ) where
@@ -25,6 +26,10 @@ toList (Stand stand) = stand
 -- | 手番の持ち駒リスト
 pieces :: Color -> Stand -> [Piece]
 pieces color (Stand stand) = filter (\piece -> getColor piece == color) stand
+
+-- | 駒台に駒を載せる
+put :: Piece -> Stand -> Stand
+put piece (Stand stand) = Stand $ piece { getColor = turn $ getColor piece }:stand
 
 -- | 駒台から駒を取り除く
 take :: Piece -> Color -> Stand -> Maybe (Piece, Stand)
