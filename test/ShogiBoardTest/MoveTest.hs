@@ -42,6 +42,116 @@ tests = testGroup "move"
 
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
+                                R1
+                 歩             R2
+    --}
+  , testCase "先手歩兵成り" $ move (F5, R2) ((F5, R1), True) Black (ShogiBoard (Board.fromList [((F5, R2), pawn False Black)]) (Stand.fromList [])) @?= Just (ShogiBoard (Board.fromList [((F5, R1), pawn True Black)]) (Stand.fromList []))
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                V歩             R8
+                                R9
+    --}
+  , testCase "後手歩兵成り" $ move (F5, R8) ((F5, R9), True) White (ShogiBoard (Board.fromList [((F5, R8), pawn False White)]) (Stand.fromList [])) @?= Just (ShogiBoard (Board.fromList [((F5, R9), pawn True White)]) (Stand.fromList []))
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                                R1
+                                R2
+                 桂             R3
+    --}
+  , testCase "先手桂馬成り" $ move (F5, R3) ((F6, R1), True) Black (ShogiBoard (Board.fromList [((F5, R3), knight False Black)]) (Stand.fromList [])) @?= Just (ShogiBoard (Board.fromList [((F6, R1), knight True Black)]) (Stand.fromList []))
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                V桂             R7
+                                R8
+                                R9
+    --}
+  , testCase "後手桂馬成り" $ move (F5, R7) ((F4, R9), True) White (ShogiBoard (Board.fromList [((F5, R7), knight False White)]) (Stand.fromList [])) @?= Just (ShogiBoard (Board.fromList [((F4, R9), knight True White)]) (Stand.fromList []))
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                                R1
+                                R2
+                                R3
+                 桂             R4
+    --}
+  , testCase "先手桂馬成り" $ move (F5, R4) ((F4, R2), True) Black (ShogiBoard (Board.fromList [((F5, R4), knight False Black)]) (Stand.fromList [])) @?= Just (ShogiBoard (Board.fromList [((F4, R2), knight True Black)]) (Stand.fromList []))
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                V桂             R6
+                                R7
+                                R8
+                                R9
+    --}
+  , testCase "後手桂馬成り" $ move (F5, R6) ((F6, R8), True) White (ShogiBoard (Board.fromList [((F5, R6), knight False White)]) (Stand.fromList [])) @?= Just (ShogiBoard (Board.fromList [((F6, R8), knight True White)]) (Stand.fromList []))
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                                R1
+                 歩             R2
+    --}
+  , testCase "先手歩兵成らずはできない" $ move (F5, R2) ((F5, R1), False) Black (ShogiBoard (Board.fromList [((F5, R2), pawn False Black)]) (Stand.fromList [])) @?= Nothing
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                V歩             R8
+                                R9
+    --}
+  , testCase "後手歩兵成らずはできない" $ move (F5, R8) ((F5, R9), False) White (ShogiBoard (Board.fromList [((F5, R8), pawn False White)]) (Stand.fromList [])) @?= Nothing
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                                R1
+                 香             R2
+    --}
+  , testCase "先手香車成らずはできない" $ move (F5, R2) ((F5, R1), False) Black (ShogiBoard (Board.fromList [((F5, R2), lance False Black)]) (Stand.fromList [])) @?= Nothing
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                V香             R8
+                                R9
+    --}
+  , testCase "後手香車成らずはできない" $ move (F5, R8) ((F5, R9), False) White (ShogiBoard (Board.fromList [((F5, R8), lance False White)]) (Stand.fromList [])) @?= Nothing
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                                R1
+                                R2
+                 桂             R3
+    --}
+  , testCase "先手桂馬成らずはできない R1" $ move (F5, R3) ((F6, R1), False) Black (ShogiBoard (Board.fromList [((F5, R3), knight False Black)]) (Stand.fromList [])) @?= Nothing
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                V桂             R7
+                                R8
+                                R9
+    --}
+  , testCase "後手桂馬成らずはできない R9" $ move (F5, R7) ((F4, R9), False) White (ShogiBoard (Board.fromList [((F5, R7), knight False White)]) (Stand.fromList [])) @?= Nothing
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                                R1
+                                R2
+                                R3
+                 桂             R4
+    --}
+  , testCase "先手桂馬成らずはできない R2" $ move (F5, R4) ((F4, R2), False) Black (ShogiBoard (Board.fromList [((F5, R4), knight False Black)]) (Stand.fromList [])) @?= Nothing
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                V桂             R6
+                                R7
+                                R8
+                                R9
+    --}
+  , testCase "後手桂馬成らずはできない R8" $ move (F5, R6) ((F6, R8), False) White (ShogiBoard (Board.fromList [((F5, R6), knight False White)]) (Stand.fromList [])) @?= Nothing
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
                                 R4
                  飛             R5
     --}
