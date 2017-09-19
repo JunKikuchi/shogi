@@ -90,7 +90,8 @@ drops piece shogi = do
   guard $ Stand.included piece $ getStand shogi
   square <- Board.drops piece board
   board' <- maybeToList $ Board.drop piece square board
-  guard $ not $ Board.check (getColor piece) board'
+  guard $ not $ Board.check color board'
   return square
   where
     board = getBoard shogi
+    color = getColor piece
