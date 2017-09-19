@@ -1,5 +1,6 @@
 module ShogiBoard
-  ( ShogiBoard(..)
+  ( ShogiBoard
+  , fromLists
   , checkmate
   , ShogiBoard.check
   , ShogiBoard.move
@@ -32,6 +33,10 @@ import ShogiBoard.Color
 
 -- | 将棋
 data ShogiBoard = ShogiBoard { getBoard :: Board, getStand :: Stand } deriving (Eq, Show)
+
+-- | 将棋盤作成用リストと駒台作成用リストから将棋作成
+fromLists :: [(Square, Piece)] -> [(Piece)] -> ShogiBoard
+fromLists board stand = ShogiBoard (Board.fromList board) (Stand.fromList stand)
 
 -- | 詰み判定
 checkmate :: Color -> ShogiBoard -> Bool
