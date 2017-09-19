@@ -14,14 +14,14 @@ tests = testGroup "moves"
                                 R8
                  歩             R9
     --}
-  [ testCase "先手歩兵" $ moves (F5, R9) Black (ShogiBoard.fromLists [((F5, R9), pawn False Black)] []) @?= [((F5, R8), False)]
+  [ testCase "先手歩兵" $ moves ((F5, R9), Black) (ShogiBoard.fromLists [((F5, R9), pawn False Black)] []) @?= [((F5, R8), False)]
 
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
                 V歩             R1
                                 R2
     --}
-  , testCase "後手歩兵" $ moves (F5, R1) White (ShogiBoard.fromLists [((F5, R1), pawn False White)] []) @?= [((F5, R2), False)]
+  , testCase "後手歩兵" $ moves ((F5, R1), White) (ShogiBoard.fromLists [((F5, R1), pawn False White)] []) @?= [((F5, R2), False)]
 
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -30,8 +30,7 @@ tests = testGroup "moves"
                  金             R8
                  王             R9
     --}
-  , testCase "先手金将王手回避" $
-      moves (F5, R8) Black (ShogiBoard.fromLists [((F5, R6), lance False White), ((F5, R8), gold Black), ((F5, R9), king Black)] []) @?= [((F5, R7), False)]
+  , testCase "先手金将王手回避" $ moves ((F5, R8), Black) (ShogiBoard.fromLists [((F5, R6), lance False White), ((F5, R8), gold Black), ((F5, R9), king Black)] []) @?= [((F5, R7), False)]
 
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -40,6 +39,5 @@ tests = testGroup "moves"
                                 R3
                  香             R4
     --}
-  , testCase "後手金将王手回避" $
-      moves (F5, R2) White (ShogiBoard.fromLists [((F5, R1), king White), ((F5, R2), gold White), ((F5, R4), lance False Black)] []) @?= [((F5, R3), False)]
+  , testCase "後手金将王手回避" $ moves ((F5, R2), White) (ShogiBoard.fromLists [((F5, R1), king White), ((F5, R2), gold White), ((F5, R4), lance False Black)] []) @?= [((F5, R3), False)]
   ]
