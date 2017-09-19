@@ -4,8 +4,6 @@ import Test.Tasty
 import Test.Tasty.HUnit
 import ShogiBoard
 import ShogiBoard.Color
-import ShogiBoard.Board as Board
-import ShogiBoard.Stand as Stand
 import ShogiBoard.Square
 import ShogiBoard.Piece
 
@@ -30,14 +28,13 @@ tests = testGroup "checkmate"
              王             R9
 --}
 先手頭金 :: ShogiBoard
-先手頭金 = ShogiBoard board stand
+先手頭金 = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F5, R7), pawn False White)
-      , ((F5, R8), gold White)
-      , ((F5, R9), king Black)
-      ]
-    stand = Stand.fromList []
+    board = [ ((F5, R7), pawn False White)
+            , ((F5, R8), gold White)
+            , ((F5, R9), king Black)
+            ]
+    stand = []
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -46,14 +43,13 @@ tests = testGroup "checkmate"
              歩             R3
 --}
 後手頭金 :: ShogiBoard
-後手頭金 = ShogiBoard board stand
+後手頭金 = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F5, R1), king White)
-      , ((F5, R2), gold Black)
-      , ((F5, R3), pawn False Black)
-      ]
-    stand = Stand.fromList []
+    board = [ ((F5, R1), king White)
+            , ((F5, R2), gold Black)
+            , ((F5, R3), pawn False Black)
+            ]
+    stand = []
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -62,14 +58,13 @@ tests = testGroup "checkmate"
              王             R9
 --}
 先手頭銀 :: ShogiBoard
-先手頭銀 = ShogiBoard board stand
+先手頭銀 = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F5, R7), pawn False White)
-      , ((F5, R8), silver False White)
-      , ((F5, R9), king Black)
-      ]
-    stand = Stand.fromList []
+    board = [ ((F5, R7), pawn False White)
+            , ((F5, R8), silver False White)
+            , ((F5, R9), king Black)
+            ]
+    stand = []
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -78,14 +73,13 @@ tests = testGroup "checkmate"
              歩             R3
 --}
 後手頭銀 :: ShogiBoard
-後手頭銀 = ShogiBoard board stand
+後手頭銀 = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F5, R1), king White)
-      , ((F5, R2), silver False Black)
-      , ((F5, R3), pawn False Black)
-      ]
-    stand = Stand.fromList []
+    board = [ ((F5, R1), king White)
+            , ((F5, R2), silver False Black)
+            , ((F5, R3), pawn False Black)
+            ]
+    stand = []
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -94,15 +88,14 @@ tests = testGroup "checkmate"
              王             R9
 --}
 先手合駒なし :: ShogiBoard
-先手合駒なし = ShogiBoard board stand
+先手合駒なし = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F6, R7), lance False White)
-      , ((F5, R7), lance False White)
-      , ((F4, R7), lance False White)
-      , ((F5, R9), king Black)
-      ]
-    stand = Stand.fromList []
+    board = [ ((F6, R7), lance False White)
+            , ((F5, R7), lance False White)
+            , ((F4, R7), lance False White)
+            , ((F5, R9), king Black)
+            ]
+    stand = []
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -111,15 +104,14 @@ tests = testGroup "checkmate"
           香 香 香          R3
 --}
 後手合駒なし :: ShogiBoard
-後手合駒なし = ShogiBoard board stand
+後手合駒なし = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F6, R3), lance False Black)
-      , ((F5, R3), lance False Black)
-      , ((F4, R3), lance False Black)
-      , ((F5, R1), king White)
-      ]
-    stand = Stand.fromList []
+    board = [ ((F6, R3), lance False Black)
+            , ((F5, R3), lance False Black)
+            , ((F4, R3), lance False Black)
+            , ((F5, R1), king White)
+            ]
+    stand = []
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -129,15 +121,14 @@ tests = testGroup "checkmate"
  歩
 --}
 先手合駒あり :: ShogiBoard
-先手合駒あり = ShogiBoard board stand
+先手合駒あり = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F6, R7), lance False White)
-      , ((F5, R7), lance False White)
-      , ((F4, R7), lance False White)
-      , ((F5, R9), king Black)
-      ]
-    stand = Stand.fromList [pawn False Black]
+    board = [ ((F6, R7), lance False White)
+            , ((F5, R7), lance False White)
+            , ((F4, R7), lance False White)
+            , ((F5, R9), king Black)
+            ]
+    stand = [pawn False Black]
 
 {--
  歩
@@ -147,15 +138,14 @@ tests = testGroup "checkmate"
           香 香 香          R3
 --}
 後手合駒あり :: ShogiBoard
-後手合駒あり = ShogiBoard board stand
+後手合駒あり = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F6, R3), lance False Black)
-      , ((F5, R3), lance False Black)
-      , ((F4, R3), lance False Black)
-      , ((F5, R1), king White)
-      ]
-    stand = Stand.fromList [pawn False White]
+    board = [ ((F6, R3), lance False Black)
+            , ((F5, R3), lance False Black)
+            , ((F4, R3), lance False Black)
+            , ((F5, R1), king White)
+            ]
+    stand = [pawn False White]
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -163,13 +153,12 @@ tests = testGroup "checkmate"
              王             R9
 --}
 先手駒取り :: ShogiBoard
-先手駒取り = ShogiBoard board stand
+先手駒取り = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F5, R8), gold White)
-      , ((F5, R9), king Black)
-      ]
-    stand = Stand.fromList []
+    board = [ ((F5, R8), gold White)
+            , ((F5, R9), king Black)
+            ]
+    stand = []
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -177,10 +166,9 @@ tests = testGroup "checkmate"
              金             R2
 --}
 後手駒取り :: ShogiBoard
-後手駒取り = ShogiBoard board stand
+後手駒取り = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F5, R1), king White)
-      , ((F5, R2), gold Black)
-      ]
-    stand = Stand.fromList []
+    board = [ ((F5, R1), king White)
+            , ((F5, R2), gold Black)
+            ]
+    stand = []

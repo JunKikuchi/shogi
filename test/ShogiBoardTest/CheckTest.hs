@@ -4,8 +4,6 @@ import Test.Tasty
 import Test.Tasty.HUnit
 import ShogiBoard
 import ShogiBoard.Color
-import ShogiBoard.Board as Board hiding (check)
-import ShogiBoard.Stand as Stand
 import ShogiBoard.Square
 import ShogiBoard.Piece
 
@@ -21,13 +19,12 @@ tests = testGroup "check"
              王             R9
 --}
 後手王手 :: ShogiBoard
-後手王手 = ShogiBoard board stand
+後手王手 = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F5, R8), gold White)
-      , ((F5, R9), king Black)
-      ]
-    stand = Stand.fromList []
+    board = [ ((F5, R8), gold White)
+            , ((F5, R9), king Black)
+            ]
+    stand = []
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -35,10 +32,9 @@ tests = testGroup "check"
              金             R2
 --}
 先手王手 :: ShogiBoard
-先手王手 = ShogiBoard board stand
+先手王手 = ShogiBoard.fromLists board stand
   where
-    board = Board.fromList
-      [ ((F5, R1), king White)
-      , ((F5, R2), gold Black)
-      ]
-    stand = Stand.fromList []
+    board = [ ((F5, R1), king White)
+            , ((F5, R2), gold Black)
+            ]
+    stand = []
