@@ -68,11 +68,16 @@ move from to color shogi = do
     stand = getStand shogi
 
 -- | 持ち駒を指す
-drop :: Piece -> Square -> Color -> ShogiBoard -> Maybe ShogiBoard
-drop piece to color shogi = do
-  (piece', stand) <- Stand.take piece  color $ getStand shogi
-  board'          <- Board.drop piece' to    $ getBoard shogi
-  return shogi { getBoard = board', getStand = stand }
+drop :: Piece -> Square -> ShogiBoard -> Maybe ShogiBoard
+drop piece to shogi = do
+  stand' <- Stand.take piece    stand
+  board' <- Board.drop piece to board
+  guard $ not $ Board.check color board'
+  return shogi { getBoard = board', getStand = stand' }
+  where
+    board = getBoard shogi
+    stand = getStand shogi
+    color = getColor piece
 
 -- | 駒を動かせる升目
 moves :: MoveFrom -> Color -> ShogiBoard -> [MoveTo]

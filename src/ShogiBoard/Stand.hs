@@ -9,6 +9,7 @@ module ShogiBoard.Stand
   ) where
 
 import Prelude hiding (take)
+import Data.List (delete)
 import ShogiBoard.Piece
 import ShogiBoard.Color
 
@@ -32,8 +33,10 @@ put :: Piece -> Stand -> Stand
 put piece (Stand stand) = Stand $ piece { getColor = turn $ getColor piece }:stand
 
 -- | 駒台から駒を取り除く
-take :: Piece -> Color -> Stand -> Maybe (Piece, Stand)
-take = undefined
+take :: Piece -> Stand -> Maybe Stand
+take piece (Stand stand)
+  | elem piece stand = Just $ Stand $ delete piece stand
+  | otherwise        = Nothing
 
 -- | 駒が駒台にあるか
 included :: Piece -> Stand -> Bool
