@@ -19,7 +19,7 @@ tests = testGroup "check"
              王             R9
 --}
 後手王手 :: ShogiBoard
-後手王手 = ShogiBoard.fromLists board stand
+後手王手 = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F5, R8), gold White)
             , ((F5, R9), king Black)
@@ -32,7 +32,7 @@ tests = testGroup "check"
              金             R2
 --}
 先手王手 :: ShogiBoard
-先手王手 = ShogiBoard.fromLists board stand
+先手王手 = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F5, R1), king White)
             , ((F5, R2), gold Black)

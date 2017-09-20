@@ -2,6 +2,7 @@ import Test.Tasty
 
 import ShogiBoardTest.PieceTest     as PieceTest
 import ShogiBoardTest.BoardTest     as BoardTest
+import ShogiBoardTest.ListsTest     as ListsTest
 import ShogiBoardTest.CheckTest     as CheckTest
 import ShogiBoardTest.CheckmateTest as CheckmateTest
 import ShogiBoardTest.MoveTest      as MoveTest
@@ -13,6 +14,7 @@ main :: IO ()
 main = defaultMain $ testGroup "ShogiBoard"
   [ PieceTest.tests
   , BoardTest.tests
+  , ListsTest.tests
   , CheckTest.tests
   , CheckmateTest.tests
   , MoveTest.tests

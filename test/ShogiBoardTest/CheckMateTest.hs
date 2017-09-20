@@ -28,7 +28,7 @@ tests = testGroup "checkmate"
              王             R9
 --}
 先手頭金 :: ShogiBoard
-先手頭金 = ShogiBoard.fromLists board stand
+先手頭金 = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F5, R7), pawn False White)
             , ((F5, R8), gold White)
@@ -43,7 +43,7 @@ tests = testGroup "checkmate"
              歩             R3
 --}
 後手頭金 :: ShogiBoard
-後手頭金 = ShogiBoard.fromLists board stand
+後手頭金 = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F5, R1), king White)
             , ((F5, R2), gold Black)
@@ -58,7 +58,7 @@ tests = testGroup "checkmate"
              王             R9
 --}
 先手頭銀 :: ShogiBoard
-先手頭銀 = ShogiBoard.fromLists board stand
+先手頭銀 = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F5, R7), pawn False White)
             , ((F5, R8), silver False White)
@@ -73,7 +73,7 @@ tests = testGroup "checkmate"
              歩             R3
 --}
 後手頭銀 :: ShogiBoard
-後手頭銀 = ShogiBoard.fromLists board stand
+後手頭銀 = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F5, R1), king White)
             , ((F5, R2), silver False Black)
@@ -88,7 +88,7 @@ tests = testGroup "checkmate"
              王             R9
 --}
 先手合駒なし :: ShogiBoard
-先手合駒なし = ShogiBoard.fromLists board stand
+先手合駒なし = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F6, R7), lance False White)
             , ((F5, R7), lance False White)
@@ -104,7 +104,7 @@ tests = testGroup "checkmate"
           香 香 香          R3
 --}
 後手合駒なし :: ShogiBoard
-後手合駒なし = ShogiBoard.fromLists board stand
+後手合駒なし = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F6, R3), lance False Black)
             , ((F5, R3), lance False Black)
@@ -121,7 +121,7 @@ tests = testGroup "checkmate"
  歩
 --}
 先手合駒あり :: ShogiBoard
-先手合駒あり = ShogiBoard.fromLists board stand
+先手合駒あり = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F6, R7), lance False White)
             , ((F5, R7), lance False White)
@@ -138,7 +138,7 @@ tests = testGroup "checkmate"
           香 香 香          R3
 --}
 後手合駒あり :: ShogiBoard
-後手合駒あり = ShogiBoard.fromLists board stand
+後手合駒あり = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F6, R3), lance False Black)
             , ((F5, R3), lance False Black)
@@ -153,7 +153,7 @@ tests = testGroup "checkmate"
              王             R9
 --}
 先手駒取り :: ShogiBoard
-先手駒取り = ShogiBoard.fromLists board stand
+先手駒取り = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F5, R8), gold White)
             , ((F5, R9), king Black)
@@ -166,7 +166,7 @@ tests = testGroup "checkmate"
              金             R2
 --}
 後手駒取り :: ShogiBoard
-後手駒取り = ShogiBoard.fromLists board stand
+後手駒取り = ShogiBoard.fromLists (board, stand)
   where
     board = [ ((F5, R1), king White)
             , ((F5, R2), gold Black)
