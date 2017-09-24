@@ -1,8 +1,8 @@
-name:                shogi-board
+name:                shogi
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/JunKikuchi/shogi-board#readme
+homepage:            https://github.com/JunKikuchi/shogi#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Jun Kikuchi
@@ -22,11 +22,12 @@ library
                      , ShogiBoard.Piece
                      , ShogiBoard.Color
                      , ShogiBoard.Promoted
+                     , ShogiBoard.SFEN
   build-depends:       base >= 4.7 && < 5
                      , containers
   default-language:    Haskell2010
 
-test-suite shogi-board-test
+test-suite shogi-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             test.hs
@@ -36,7 +37,7 @@ test-suite shogi-board-test
                      , tasty-smallcheck
                      , smallcheck
                      -- , tasty-quickcheck
-                     , shogi-board
+                     , shogi
   other-modules:       ShogiBoardTest.ListsTest
                      , ShogiBoardTest.CheckTest
                      , ShogiBoardTest.CheckmateTest
@@ -44,6 +45,7 @@ test-suite shogi-board-test
                      , ShogiBoardTest.DropTest
                      , ShogiBoardTest.MovesTest
                      , ShogiBoardTest.DropsTest
+                     , ShogiBoardTest.SFENTest
                      , ShogiBoardTest.PieceTest
                      , ShogiBoardTest.PieceTest.MovesTest
                      , ShogiBoardTest.PieceTest.DropsTest
@@ -58,4 +60,4 @@ test-suite shogi-board-test
 
 source-repository head
   type:     git
-  location: https://github.com/JunKikuchi/shogi-board
+  location: https://github.com/JunKikuchi/shogi
