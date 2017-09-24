@@ -6,7 +6,7 @@ import Test.Tasty.HUnit
 import ShogiBoard
 import ShogiBoard.Piece
 import ShogiBoard.Square
-import ShogiBoard.Color
+import Shogi.Color
 
 tests :: TestTree
 tests = testGroup "move"

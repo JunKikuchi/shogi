@@ -6,7 +6,7 @@ import Prelude hiding (drop)
 import ShogiBoard.Board
 import ShogiBoard.Piece
 import ShogiBoard.Square
-import ShogiBoard.Color
+import Shogi.Color
 
 tests :: TestTree
 tests = testGroup "drop"

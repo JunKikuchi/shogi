@@ -16,6 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Shogi
+                     , Shogi.Color
                      , Shogi.Clock
                      , Shogi.State
                      , Shogi.States
@@ -24,9 +25,7 @@ library
                      , ShogiBoard.Stand
                      , ShogiBoard.Square
                      , ShogiBoard.Piece
-                     , ShogiBoard.Color
                      , ShogiBoard.Promoted
-                     , ShogiBoard.SFEN
   build-depends:       base >= 4.7 && < 5
                      , containers
                      , game-clock
@@ -50,7 +49,6 @@ test-suite shogi-test
                      , ShogiBoardTest.DropTest
                      , ShogiBoardTest.MovesTest
                      , ShogiBoardTest.DropsTest
-                     , ShogiBoardTest.SFENTest
                      , ShogiBoardTest.PieceTest
                      , ShogiBoardTest.PieceTest.MovesTest
                      , ShogiBoardTest.PieceTest.DropsTest

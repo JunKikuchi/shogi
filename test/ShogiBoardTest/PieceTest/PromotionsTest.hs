@@ -7,7 +7,7 @@ import Test.Tasty.SmallCheck as SC
 import Test.SmallCheck.Series
 import ShogiBoard.Piece
 import ShogiBoard.Square
-import ShogiBoard.Color
+import Shogi.Color
 
 tests :: TestTree
 tests = testGroup "promotions"

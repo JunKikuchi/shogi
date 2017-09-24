@@ -17,7 +17,7 @@ import ShogiBoard.Board as Board
 import ShogiBoard.Stand as Stand
 import ShogiBoard.Square
 import ShogiBoard.Piece
-import ShogiBoard.Color
+import Shogi.Color
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1

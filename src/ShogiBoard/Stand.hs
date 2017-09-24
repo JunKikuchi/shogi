@@ -11,7 +11,7 @@ module ShogiBoard.Stand
 import Prelude hiding (take)
 import Data.List (delete)
 import ShogiBoard.Piece
-import ShogiBoard.Color
+import Shogi.Color
 
 -- | 駒台
 newtype Stand = Stand [Piece] deriving (Eq, Show)

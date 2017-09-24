@@ -11,7 +11,7 @@ module Shogi
   , check
   ) where
 
-import ShogiBoard.Color
+import Shogi.Color
 import Shogi.Clock
 import Shogi.State
 import Shogi.States

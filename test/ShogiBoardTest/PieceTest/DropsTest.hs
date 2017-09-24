@@ -4,7 +4,7 @@ import Test.Tasty
 import Test.Tasty.HUnit
 import ShogiBoard.Piece
 import ShogiBoard.Square
-import ShogiBoard.Color
+import Shogi.Color
 
 tests :: TestTree
 tests = testGroup "drops"

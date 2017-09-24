@@ -6,7 +6,7 @@ module ShogiBoard.Square
   , MoveTo
   ) where
 
-import ShogiBoard.Color
+import Shogi.Color
 import ShogiBoard.Promoted
 
 -- | 升目

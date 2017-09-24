@@ -3,7 +3,7 @@ module ShogiBoardTest.CheckTest (tests) where
 import Test.Tasty
 import Test.Tasty.HUnit
 import ShogiBoard
-import ShogiBoard.Color
+import Shogi.Color
 import ShogiBoard.Square
 import ShogiBoard.Piece
 

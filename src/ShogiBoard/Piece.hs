@@ -19,7 +19,7 @@ module ShogiBoard.Piece
   , drops
   ) where
 
-import ShogiBoard.Color
+import Shogi.Color
 import ShogiBoard.Promoted
 import ShogiBoard.Square
 

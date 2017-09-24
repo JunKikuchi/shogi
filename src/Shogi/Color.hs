@@ -1,4 +1,4 @@
-module ShogiBoard.Color
+module Shogi.Color
   ( Color(..)
   , turn
   ) where

@@ -17,7 +17,7 @@ import qualified Data.Map as Map
 import Control.Monad (guard)
 import ShogiBoard.Square
 import ShogiBoard.Piece as Piece
-import ShogiBoard.Color
+import Shogi.Color
 
 -- | 将棋盤
 newtype Board = Board { getBoard :: (Map.Map Square Piece) } deriving (Eq, Show)

@@ -6,7 +6,7 @@ import Data.List ((\\))
 import ShogiBoard
 import ShogiBoard.Piece hiding (drops)
 import ShogiBoard.Square
-import ShogiBoard.Color
+import Shogi.Color
 
 tests :: TestTree
 tests = testGroup "drops"
