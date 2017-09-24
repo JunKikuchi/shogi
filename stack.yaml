@@ -40,6 +40,7 @@ packages:
 - location:
     git: https://github.com/JunKikuchi/game-clock.git
     commit: bf2e51ef1b5723173bb0379bfb5fcc4c101d9cc2
+  extra-dep: true
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps: []
