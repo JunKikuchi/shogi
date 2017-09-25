@@ -7,7 +7,7 @@ module ShogiBoard.Square
   ) where
 
 import Shogi.Color
-import ShogiBoard.Promoted
+import Shogi.Promoted
 
 -- | 升目
 type Square = (File, Rank)

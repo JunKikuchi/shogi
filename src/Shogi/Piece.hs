@@ -20,7 +20,7 @@ module Shogi.Piece
   ) where
 
 import Shogi.Color
-import ShogiBoard.Promoted
+import Shogi.Promoted
 import ShogiBoard.Square
 
 -- | 駒
