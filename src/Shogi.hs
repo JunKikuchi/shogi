@@ -6,9 +6,9 @@ module Shogi
   , getState
   , Move
   , shogi
-  , move
-  , checkmate
-  , check
+  , Shogi.move
+  , Shogi.checkmate
+  , Shogi.check
   ) where
 
 import Shogi.Color
