@@ -16,7 +16,7 @@ import Shogi.Clock
 import Shogi.State
 import Shogi.States
 import Shogi.Piece (Piece)
-import ShogiBoard.Square
+import Shogi.Square
 
 data Shogi = Shogi
            { getColor  :: Color

@@ -4,7 +4,7 @@ import Test.Tasty
 import Test.Tasty.HUnit
 import ShogiBoard.Board
 import Shogi.Piece hiding (moves)
-import ShogiBoard.Square
+import Shogi.Square
 import Shogi.Color
 
 tests :: TestTree

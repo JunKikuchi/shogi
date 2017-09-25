@@ -4,7 +4,7 @@ import Test.Tasty
 import Test.Tasty.HUnit
 import ShogiBoard
 import Shogi.Color
-import ShogiBoard.Square
+import Shogi.Square
 import Shogi.Piece
 
 tests :: TestTree

@@ -6,7 +6,7 @@ import Test.Tasty.HUnit
 import Test.Tasty.SmallCheck as SC
 import Test.SmallCheck.Series
 import Shogi.Piece
-import ShogiBoard.Square
+import Shogi.Square
 import Shogi.Color
 
 tests :: TestTree

@@ -3,7 +3,7 @@ module ShogiTest.PieceTest.MovesTest (tests) where
 import Test.Tasty
 import Test.Tasty.HUnit
 import Shogi.Piece
-import ShogiBoard.Square
+import Shogi.Square
 import Shogi.Color
 
 tests :: TestTree

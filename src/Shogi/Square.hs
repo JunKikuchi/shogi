@@ -1,4 +1,4 @@
-module ShogiBoard.Square
+module Shogi.Square
   ( Square
   , File(..)
   , Rank(..)

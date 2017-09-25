@@ -22,10 +22,10 @@ library
                      , Shogi.States
                      , Shogi.Piece
                      , Shogi.Promoted
+                     , Shogi.Square
                      , ShogiBoard
                      , ShogiBoard.Board
                      , ShogiBoard.Stand
-                     , ShogiBoard.Square
   build-depends:       base >= 4.7 && < 5
                      , containers
                      , game-clock

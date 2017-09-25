@@ -15,7 +15,7 @@ import Prelude hiding (drop, lookup)
 import Data.Maybe (maybe, maybeToList)
 import qualified Data.Map as Map
 import Control.Monad (guard)
-import ShogiBoard.Square
+import Shogi.Square
 import Shogi.Piece as Piece
 import Shogi.Color
 

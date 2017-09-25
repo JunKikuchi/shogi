@@ -21,7 +21,7 @@ module Shogi.Piece
 
 import Shogi.Color
 import Shogi.Promoted
-import ShogiBoard.Square
+import Shogi.Square
 
 -- | 駒
 data Piece = Piece
