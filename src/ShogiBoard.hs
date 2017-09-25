@@ -14,7 +14,7 @@ import Data.List (nub)
 import Data.Maybe (maybe, maybeToList)
 import Control.Monad (guard)
 import Shogi.Board as Board
-import ShogiBoard.Stand as Stand
+import Shogi.Stand as Stand
 import Shogi.Square
 import Shogi.Piece
 import Shogi.Color

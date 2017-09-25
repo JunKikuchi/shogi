@@ -1,4 +1,4 @@
-module ShogiBoard.Stand
+module Shogi.Stand
   ( Stand
   , fromList
   , toList
