@@ -13,7 +13,7 @@ module ShogiBoard
 import Data.List (nub)
 import Data.Maybe (maybe, maybeToList)
 import Control.Monad (guard)
-import ShogiBoard.Board as Board
+import Shogi.Board as Board
 import ShogiBoard.Stand as Stand
 import Shogi.Square
 import Shogi.Piece

@@ -1,4 +1,4 @@
-module ShogiBoard.Board
+module Shogi.Board
   ( Board
   , fromList
   , toList
@@ -6,8 +6,8 @@ module ShogiBoard.Board
   , pieces
   , move
   , drop
-  , ShogiBoard.Board.moves
-  , ShogiBoard.Board.drops
+  , Shogi.Board.moves
+  , Shogi.Board.drops
   , lookup
   ) where
 
@@ -36,7 +36,7 @@ check color board = maybe False (flip elem moves') $ kingSquare color board
   where
     moves' = do
       (from, _) <- pieces turnedColor board
-      (to,   _) <- ShogiBoard.Board.moves (from, turnedColor) board
+      (to,   _) <- Shogi.Board.moves (from, turnedColor) board
       return to
     turnedColor = turn color
 
@@ -55,7 +55,7 @@ move :: MoveFrom -> MoveTo -> Board -> Maybe Board
 move from@(from', color) moveTo@(to, promoted) board = do
   piece <- lookup from' board
   guard $ getColor piece == color
-  guard $ elem moveTo $ ShogiBoard.Board.moves from board
+  guard $ elem moveTo $ Shogi.Board.moves from board
   let deletedBoard = Map.delete from' (getBoard board)
   return board { getBoard = Map.insert to piece { getPromoted = promoted } deletedBoard }
 
@@ -63,7 +63,7 @@ move from@(from', color) moveTo@(to, promoted) board = do
 drop :: Piece -> Square -> Board -> Maybe Board
 drop piece square board = if drops' then Just drop' else Nothing
   where
-    drops' = elem square $ ShogiBoard.Board.drops piece board
+    drops' = elem square $ Shogi.Board.drops piece board
     drop'  = board { getBoard = Map.insert square piece $ getBoard board }
 
 -- | 駒を動かせる升目リスト
