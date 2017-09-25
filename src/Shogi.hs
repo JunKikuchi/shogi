@@ -6,14 +6,14 @@ module Shogi
   , getState
   , Move
   , shogi
-  , Shogi.move
-  , Shogi.checkmate
-  , Shogi.check
+  , move
+  , checkmate
+  , check
   ) where
 
 import Shogi.Color
 import Shogi.Clock
-import Shogi.State
+import Shogi.State (State)
 import Shogi.States
 import Shogi.Piece (Piece)
 import Shogi.Square

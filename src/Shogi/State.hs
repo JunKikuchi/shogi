@@ -3,20 +3,24 @@ module Shogi.State
   , fromLists
   , toLists
   , checkmate
-  , Shogi.State.check
-  , Shogi.State.move
-  , Shogi.State.drop
-  , Shogi.State.moves
-  , Shogi.State.drops
+  , check
+  , move
+  , drop
+  , moves
+  , drops
   ) where
 
+import Prelude hiding (drop)
 import Data.List (nub)
 import Data.Maybe (maybe, maybeToList)
 import Control.Monad (guard)
-import Shogi.Board as Board
-import Shogi.Stand as Stand
+import qualified Shogi.Board as Board
+import qualified Shogi.Stand as Stand
+import qualified Shogi.Piece as Piece
+import Shogi.Board (Board)
+import Shogi.Stand (Stand)
+import Shogi.Piece (Piece)
 import Shogi.Square
-import Shogi.Piece
 import Shogi.Color
 
 {--
@@ -87,7 +91,7 @@ drop piece to shogi = do
   where
     board = getBoard shogi
     stand = getStand shogi
-    color = getColor piece
+    color = Piece.getColor piece
 
 -- | 駒を動かせる升目
 moves :: MoveFrom -> State -> [MoveTo]
@@ -109,4 +113,4 @@ drops piece shogi = do
   return square
   where
     board = getBoard shogi
-    color = getColor piece
+    color = Piece.getColor piece
