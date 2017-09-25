@@ -1,4 +1,4 @@
-module ShogiBoard.Piece
+module Shogi.Piece
   ( Piece
   , Type(..)
   , getType

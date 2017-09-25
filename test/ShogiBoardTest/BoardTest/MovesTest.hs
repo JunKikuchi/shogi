@@ -3,7 +3,7 @@ module ShogiBoardTest.BoardTest.MovesTest (tests) where
 import Test.Tasty
 import Test.Tasty.HUnit
 import ShogiBoard.Board
-import ShogiBoard.Piece hiding (moves)
+import Shogi.Piece hiding (moves)
 import ShogiBoard.Square
 import Shogi.Color
 

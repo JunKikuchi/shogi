@@ -4,7 +4,7 @@ import Test.Tasty
 import Test.Tasty.HUnit
 
 import ShogiBoard
-import ShogiBoard.Piece
+import Shogi.Piece
 import ShogiBoard.Square
 import Shogi.Color
 

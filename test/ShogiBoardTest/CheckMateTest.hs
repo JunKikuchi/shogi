@@ -5,7 +5,7 @@ import Test.Tasty.HUnit
 import ShogiBoard
 import Shogi.Color
 import ShogiBoard.Square
-import ShogiBoard.Piece
+import Shogi.Piece
 
 tests :: TestTree
 tests = testGroup "checkmate"

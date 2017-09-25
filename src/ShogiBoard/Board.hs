@@ -16,7 +16,7 @@ import Data.Maybe (maybe, maybeToList)
 import qualified Data.Map as Map
 import Control.Monad (guard)
 import ShogiBoard.Square
-import ShogiBoard.Piece as Piece
+import Shogi.Piece as Piece
 import Shogi.Color
 
 -- | 将棋盤

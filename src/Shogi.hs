@@ -15,7 +15,7 @@ import Shogi.Color
 import Shogi.Clock
 import Shogi.State
 import Shogi.States
-import ShogiBoard.Piece hiding (getColor)
+import Shogi.Piece (Piece)
 import ShogiBoard.Square
 
 data Shogi = Shogi

@@ -2,7 +2,7 @@ module ShogiBoardTest.PieceTest.DropsTest (tests) where
 
 import Test.Tasty
 import Test.Tasty.HUnit
-import ShogiBoard.Piece
+import Shogi.Piece
 import ShogiBoard.Square
 import Shogi.Color
 

@@ -10,7 +10,7 @@ module ShogiBoard.Stand
 
 import Prelude hiding (take)
 import Data.List (delete)
-import ShogiBoard.Piece
+import Shogi.Piece
 import Shogi.Color
 
 -- | 駒台

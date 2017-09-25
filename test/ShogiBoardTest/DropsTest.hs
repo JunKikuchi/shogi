@@ -4,7 +4,7 @@ import Test.Tasty
 import Test.Tasty.HUnit
 import Data.List ((\\))
 import ShogiBoard
-import ShogiBoard.Piece hiding (drops)
+import Shogi.Piece hiding (drops)
 import ShogiBoard.Square
 import Shogi.Color
 

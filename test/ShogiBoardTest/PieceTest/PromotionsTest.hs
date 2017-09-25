@@ -5,7 +5,7 @@ import Test.Tasty
 import Test.Tasty.HUnit
 import Test.Tasty.SmallCheck as SC
 import Test.SmallCheck.Series
-import ShogiBoard.Piece
+import Shogi.Piece
 import ShogiBoard.Square
 import Shogi.Color
 

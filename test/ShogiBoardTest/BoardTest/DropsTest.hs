@@ -3,7 +3,7 @@ module ShogiBoardTest.BoardTest.DropsTest (tests) where
 import Test.Tasty
 import Test.Tasty.HUnit
 import ShogiBoard.Board
-import ShogiBoard.Piece hiding (drops)
+import Shogi.Piece hiding (drops)
 import ShogiBoard.Square
 import Shogi.Color
 
