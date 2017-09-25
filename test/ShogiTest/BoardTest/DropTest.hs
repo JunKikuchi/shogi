@@ -1,4 +1,4 @@
-module ShogiBoardTest.BoardTest.DropTest (tests) where
+module ShogiTest.BoardTest.DropTest (tests) where
 
 import Test.Tasty
 import Test.Tasty.HUnit
