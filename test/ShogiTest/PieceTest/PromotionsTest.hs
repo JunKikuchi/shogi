@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses #-}
-module ShogiBoardTest.PieceTest.PromotionsTest (tests) where
+module ShogiTest.PieceTest.PromotionsTest (tests) where
 
 import Test.Tasty
 import Test.Tasty.HUnit

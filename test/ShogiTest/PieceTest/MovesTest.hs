@@ -1,4 +1,4 @@
-module ShogiBoardTest.PieceTest.MovesTest (tests) where
+module ShogiTest.PieceTest.MovesTest (tests) where
 
 import Test.Tasty
 import Test.Tasty.HUnit

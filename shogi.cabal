@@ -42,17 +42,18 @@ test-suite shogi-test
                      , smallcheck
                      -- , tasty-quickcheck
                      , shogi
-  other-modules:       ShogiBoardTest.ListsTest
+  other-modules:       ShogiTest
+                     , ShogiTest.PieceTest
+                     , ShogiTest.PieceTest.MovesTest
+                     , ShogiTest.PieceTest.DropsTest
+                     , ShogiTest.PieceTest.PromotionsTest
+                     , ShogiBoardTest.ListsTest
                      , ShogiBoardTest.CheckTest
                      , ShogiBoardTest.CheckmateTest
                      , ShogiBoardTest.MoveTest
                      , ShogiBoardTest.DropTest
                      , ShogiBoardTest.MovesTest
                      , ShogiBoardTest.DropsTest
-                     , ShogiBoardTest.PieceTest
-                     , ShogiBoardTest.PieceTest.MovesTest
-                     , ShogiBoardTest.PieceTest.DropsTest
-                     , ShogiBoardTest.PieceTest.PromotionsTest
                      , ShogiBoardTest.BoardTest
                      , ShogiBoardTest.BoardTest.MoveTest
                      , ShogiBoardTest.BoardTest.DropTest
