@@ -7,7 +7,7 @@ module Shogi.Square
   ) where
 
 import Shogi.Color
-import Shogi.Promoted
+import Shogi.Promotion
 
 -- | 升目
 type Square = (File, Rank)
@@ -22,4 +22,4 @@ data Rank = R1 | R2 | R3 | R4 | R5 | R6 | R7 | R8 | R9 deriving (Eq, Ord, Enum, 
 type MoveFrom = (Square, Color)
 
 -- | 駒の移動先の升目
-type MoveTo = (Square, Promoted)
+type MoveTo = (Square, Promotion)

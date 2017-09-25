@@ -2,9 +2,9 @@ module Shogi.Piece
   ( Piece
   , Type(..)
   , getType
-  , getPromoted
+  , getPromotion
   , getColor
-  , Promoted
+  , Promotion
   , pawn
   , lance
   , knight
@@ -20,13 +20,13 @@ module Shogi.Piece
   ) where
 
 import Shogi.Color
-import Shogi.Promoted
+import Shogi.Promotion
 import Shogi.Square
 
 -- | 駒
 data Piece = Piece
            { getType     :: Type
-           , getPromoted :: Promoted
+           , getPromotion :: Promotion
            , getColor    :: Color
            } deriving (Eq, Ord, Show)
 
@@ -42,19 +42,19 @@ data Type = Pawn   -- 歩兵
           deriving (Eq, Ord, Enum, Bounded, Show)
 
 -- | 歩兵
-pawn :: Promoted -> Color -> Piece
+pawn :: Promotion -> Color -> Piece
 pawn = Piece Pawn
 
 -- | 香車
-lance :: Promoted -> Color -> Piece
+lance :: Promotion -> Color -> Piece
 lance = Piece Lance
 
 -- | 桂馬
-knight :: Promoted -> Color -> Piece
+knight :: Promotion -> Color -> Piece
 knight = Piece Knight
 
 -- | 銀将
-silver :: Promoted -> Color -> Piece
+silver :: Promotion -> Color -> Piece
 silver = Piece Silver
 
 -- | 金将
@@ -62,11 +62,11 @@ gold :: Color -> Piece
 gold = Piece Gold False
 
 -- | 角行
-bishop :: Promoted -> Color -> Piece
+bishop :: Promotion -> Color -> Piece
 bishop = Piece Bishop
 
 -- | 飛車
-rook :: Promoted -> Color -> Piece
+rook :: Promotion -> Color -> Piece
 rook = Piece Rook
 
 -- | 王将
@@ -78,10 +78,10 @@ promote :: Piece -> Maybe Piece
 promote (Piece _ True _) = Nothing
 promote (Piece Gold _ _) = Nothing
 promote (Piece King _ _) = Nothing
-promote piece = Just piece { getPromoted = True }
+promote piece = Just piece { getPromotion = True }
 
 -- | 成り不成
-promotions :: Piece -> Square -> [Promoted]
+promotions :: Piece -> Square -> [Promotion]
 promotions (Piece _      True  _    ) _         = [False]
 promotions (Piece Pawn   False Black) (_, R1)   = [True]
 promotions (Piece Pawn   False White) (_, R9)   = [True]

@@ -13,8 +13,8 @@ module Shogi
 
 import Shogi.Color
 import Shogi.Clock
-import Shogi.State (State)
 import Shogi.States
+import Shogi.State (State)
 import Shogi.Piece (Piece)
 import Shogi.Square
 

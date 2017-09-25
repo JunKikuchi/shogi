@@ -58,7 +58,7 @@ move from@(from', color) moveTo@(to, promoted) board = do
   guard $ Piece.getColor piece == color
   guard $ elem moveTo $ Shogi.Board.moves from board
   let deletedBoard = Map.delete from' (getBoard board)
-  return board { getBoard = Map.insert to piece { Piece.getPromoted = promoted } deletedBoard }
+  return board { getBoard = Map.insert to piece { Piece.getPromotion = promoted } deletedBoard }
 
 -- | 持ち駒を指す
 drop :: Piece -> Square -> Board -> Maybe Board
@@ -92,7 +92,7 @@ drops piece board
   | otherwise                         = squares
   where
     filterPawnFiles = filter (\(file, _) -> not $ elem file pawnFiles)
-    pawnFiles       = map (fst . fst) $ filter (\(_, piece) -> Piece.getType piece == Piece.Pawn && Piece.getPromoted piece == False) $ pieces (Piece.getColor piece) board
+    pawnFiles       = map (fst . fst) $ filter (\(_, piece) -> Piece.getType piece == Piece.Pawn && Piece.getPromotion piece == False) $ pieces (Piece.getColor piece) board
     squares         = filter (\square -> (lookup square board) == Nothing) $ Piece.drops piece
 
 -- | 升目の駒
