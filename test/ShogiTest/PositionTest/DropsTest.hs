@@ -45,4 +45,20 @@ tests = testGroup "drops"
                  香             R3
     --}
   , testCase "後手歩兵王手回避" $ drops (pawn False White) (fromLists ([((F5, R1), king White), ((F5, R3), lance False Black)], [(pawn False White)])) @?= [(F5, R2)]
+
+    {--
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                          銀V王 R1
+                       金       R2
+     歩
+    --}
+  , testCase "先手打ち歩詰め回避" $ drops (pawn False Black) (fromLists ([((F1, R1), king White), ((F2, R1), silver False Black), ((F3, R2), gold Black)], [(pawn False Black)])) @?= ([(file, rank) | file <- [F1 .. F9], rank <- [R2 .. R9]] \\ [(F3, R2), (F1, R2)])
+
+    {--
+     V歩
+     F9 F8 F7 F6 F5 F4 F3 F2 F1
+                      V金       R8
+                         V銀 王 R9
+    --}
+  , testCase "後手打ち歩詰め回避" $ drops (pawn False White) (fromLists ([((F1, R9), king Black), ((F2, R9), silver False White), ((F3, R8), gold White)], [(pawn False White)])) @?= ([(file, rank) | file <- [F1 .. F9], rank <- [R1 .. R8]] \\ [(F3, R8), (F1, R8)])
   ]
