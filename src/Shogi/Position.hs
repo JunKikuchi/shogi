@@ -45,18 +45,18 @@ fromLists (board, stand) = Position (Board.fromList board) (Stand.fromList stand
 
 -- | 将棋から将棋盤リストと駒台リストのタプルを作成
 toLists :: Position -> ([(Square, Piece)], [(Piece)])
-toLists shogi = (Board.toList $ getBoard shogi, Stand.toList $ getStand shogi)
+toLists position = (Board.toList $ getBoard position, Stand.toList $ getStand position)
 
 -- | 詰み判定
 checkmate :: Color -> Position -> Bool
-checkmate color shogi = Shogi.Position.check color shogi && null moves' && null drops'
+checkmate color position = Shogi.Position.check color position && null moves' && null drops'
   where
     moves' = do
-      (from, _) <- boardPieces color shogi
-      Shogi.Position.moves (from, color) shogi
+      (from, _) <- boardPieces color position
+      Shogi.Position.moves (from, color) position
     drops' = do
-      piece <- nub $ standPieces color shogi
-      Shogi.Position.drops piece shogi
+      piece <- nub $ standPieces color position
+      Shogi.Position.drops piece position
 
 -- | 王手判定
 check :: Color -> Position -> Bool
@@ -72,45 +72,45 @@ standPieces color = Stand.pieces color . getStand
 
 -- | 駒を動かす
 move :: MoveFrom -> MoveTo -> Position -> Maybe Position
-move from@(_, color) to shogi = do
+move from@(_, color) to position = do
   stand' <- return . maybe stand (flip Stand.put stand) $ Board.lookup (fst to) board
   board' <- Board.move from to board
   guard $ not $ Board.check color board'
-  return shogi { getBoard = board', getStand = stand' }
+  return position { getBoard = board', getStand = stand' }
   where
-    board = getBoard shogi
-    stand = getStand shogi
+    board = getBoard position
+    stand = getStand position
 
 -- | 持ち駒を指す
 drop :: Piece -> Square -> Position -> Maybe Position
-drop piece to shogi = do
+drop piece to position = do
   stand' <- Stand.take piece    stand
   board' <- Board.drop piece to board
   guard $ not $ Board.check color board'
-  return shogi { getBoard = board', getStand = stand' }
+  return position { getBoard = board', getStand = stand' }
   where
-    board = getBoard shogi
-    stand = getStand shogi
+    board = getBoard position
+    stand = getStand position
     color = Piece.getColor piece
 
 -- | 駒を動かせる升目
 moves :: MoveFrom -> Position -> [MoveTo]
-moves from@(_, color) shogi = do
+moves from@(_, color) position = do
   to     <- Board.moves from board
   board' <- maybeToList $ Board.move from to board
   guard $ not $ Board.check color board'
   return to
   where
-    board = getBoard shogi
+    board = getBoard position
 
 -- | 持ち駒を指せる升目
 drops :: Piece -> Position -> [Square]
-drops piece shogi = do
-  guard $ Stand.included piece $ getStand shogi
+drops piece position = do
+  guard $ Stand.included piece $ getStand position
   square <- Board.drops piece board
   board' <- maybeToList $ Board.drop piece square board
   guard $ not $ Board.check color board'
   return square
   where
-    board = getBoard shogi
+    board = getBoard position
     color = Piece.getColor piece
