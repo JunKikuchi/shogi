@@ -19,7 +19,6 @@ library
                      , Shogi.Color
                      , Shogi.Clock
                      , Shogi.State
-                     , Shogi.States
                      , Shogi.Board
                      , Shogi.Stand
                      , Shogi.Piece
