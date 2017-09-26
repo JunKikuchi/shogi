@@ -87,6 +87,7 @@ drop piece to position = do
   stand' <- Stand.take piece    stand
   board' <- Board.drop piece to board
   guard $ not $ Board.check color board'
+  guard $ not $ dropPawnMate piece to position
   return position { getBoard = board', getStand = stand' }
   where
     board = getBoard position
@@ -110,7 +111,18 @@ drops piece position = do
   square <- Board.drops piece board
   board' <- maybeToList $ Board.drop piece square board
   guard $ not $ Board.check color board'
+  guard $ not $ dropPawnMate piece square position
   return square
   where
     board = getBoard position
     color = Piece.getColor piece
+
+-- | 打ち歩詰め判定
+dropPawnMate :: Piece -> Square -> Position -> Bool
+dropPawnMate piece square position
+  | Piece.getType piece /= Piece.Pawn = False
+  | otherwise = maybe False checkmate' $ do
+    board <- Board.drop piece square $ getBoard position
+    return position { getBoard = board }
+    where
+      checkmate' = checkmate $ turn $ Piece.getColor piece
