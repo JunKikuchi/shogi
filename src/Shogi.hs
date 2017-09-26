@@ -6,7 +6,7 @@ module Shogi
   , check
   ) where
 
--- import Data.Time.Clock (UTCTime)
+import Data.Time.Clock (UTCTime)
 import Shogi.Color
 import Shogi.Clock
 import Shogi.Position (Position)
@@ -28,7 +28,7 @@ data MoveA = MoveA
             { getColor    :: Color    -- 手番
             , getMoveType :: MoveType -- 指した手
             , getSec      :: Sec      -- 秒数
-  --          , getUTCTime  :: UTCTime  -- 時間
+            , getUTCTime  :: UTCTime  -- 時間
             , getPosition :: Position -- 局面
             , getClock    :: Clock    -- 時計
             } deriving (Eq, Show)
