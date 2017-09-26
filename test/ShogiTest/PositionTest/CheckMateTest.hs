@@ -1,8 +1,8 @@
-module ShogiTest.StateTest.CheckmateTest (tests) where
+module ShogiTest.PositionTest.CheckmateTest (tests) where
 
 import Test.Tasty
 import Test.Tasty.HUnit
-import Shogi.State
+import Shogi.Position
 import Shogi.Color
 import Shogi.Square
 import Shogi.Piece
@@ -27,7 +27,7 @@ tests = testGroup "checkmate"
             V金             R8
              王             R9
 --}
-先手頭金 :: State
+先手頭金 :: Position
 先手頭金 = fromLists (board, stand)
   where
     board = [ ((F5, R7), pawn False White)
@@ -42,7 +42,7 @@ tests = testGroup "checkmate"
              金             R2
              歩             R3
 --}
-後手頭金 :: State
+後手頭金 :: Position
 後手頭金 = fromLists (board, stand)
   where
     board = [ ((F5, R1), king White)
@@ -57,7 +57,7 @@ tests = testGroup "checkmate"
             V銀             R8
              王             R9
 --}
-先手頭銀 :: State
+先手頭銀 :: Position
 先手頭銀 = fromLists (board, stand)
   where
     board = [ ((F5, R7), pawn False White)
@@ -72,7 +72,7 @@ tests = testGroup "checkmate"
              銀             R2
              歩             R3
 --}
-後手頭銀 :: State
+後手頭銀 :: Position
 後手頭銀 = fromLists (board, stand)
   where
     board = [ ((F5, R1), king White)
@@ -87,7 +87,7 @@ tests = testGroup "checkmate"
                             R8
              王             R9
 --}
-先手合駒なし :: State
+先手合駒なし :: Position
 先手合駒なし = fromLists (board, stand)
   where
     board = [ ((F6, R7), lance False White)
@@ -103,7 +103,7 @@ tests = testGroup "checkmate"
                             R2
           香 香 香          R3
 --}
-後手合駒なし :: State
+後手合駒なし :: Position
 後手合駒なし = fromLists (board, stand)
   where
     board = [ ((F6, R3), lance False Black)
@@ -120,7 +120,7 @@ tests = testGroup "checkmate"
              王             R9
  歩
 --}
-先手合駒あり :: State
+先手合駒あり :: Position
 先手合駒あり = fromLists (board, stand)
   where
     board = [ ((F6, R7), lance False White)
@@ -137,7 +137,7 @@ tests = testGroup "checkmate"
                             R2
           香 香 香          R3
 --}
-後手合駒あり :: State
+後手合駒あり :: Position
 後手合駒あり = fromLists (board, stand)
   where
     board = [ ((F6, R3), lance False Black)
@@ -152,7 +152,7 @@ tests = testGroup "checkmate"
             V金             R8
              王             R9
 --}
-先手駒取り :: State
+先手駒取り :: Position
 先手駒取り = fromLists (board, stand)
   where
     board = [ ((F5, R8), gold White)
@@ -165,7 +165,7 @@ tests = testGroup "checkmate"
             V王             R1
              金             R2
 --}
-後手駒取り :: State
+後手駒取り :: Position
 後手駒取り = fromLists (board, stand)
   where
     board = [ ((F5, R1), king White)

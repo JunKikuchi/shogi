@@ -1,8 +1,8 @@
-module ShogiTest.StateTest.MovesTest (tests) where
+module ShogiTest.PositionTest.MovesTest (tests) where
 
 import Test.Tasty
 import Test.Tasty.HUnit
-import Shogi.State
+import Shogi.Position
 import Shogi.Piece hiding (moves)
 import Shogi.Square
 import Shogi.Color

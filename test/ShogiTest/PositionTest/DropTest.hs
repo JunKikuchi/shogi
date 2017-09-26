@@ -1,9 +1,9 @@
-module ShogiTest.StateTest.DropTest (tests) where
+module ShogiTest.PositionTest.DropTest (tests) where
 
 import Test.Tasty
 import Test.Tasty.HUnit
 import Prelude hiding (drop)
-import Shogi.State
+import Shogi.Position
 import Shogi.Piece
 import Shogi.Square
 import Shogi.Color

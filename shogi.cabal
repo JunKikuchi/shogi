@@ -18,7 +18,7 @@ library
   exposed-modules:     Shogi
                      , Shogi.Color
                      , Shogi.Clock
-                     , Shogi.State
+                     , Shogi.Position
                      , Shogi.Board
                      , Shogi.Stand
                      , Shogi.Piece
@@ -41,14 +41,14 @@ test-suite shogi-test
                      -- , tasty-quickcheck
                      , shogi
   other-modules:       ShogiTest
-                     , ShogiTest.StateTest
-                     , ShogiTest.StateTest.ListsTest
-                     , ShogiTest.StateTest.CheckTest
-                     , ShogiTest.StateTest.CheckmateTest
-                     , ShogiTest.StateTest.MoveTest
-                     , ShogiTest.StateTest.DropTest
-                     , ShogiTest.StateTest.MovesTest
-                     , ShogiTest.StateTest.DropsTest
+                     , ShogiTest.PositionTest
+                     , ShogiTest.PositionTest.ListsTest
+                     , ShogiTest.PositionTest.CheckTest
+                     , ShogiTest.PositionTest.CheckmateTest
+                     , ShogiTest.PositionTest.MoveTest
+                     , ShogiTest.PositionTest.DropTest
+                     , ShogiTest.PositionTest.MovesTest
+                     , ShogiTest.PositionTest.DropsTest
                      , ShogiTest.BoardTest
                      , ShogiTest.BoardTest.MoveTest
                      , ShogiTest.BoardTest.DropTest
