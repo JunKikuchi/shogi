@@ -1,9 +1,6 @@
 module Shogi
   ( Shogi
-  , shogi
-  , move
-  , checkmate
-  , check
+  , initShogi
   ) where
 
 import Data.Time.Clock (UTCTime)
@@ -15,25 +12,34 @@ import Shogi.Square
 
 -- | 将棋データ
 data Shogi = Shogi
-           { getInitPosition :: Position -- 駒の初期状態
-           , getMoves        :: Moves    -- 手順リスト
-           , getResult       :: Result   -- 結果
+           { getStats  :: Stats  -- 状態リスト
+           , getMoves  :: Moves  -- 手順リスト
+           , getResult :: Result -- 結果
            } deriving (Eq, Show)
+
+-- | 駒の状態リスト
+type Stats = [Stat]
+
+-- | 状態
+data Stat = Stat
+          { getStatColor   :: Color    -- 手番
+          , getPosition    :: Position -- 駒の配置
+          , getClock       :: Clock    -- 時計
+          , getStatUTCTime :: UTCTime  -- 時間
+          } deriving (Eq, Show)
 
 -- | 手順リスト
 type Moves = [Move]
 
 -- | 手順
 data Move = Move
-          { getColor     :: Color     -- 手番
-          , getMovePiece :: MovePiece -- 指した手
-          , getSec       :: Sec       -- 秒数
-          , getUTCTime   :: UTCTime   -- 時間
-          , getPosition  :: Position  -- 局面
-          , getClock     :: Clock     -- 時計
+          { getMoveColor   :: Color     -- 手番
+          , getMovePiece   :: MovePiece -- 指した手
+          , getSec         :: Sec       -- 秒数
+          , getMoveUTCTime :: UTCTime   -- 時間
           } deriving (Eq, Show)
 
--- | 指した手
+-- | 指し手
 data MovePiece = MovePiece MoveFrom MoveTo -- 駒を動かす
                | DropPiece Piece    MoveTo -- 持ち駒を指す
                | Resign                    -- 投了
@@ -42,33 +48,50 @@ data MovePiece = MovePiece MoveFrom MoveTo -- 駒を動かす
                deriving (Eq, Show)
 
 -- | 結果
-data Result = InProgress                -- 対局中
-            | Drawn     DrawTermination -- 引き分け
-            | Win Color WinTermination  -- 勝負がついた
+data Result = InProgress            -- 対局中
+            | Drawn     Termination -- 引き分け
+            | Win Color Termination -- 勝負がついた
             deriving (Eq, Show)
 
--- | 引き分けの場合の終了状態
-data DrawTermination = Repetition     -- 千日手 (     Drawn)
-                     -- | Impasse        -- 持将棋 (Win, Drawn)
-                     deriving (Eq, Show)
+-- | 終了状態
+data Termination = Checkmate      -- Win 詰み
+                 | TimeForfeit    -- Win 時間切れ
+                 | Resignation    -- Win 投了
+                 | PerpetualCheck -- Win 連続王手の千日手
+                 | Repetition     -- Drawn 千日手
+                 -- | Impasse        -- Win, Drawn 持将棋
+                 -- | IllegalMove    -- Win, 不正な手 (https://en.wikipedia.org/wiki/Shogi#Illegal_move)
+                 deriving (Eq, Show)
 
--- | 勝負がついた場合の終了状態
-data WinTermination = Checkmate      -- 詰み
-                    | TimeForfeit    -- 時間切れ
-                    | Resignation    -- 投了
-                    | PerpetualCheck -- 連続王手の千日手
-                    -- | Impasse        -- 持将棋 (Win, Drawn)
-                    -- | IllegalMove    -- 不正な手 (https://en.wikipedia.org/wiki/Shogi#Illegal_move)
-                    deriving (Eq, Show)
+-- | 初期将棋データ作成
+initShogi :: Color -> Position -> Clock -> UTCTime -> Shogi
+initShogi color position clock time = Shogi
+                   { getStats  = Stat
+                               { getStatColor   = color
+                               , getPosition    = position
+                               , getClock       = clock
+                               , getStatUTCTime = time
+                               } : []
+                   , getMoves  = []
+                   , getResult = InProgress
+                   }
 
-shogi :: Position -> Moves -> Result -> Shogi
-shogi = undefined
-
-checkmate :: Color -> Shogi -> Bool
-checkmate = undefined
-
-check :: Color -> Shogi -> Bool
-check = undefined
-
-move :: MovePiece -> Shogi -> Maybe Shogi
+-- | 手を指す
+move :: Move -> Shogi -> Maybe Shogi
 move = undefined
+
+-- | 駒を動かす手
+movePiece :: Color -> MoveFrom -> MoveTo -> Move
+movePiece = undefined
+
+-- | 持ち駒を指す手
+dropPiece :: Color -> Piece -> MoveTo -> Move
+dropPiece = undefined
+
+-- | 投了する手
+resign :: Color -> Move
+resign = undefined
+
+-- | 時計を進める手
+clock :: Color -> Move
+clock = undefined
