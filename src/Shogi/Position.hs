@@ -87,8 +87,9 @@ drop piece to position = do
   stand' <- Stand.take piece    stand
   board' <- Board.drop piece to board
   guard $ not $ Board.check color board'
-  guard $ not $ drawPawnMate piece position { getBoard = board' }
-  return position { getBoard = board', getStand = stand' }
+  let position' = position { getBoard = board', getStand = stand' }
+  guard $ not $ drawPawnMate piece position'
+  return position'
   where
     board = getBoard position
     stand = getStand position
