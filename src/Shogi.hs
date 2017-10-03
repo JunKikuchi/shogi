@@ -25,7 +25,7 @@ data Stat = Stat
           { getStatColor    :: Color    -- 手番
           , getStatPosition :: Position -- 駒の配置
           , getStatClock    :: Clock    -- 時計
-          , getStatUTCTime  :: UTCTime  -- 時間
+          , getStatTime     :: UTCTime  -- 時間
           } deriving (Eq, Show)
 
 -- | 手順リスト
@@ -33,17 +33,17 @@ type Moves = [Move]
 
 -- | 手順
 data Move = Move
-          { getMoveColor   :: Color     -- 手番
-          , getMovePiece   :: MovePiece -- 指した手
-          , getMoveSec     :: Sec       -- 秒数
-          , getMoveUTCTime :: UTCTime   -- 時間
+          { getMoveColor :: Color     -- 手番
+          , getMovePiece :: MovePiece -- 指した手
+          , getMoveSec   :: Sec       -- 秒数
+          , getMoveTime  :: UTCTime   -- 時間
           } deriving (Eq, Show)
 
 -- | 指し手
 data MovePiece = MovePiece MoveFrom MoveTo -- 駒を動かす
                | DropPiece Piece    MoveTo -- 持ち駒を指す
                | Resign                    -- 投了
-               | Countdown                 -- 時計を進める
+               | TimeIsUp                  -- 時間切れ
                -- | Impasse                   -- 持将棋
                deriving (Eq, Show)
 
@@ -67,31 +67,31 @@ data Termination = Checkmate      -- Win 詰み
 initShogi :: Color -> Position -> Clock -> UTCTime -> Shogi
 initShogi color position clock time = Shogi
                    { getStats  = Stat
-                               { getStatColor   = color
-                               , getPosition    = position
-                               , getClock       = clock
-                               , getStatUTCTime = time
+                               { getStatColor    = color
+                               , getStatPosition = position
+                               , getStatClock    = clock
+                               , getStatTime     = time
                                } : []
                    , getMoves  = []
                    , getResult = InProgress
                    }
+
+-- | 経過時間チェック
+countdown :: Shogi -> Sec -> UTCTime -> Maybe Shogi
+countdown = undefined
 
 -- | 手を指す
 move :: Move -> Shogi -> Sec -> UTCTime -> Maybe Shogi
 move = undefined
 
 -- | 駒を動かす手
-movePiece :: Color -> MoveFrom -> MoveTo -> Move
+movePiece :: MoveFrom -> MoveTo -> Move
 movePiece = undefined
 
 -- | 持ち駒を指す手
-dropPiece :: Color -> Piece -> MoveTo -> Move
+dropPiece :: Piece -> MoveTo -> Move
 dropPiece = undefined
 
 -- | 投了する手
-resign :: Color -> Move
+resign :: Move
 resign = undefined
-
--- | 時計を進める手
-countdown :: Color -> Move
-countdown = undefined
