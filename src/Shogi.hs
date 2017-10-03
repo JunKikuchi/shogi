@@ -22,10 +22,10 @@ type Stats = [Stat]
 
 -- | 状態
 data Stat = Stat
-          { getStatColor   :: Color    -- 手番
-          , getPosition    :: Position -- 駒の配置
-          , getClock       :: Clock    -- 時計
-          , getStatUTCTime :: UTCTime  -- 時間
+          { getStatColor    :: Color    -- 手番
+          , getStatPosition :: Position -- 駒の配置
+          , getStatClock    :: Clock    -- 時計
+          , getStatUTCTime  :: UTCTime  -- 時間
           } deriving (Eq, Show)
 
 -- | 手順リスト
