@@ -77,7 +77,7 @@ initShogi color position clock time = Shogi
                    }
 
 -- | 手を指す
-move :: Move -> Shogi -> Maybe Shogi
+move :: Move -> Shogi -> Sec -> UTCTime -> Maybe Shogi
 move = undefined
 
 -- | 駒を動かす手
