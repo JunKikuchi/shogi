@@ -35,7 +35,7 @@ type Moves = [Move]
 data Move = Move
           { getMoveColor   :: Color     -- 手番
           , getMovePiece   :: MovePiece -- 指した手
-          , getSec         :: Sec       -- 秒数
+          , getMoveSec     :: Sec       -- 秒数
           , getMoveUTCTime :: UTCTime   -- 時間
           } deriving (Eq, Show)
 
