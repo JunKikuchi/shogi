@@ -43,7 +43,7 @@ data Move = Move
 data MovePiece = MovePiece MoveFrom MoveTo -- 駒を動かす
                | DropPiece Piece    MoveTo -- 持ち駒を指す
                | Resign                    -- 投了
-               | Clock                     -- 時計を進める
+               | Countdown                 -- 時計を進める
                -- | Impasse                   -- 持将棋
                deriving (Eq, Show)
 
@@ -93,5 +93,5 @@ resign :: Color -> Move
 resign = undefined
 
 -- | 時計を進める手
-clock :: Color -> Move
-clock = undefined
+countdown :: Color -> Move
+countdown = undefined
