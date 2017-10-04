@@ -1,5 +1,7 @@
 module Shogi.Clock (Clock, Sec) where
 
 import GameClock.Clock.Sec
+import GameClock
+import Shogi.Color
 
-data Clock = Clock deriving (Eq, Show)
+type Clock = GameClock Color
