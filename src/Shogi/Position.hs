@@ -2,6 +2,7 @@ module Shogi.Position
   ( Position
   , fromLists
   , toLists
+  , hirate
   , checkmate
   , check
   , move
@@ -36,16 +37,62 @@ import Shogi.Color
  香 桂 銀 金 王 金 銀 桂 香 R9
 --}
 
--- | 将棋
+-- | 局面
 data Position = Position { getBoard :: Board, getStand :: Stand } deriving (Eq, Show)
 
--- | 将棋盤作成用リストと駒台作成用リストから将棋作成
+-- | 将棋盤作成用リストと駒台作成用リストから局面作成
 fromLists :: ([(Square, Piece)], [(Piece)]) -> Position
 fromLists (board, stand) = Position (Board.fromList board) (Stand.fromList stand)
 
--- | 将棋から将棋盤リストと駒台リストのタプルを作成
+-- | 局面から将棋盤リストと駒台リストのタプルを作成
 toLists :: Position -> ([(Square, Piece)], [(Piece)])
 toLists position = (Board.toList $ getBoard position, Stand.toList $ getStand position)
+
+-- | 平手の局面を作成
+hirate :: Position
+hirate = fromLists (board, [])
+  where
+    board = [ ((F9, R1), Piece.lance  False White)
+            , ((F8, R1), Piece.knight False White)
+            , ((F7, R1), Piece.silver False White)
+            , ((F6, R1), Piece.gold         White)
+            , ((F5, R1), Piece.king         White)
+            , ((F4, R1), Piece.gold         White)
+            , ((F3, R1), Piece.silver False White)
+            , ((F2, R1), Piece.knight False White)
+            , ((F1, R1), Piece.lance  False White)
+            , ((F8, R2), Piece.rook   False White)
+            , ((F2, R2), Piece.bishop False White)
+            , ((F9, R3), Piece.pawn   False White)
+            , ((F8, R3), Piece.pawn   False White)
+            , ((F7, R3), Piece.pawn   False White)
+            , ((F6, R3), Piece.pawn   False White)
+            , ((F5, R3), Piece.pawn   False White)
+            , ((F4, R3), Piece.pawn   False White)
+            , ((F3, R3), Piece.pawn   False White)
+            , ((F2, R3), Piece.pawn   False White)
+            , ((F1, R3), Piece.pawn   False White)
+            , ((F9, R7), Piece.pawn   False Black)
+            , ((F8, R7), Piece.pawn   False Black)
+            , ((F7, R7), Piece.pawn   False Black)
+            , ((F6, R7), Piece.pawn   False Black)
+            , ((F5, R7), Piece.pawn   False Black)
+            , ((F4, R7), Piece.pawn   False Black)
+            , ((F3, R7), Piece.pawn   False Black)
+            , ((F2, R7), Piece.pawn   False Black)
+            , ((F1, R7), Piece.pawn   False Black)
+            , ((F8, R8), Piece.bishop False Black)
+            , ((F2, R8), Piece.rook   False Black)
+            , ((F9, R9), Piece.lance  False Black)
+            , ((F8, R9), Piece.knight False Black)
+            , ((F7, R9), Piece.silver False Black)
+            , ((F6, R9), Piece.gold         Black)
+            , ((F5, R9), Piece.king         Black)
+            , ((F4, R9), Piece.gold         Black)
+            , ((F3, R9), Piece.silver False Black)
+            , ((F2, R9), Piece.knight False Black)
+            , ((F1, R9), Piece.lance  False Black)
+            ]
 
 -- | 詰み判定
 checkmate :: Color -> Position -> Bool

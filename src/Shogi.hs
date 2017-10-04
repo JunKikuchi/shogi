@@ -1,11 +1,13 @@
 module Shogi
   ( Shogi
   , initShogi
+  , hirate
   ) where
 
 import Data.Time.Clock (UTCTime)
 import Shogi.Color
 import Shogi.Clock
+import qualified Shogi.Position as Position
 import Shogi.Position (Position)
 import Shogi.Piece    (Piece)
 import Shogi.Square
@@ -78,6 +80,10 @@ initShogi color position clock time = shogi
          , statClock    = clock
          , statTime     = time
          }
+
+-- | 平手初期データ作成
+hirate :: Clock -> UTCTime -> Shogi
+hirate = initShogi Black Position.hirate
 
 {--
 -- | 経過時間チェック
