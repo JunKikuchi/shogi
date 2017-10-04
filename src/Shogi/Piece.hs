@@ -1,9 +1,9 @@
 module Shogi.Piece
   ( Piece
   , Type(..)
-  , getType
-  , getPromotion
-  , getColor
+  , pieceType
+  , piecePromotion
+  , pieceColor
   , Promotion
   , pawn
   , lance
@@ -25,9 +25,9 @@ import Shogi.Square
 
 -- | 駒
 data Piece = Piece
-           { getType     :: Type
-           , getPromotion :: Promotion
-           , getColor    :: Color
+           { pieceType      :: Type
+           , piecePromotion :: Promotion
+           , pieceColor     :: Color
            } deriving (Eq, Ord, Show)
 
 -- | 駒の種類
@@ -78,7 +78,7 @@ promote :: Piece -> Maybe Piece
 promote (Piece _ True _) = Nothing
 promote (Piece Gold _ _) = Nothing
 promote (Piece King _ _) = Nothing
-promote piece = Just piece { getPromotion = True }
+promote piece = Just piece { piecePromotion = True }
 
 -- | 成り不成
 promotions :: Piece -> Square -> [Promotion]

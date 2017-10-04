@@ -12,9 +12,9 @@ import Shogi.Square
 
 -- | 将棋データ
 data Shogi = Shogi
-           { getStats  :: Stats  -- 状態リスト
-           , getMoves  :: Moves  -- 手順リスト
-           , getResult :: Result -- 結果
+           { shogiStats  :: Stats  -- 状態リスト
+           , shogiMoves  :: Moves  -- 手順リスト
+           , shogiResult :: Result -- 結果
            } deriving (Eq, Show)
 
 -- | 駒の状態リスト
@@ -22,10 +22,10 @@ type Stats = [Stat]
 
 -- | 状態
 data Stat = Stat
-          { getStatColor    :: Color    -- 手番
-          , getStatPosition :: Position -- 駒の配置
-          , getStatClock    :: Clock    -- 時計
-          , getStatTime     :: UTCTime  -- 時間
+          { statColor    :: Color    -- 手番
+          , statPosition :: Position -- 駒の配置
+          , statClock    :: Clock    -- 時計
+          , statTime     :: UTCTime  -- 時間
           } deriving (Eq, Show)
 
 -- | 手順リスト
@@ -33,10 +33,10 @@ type Moves = [Move]
 
 -- | 手順
 data Move = Move
-          { getMoveColor :: Color     -- 手番
-          , getMovePiece :: MovePiece -- 指した手
-          , getMoveSec   :: Sec       -- 秒数
-          , getMoveTime  :: UTCTime   -- 時間
+          { moveColor :: Color     -- 手番
+          , movePiece :: MovePiece -- 指した手
+          , moveSec   :: Sec       -- 秒数
+          , moveTime  :: UTCTime   -- 時間
           } deriving (Eq, Show)
 
 -- | 指し手
@@ -65,17 +65,21 @@ data Termination = Checkmate      -- Win 詰み
 
 -- | 初期将棋データ作成
 initShogi :: Color -> Position -> Clock -> UTCTime -> Shogi
-initShogi color position clock time = Shogi
-                   { getStats  = Stat
-                               { getStatColor    = color
-                               , getStatPosition = position
-                               , getStatClock    = clock
-                               , getStatTime     = time
-                               } : []
-                   , getMoves  = []
-                   , getResult = InProgress
-                   }
+initShogi color position clock time = shogi
+  where
+    shogi = Shogi
+          { shogiStats  = [stat]
+          , shogiMoves  = []
+          , shogiResult = InProgress
+          }
+    stat = Stat
+         { statColor    = color
+         , statPosition = position
+         , statClock    = clock
+         , statTime     = time
+         }
 
+{--
 -- | 経過時間チェック
 countdown :: Shogi -> Sec -> UTCTime -> Maybe Shogi
 countdown = undefined
@@ -95,3 +99,4 @@ dropPiece = undefined
 -- | 投了する手
 resign :: Move
 resign = undefined
+--}

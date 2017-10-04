@@ -14,7 +14,7 @@ import Shogi.Piece
 import Shogi.Color
 
 -- | 駒台
-newtype Stand = Stand [Piece] deriving (Eq, Show)
+newtype Stand = Stand { unStand :: [Piece] } deriving (Eq, Show)
 
 -- | 駒のリストから駒台作成
 fromList :: [Piece] -> Stand
@@ -26,11 +26,11 @@ toList (Stand stand) = stand
 
 -- | 手番の持ち駒リスト
 pieces :: Color -> Stand -> [Piece]
-pieces color (Stand stand) = filter (\piece -> getColor piece == color) stand
+pieces color (Stand stand) = filter (\piece -> pieceColor piece == color) stand
 
 -- | 駒台に駒を載せる
 put :: Piece -> Stand -> Stand
-put piece (Stand stand) = Stand $ piece { getColor = turn $ getColor piece }:stand
+put piece (Stand stand) = Stand $ piece { pieceColor = turn $ pieceColor piece }:stand
 
 -- | 駒台から駒を取り除く
 take :: Piece -> Stand -> Maybe Stand

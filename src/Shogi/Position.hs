@@ -19,7 +19,7 @@ import qualified Shogi.Stand as Stand
 import qualified Shogi.Piece as Piece
 import Shogi.Board (Board)
 import Shogi.Stand (Stand)
-import Shogi.Piece (Piece)
+import Shogi.Piece (Piece, pieceType, pieceColor)
 import Shogi.Square
 import Shogi.Color
 
@@ -93,7 +93,7 @@ drop piece to position = do
   where
     board = getBoard position
     stand = getStand position
-    color = Piece.getColor piece
+    color = pieceColor piece
 
 -- | 駒を動かせる升目
 moves :: MoveFrom -> Position -> [MoveTo]
@@ -116,11 +116,10 @@ drops piece position = do
   return square
   where
     board = getBoard position
-    color = Piece.getColor piece
+    color = pieceColor piece
 
 -- | 打ち歩詰め判定
 drawPawnMate :: Piece -> Position -> Bool
-drawPawnMate piece position = pieceType == Piece.Pawn && checkmate turnColor position
+drawPawnMate piece position = pieceType piece == Piece.Pawn && checkmate turnColor position
   where
-    pieceType = Piece.getType piece
-    turnColor = turn $ Piece.getColor piece
+    turnColor = turn $ pieceColor piece

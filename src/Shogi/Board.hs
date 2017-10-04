@@ -16,12 +16,12 @@ import Data.Maybe (maybe, maybeToList)
 import qualified Data.Map as Map
 import Control.Monad (guard)
 import qualified Shogi.Piece as Piece
-import Shogi.Piece (Piece)
+import Shogi.Piece (Piece, pieceType, piecePromotion, pieceColor)
 import Shogi.Color
 import Shogi.Square
 
 -- | 将棋盤
-newtype Board = Board { getBoard :: (Map.Map Square Piece) } deriving (Eq, Show)
+newtype Board = Board { unBoard :: (Map.Map Square Piece) } deriving (Eq, Show)
 
 -- | 升目と駒のリストから将棋盤作成
 fromList :: [(Square, Piece)] -> Board
@@ -49,36 +49,36 @@ kingSquare color board = if null kings then Nothing else Just $ fst $ head kings
 
 -- | 手番の駒リスト
 pieces :: Color -> Board -> [(Square, Piece)]
-pieces color = filter (\(_, piece) -> color == Piece.getColor piece) . toList
+pieces color = filter (\(_, piece) -> color == pieceColor piece) . toList
 
 -- | 駒を動かす
 move :: MoveFrom -> MoveTo -> Board -> Maybe Board
 move from@(from', color) moveTo@(to, promoted) board = do
   piece <- lookup from' board
-  guard $ Piece.getColor piece == color
+  guard $ pieceColor piece == color
   guard $ elem moveTo $ Shogi.Board.moves from board
-  let deletedBoard = Map.delete from' (getBoard board)
-  return board { getBoard = Map.insert to piece { Piece.getPromotion = promoted } deletedBoard }
+  let deletedBoard = Map.delete from' (unBoard board)
+  return board { unBoard = Map.insert to piece { piecePromotion = promoted } deletedBoard }
 
 -- | 持ち駒を指す
 drop :: Piece -> Square -> Board -> Maybe Board
 drop piece square board = if drops' then Just drop' else Nothing
   where
     drops' = elem square $ Shogi.Board.drops piece board
-    drop'  = board { getBoard = Map.insert square piece $ getBoard board }
+    drop'  = board { unBoard = Map.insert square piece $ unBoard board }
 
 -- | 駒を動かせる升目リスト
 moves :: MoveFrom -> Board -> [MoveTo]
 moves from@(from', color) board = do
   piece <- maybeToList $ lookup from' board
-  guard $ Piece.getColor piece == color
+  guard $ pieceColor piece == color
   squares <- Piece.moves piece from'
   moves' squares piece board
   where
     moves' [] _ _ = []
     moves' (square:squares) piece board = do
       case lookup square board of
-        (Just piece') -> if Piece.getColor piece' == Piece.getColor piece
+        (Just piece') -> if pieceColor piece' == pieceColor piece
                          then []
                          else moveTo'
         Nothing       -> moveTo' ++ moves' squares piece board
@@ -88,11 +88,11 @@ moves from@(from', color) board = do
 -- | 持ち駒を指せる升目リスト
 drops :: Piece -> Board -> [Square]
 drops piece board
-  | Piece.getType piece == Piece.Pawn = filterPawnFiles squares
+  | pieceType piece == Piece.Pawn = filterPawnFiles squares
   | otherwise                         = squares
   where
     filterPawnFiles = filter (\(file, _) -> not $ elem file pawnFiles)
-    pawnFiles       = map (fst . fst) $ filter (\(_, piece) -> Piece.getType piece == Piece.Pawn && Piece.getPromotion piece == False) $ pieces (Piece.getColor piece) board
+    pawnFiles       = map (fst . fst) $ filter (\(_, piece) -> pieceType piece == Piece.Pawn && piecePromotion piece == False) $ pieces (pieceColor piece) board
     squares         = filter (\square -> (lookup square board) == Nothing) $ Piece.drops piece
 
 -- | 升目の駒
