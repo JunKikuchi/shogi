@@ -35,19 +35,19 @@ type Moves = [Move]
 
 -- | 手順
 data Move = Move
-          { moveColor :: Color     -- 手番
-          , movePiece :: MovePiece -- 指した手
-          , moveSec   :: Sec       -- 秒数
-          , moveTime  :: UTCTime   -- 時間
+          { moveColor    :: Color    -- 手番
+          , moveMoveType :: MoveType -- 指した手
+          , moveSec      :: Sec      -- 秒数
+          , moveTime     :: UTCTime  -- 時間
           } deriving (Eq, Show)
 
 -- | 指し手
-data MovePiece = MovePiece MoveFrom MoveTo -- 駒を動かす
-               | DropPiece Piece    MoveTo -- 持ち駒を指す
-               | Resign                    -- 投了
-               | TimeIsUp                  -- 時間切れ
-               -- | Impasse                   -- 持将棋
-               deriving (Eq, Show)
+data MoveType = MovePiece MoveFrom MoveTo -- 駒を動かす
+              | DropPiece Piece    MoveTo -- 持ち駒を指す
+              | Resign                    -- 投了
+              | TimeIsUp                  -- 時間切れ
+              -- | Impasse                   -- 持将棋
+              deriving (Eq, Show)
 
 -- | 結果
 data Result = InProgress            -- 対局中
