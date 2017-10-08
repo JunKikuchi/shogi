@@ -149,8 +149,8 @@ move mt@(MovePiece square to) sec time shogi = do
               , moveTime     = time
               }
     let shogi'' = shogi'
-                { shogiStats = stat':shogiStats shogi'
-                , shogiMoves = move':shogiMoves shogi'
+                { shogiStats = stat':shogiStats shogi
+                , shogiMoves = move':shogiMoves shogi
                 }
     return $ if Position.checkmate (turn color) position
       then shogi'' { shogiResult = Win color Checkmate }
