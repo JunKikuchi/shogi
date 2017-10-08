@@ -20,7 +20,9 @@ module Shogi
   , resign
   ) where
 
+import Control.Monad (guard)
 import Data.Time.Clock (UTCTime)
+import qualified GameClock as GameClock
 import Shogi.Color
 import Shogi.Clock
 import qualified Shogi.Position as Position
@@ -107,7 +109,16 @@ currentStat = head . shogiStats
 
 -- | 経過時間チェック
 countdown :: Sec -> UTCTime -> Shogi -> Maybe Shogi
-countdown = undefined
+countdown sec time shogi = do
+  guard $ shogiResult shogi == InProgress
+  return $ if GameClock.over color clock
+           then shogi' { shogiResult = Win (turn color) TimeForfeit }
+           else shogi'
+    where
+      shogi' = shogi { shogiStats = stat { statClock = clock }:stats }
+      clock  = GameClock.countdown sec color $ statClock stat
+      color  = statColor stat
+      (stat:stats) = shogiStats shogi
 
 -- | 手を指す
 move :: Move -> Sec -> UTCTime -> Shogi -> Maybe Shogi
