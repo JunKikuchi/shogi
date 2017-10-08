@@ -57,11 +57,11 @@ data Move = Move
           } deriving (Eq, Show)
 
 -- | 指し手
-data MoveType = MovePiece MoveFrom MoveTo -- 駒を動かす
-              | DropPiece Piece    MoveTo -- 持ち駒を指す
-              | Resign                    -- 投了
-              | TimeIsUp                  -- 時間切れ
-              -- | Impasse                   -- 持将棋
+data MoveType = MovePiece Square MoveTo -- 駒を動かす
+              | DropPiece Piece  MoveTo -- 持ち駒を指す
+              | Resign                  -- 投了
+              | TimeIsUp                -- 時間切れ
+              -- | Impasse                 -- 持将棋
               deriving (Eq, Show)
 
 -- | 結果
@@ -109,7 +109,7 @@ move :: Move -> Sec -> UTCTime -> Shogi -> Maybe Shogi
 move = undefined
 
 -- | 駒を動かす手
-movePiece :: MoveFrom -> MoveTo -> Move
+movePiece :: Square -> MoveTo -> Move
 movePiece = undefined
 
 -- | 持ち駒を指す手
