@@ -8,6 +8,11 @@ module Shogi
   , statPosition
   , statClock
   , statTime
+  , Move
+  , moveColor
+  , moveMoveType
+  , moveSec
+  , moveTime
   , Result(..)
   , Termination(..)
   , initShogi
@@ -112,26 +117,53 @@ countdown :: Sec -> UTCTime -> Shogi -> Maybe Shogi
 countdown sec time shogi = do
   guard $ shogiResult shogi == InProgress
   return $ if GameClock.over color clock
-           then shogi' { shogiResult = Win (turn color) TimeForfeit }
-           else shogi'
-    where
-      shogi' = shogi { shogiStats = stat { statClock = clock }:stats }
-      clock  = GameClock.countdown sec color $ statClock stat
-      color  = statColor stat
-      (stat:stats) = shogiStats shogi
+    then shogi' { shogiResult = Win (turn color) TimeForfeit }
+    else shogi'
+  where
+    shogi' = shogi { shogiStats = stat { statClock = clock }:stats }
+    clock  = GameClock.countdown sec color $ statClock stat
+    color  = statColor stat
+    (stat:stats) = shogiStats shogi
 
 -- | 手を指す
-move :: Move -> Sec -> UTCTime -> Shogi -> Maybe Shogi
-move = undefined
+move :: MoveType -> Sec -> UTCTime -> Shogi -> Maybe Shogi
+move mt@(MovePiece square to) sec time shogi = do
+  shogi' <- countdown sec time shogi
+  if shogiResult shogi' /= InProgress
+  then return shogi'
+  else do
+    let stat  = currentStat shogi'
+    let color = statColor stat
+    let from  = (square, color)
+    let pos   = statPosition stat
+    position <- Position.move from to pos
+    let stat' = stat
+              { statColor    = turn color
+              , statPosition = position
+              , statTime     = time
+              }
+    let move' = Move
+              { moveColor    = color
+              , moveMoveType = mt
+              , moveSec      = sec
+              , moveTime     = time
+              }
+    let shogi'' = shogi'
+                { shogiStats = stat':shogiStats shogi'
+                , shogiMoves = move':shogiMoves shogi'
+                }
+    return $ if Position.checkmate (turn color) position
+      then shogi'' { shogiResult = Win color Checkmate }
+      else shogi''
 
 -- | 駒を動かす手
-movePiece :: Square -> MoveTo -> Move
-movePiece = undefined
+movePiece :: Square -> MoveTo -> MoveType
+movePiece = MovePiece
 
 -- | 持ち駒を指す手
-dropPiece :: Piece -> MoveTo -> Move
-dropPiece = undefined
+dropPiece :: Piece -> MoveTo -> MoveType
+dropPiece = DropPiece
 
 -- | 投了する手
-resign :: Move
-resign = undefined
+resign :: MoveType
+resign = Resign

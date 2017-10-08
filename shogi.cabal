@@ -46,6 +46,7 @@ test-suite shogi-test
   other-modules:       ShogiTest
                      , ShogiTest.HirateTest
                      , ShogiTest.CountdownTest
+                     , ShogiTest.MoveTest
                      , ShogiTest.PositionTest
                      , ShogiTest.PositionTest.ListsTest
                      , ShogiTest.PositionTest.CheckTest

@@ -42,7 +42,7 @@ tests = testGroup "countdown"
 後手の時計を進める step = do
   step "後手番の局面を作成"
   time <- getCurrentTime
-  let mv     = movePiece (F2, R7) ((F2, R7), False)
+  let mv     = movePiece (F2, R7) ((F2, R6), False)
   let shogi' = move mv 5 time (newShogi time) >>= countdown 10 time
   assertBool "結果は Just" $ isJust shogi'
 
@@ -50,7 +50,7 @@ tests = testGroup "countdown"
   let stat  = currentStat $ shogi
 
   step "時計が進む"
-  statClock stat @?= GC.countdown 10 White shogiClock
+  statClock stat @?= (GC.countdown 5 Black $ GC.countdown 10 White shogiClock)
 
   step "手番は変わらない"
   statColor stat @?= White
@@ -81,7 +81,7 @@ tests = testGroup "countdown"
 後手時間切れ step = do
   step "後手番の局面を作成"
   time <- getCurrentTime
-  let mv     = movePiece (F2, R7) ((F2, R7), False)
+  let mv     = movePiece (F2, R7) ((F2, R6), False)
   let shogi' = move mv 5 time (newShogi time) >>= countdown (60 * 10 + 1) time
   assertBool "結果は Just" $ isJust shogi'
 
@@ -89,7 +89,7 @@ tests = testGroup "countdown"
   let stat  = currentStat $ shogi
 
   step "時計が進む"
-  statClock stat @?= GC.countdown (60 * 10 + 1) White shogiClock
+  statClock stat @?= (GC.countdown 5 Black $ GC.countdown (60 * 10 + 1) White shogiClock)
 
   step "手番は変わらない"
   statColor stat @?= White
