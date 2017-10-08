@@ -47,6 +47,7 @@ test-suite shogi-test
                      , ShogiTest.HirateTest
                      , ShogiTest.CountdownTest
                      , ShogiTest.MoveTest
+                     , ShogiTest.MoveTest.MovePieceTest
                      , ShogiTest.PositionTest
                      , ShogiTest.PositionTest.ListsTest
                      , ShogiTest.PositionTest.CheckTest
