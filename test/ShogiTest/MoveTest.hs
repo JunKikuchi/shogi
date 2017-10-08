@@ -15,7 +15,11 @@ import qualified GameClock.Clock (suddenDeath, countdown)
 
 tests :: TestTree
 tests = testGroup "move"
-  [ testCaseSteps "駒を動かす" 駒を動かす
+  [ testCaseSteps "駒を動かす"    駒を動かす
+  , testCaseSteps "先手詰み"      先手詰み
+  , testCaseSteps "後手詰み"      後手詰み
+  , testCaseSteps "先手時間切れ"  先手時間切れ
+  , testCaseSteps "後手時間切れ"  後手時間切れ
   ]
 
 駒を動かす :: (String -> IO ()) -> IO ()
@@ -26,6 +30,24 @@ tests = testGroup "move"
 
   shogi1 <- 先手26歩 step shogi
   shogi2 <- 後手84歩 step shogi1
+
+  step "手順"
+  let moves' = shogiMoves shogi2
+  length moves' @?= 2
+
+  step "手順1"
+  let move1 = moves' !! 1
+  moveColor    move1 @?= Black
+  moveMoveType move1 @?= movePiece (F2, R7) ((F2, R6), False)
+  moveSec      move1 @?= 1
+  moveTime     move1 @?= addUTCTime (fromInteger 1) time
+
+  step "手順2"
+  let move2 = moves' !! 0
+  moveColor    move2 @?= White
+  moveMoveType move2 @?= movePiece (F8, R3) ((F8, R4), False)
+  moveSec      move2 @?= 3
+  moveTime     move2 @?= addUTCTime (fromInteger 3) (statTime . currentStat $ shogi1)
 
   先手27歩には指せない step shogi2
   後手83歩には指せない step shogi2
@@ -203,3 +225,149 @@ tests = testGroup "move"
 
   step "指せない"
   shogi' @?= Nothing
+
+
+{--
+ F9 F8 F7 F6 F5 F4 F3 F2 F1
+            V歩V金          R7
+                            R8
+             王             R9
+--}
+先手詰み :: (String -> IO ()) -> IO ()
+先手詰み step = do
+  time1 <- getCurrentTime
+  let position1 = Shogi.Position.fromLists ([((F5, R7), pawn False White), ((F4, R7), gold White), ((F5, R9), king Black)], [])
+  let clock1    = clock $ GameClock.Clock.suddenDeath 1 (60 * 10)
+  let shogi1    = Shogi.initShogi White position1 clock1 time1
+
+  step "後手58金"
+  let time2  = addUTCTime (fromInteger 1) time1
+  let shogi2 = fromJust $ Shogi.move (movePiece (F4, R7) ((F5, R8), False)) 1 time2 shogi1
+
+  step "詰み"
+  shogiResult shogi2 @?= Win White Checkmate
+
+  step "局面"
+  let stats = shogiStats shogi2
+  length stats @?= 2
+
+  step "局面1"
+  let stat1  = stats !! 1
+  statColor    stat1 @?= White
+  statPosition stat1 @?= Shogi.Position.fromLists ([((F5, R7), pawn False White), ((F4, R7), gold White), ((F5, R9), king Black)], [])
+  statClock    stat1 @?= clock1
+  statTime     stat1 @?= time1
+
+  step "局面2"
+  let stat2 = stats !! 0
+  statColor    stat2 @?= Black
+  statPosition stat2 @?= Shogi.Position.fromLists ([((F5, R7), pawn False White), ((F5, R8), gold White), ((F5, R9), king Black)], [])
+  statClock    stat2 @?= GameClock.countdown 1 White clock1
+  statTime     stat2 @?= time2
+
+  step "手順"
+  let moves' = shogiMoves shogi2
+  let move1  = head moves'
+  length moves' @?= 1
+  moveColor    move1 @?= White
+  moveMoveType move1 @?= movePiece (F4, R7) ((F5, R8), False)
+  moveSec      move1 @?= 1
+  moveTime     move1 @?= time2
+
+  return ()
+
+{--
+ F9 F8 F7 F6 F5 F4 F3 F2 F1
+            V王             R1
+                            R2
+             歩 金          R3
+--}
+後手詰み :: (String -> IO ()) -> IO ()
+後手詰み step = do
+  time1 <- getCurrentTime
+  let position1 = Shogi.Position.fromLists ([((F5, R1), king White), ((F5, R3), pawn False Black), ((F4, R3), gold Black)], [])
+  let clock1    = clock $ GameClock.Clock.suddenDeath 1 (60 * 10)
+  let shogi1    = Shogi.initShogi Black position1 clock1 time1
+
+  step "先手52金"
+  let time2  = addUTCTime (fromInteger 1) time1
+  let shogi2 = fromJust $ Shogi.move (movePiece (F4, R3) ((F5, R2), False)) 1 time2 shogi1
+
+  step "詰み"
+  shogiResult shogi2 @?= Win Black Checkmate
+
+  step "局面"
+  let stats = shogiStats shogi2
+  length stats @?= 2
+
+  step "局面1"
+  let stat1  = stats !! 1
+  statColor    stat1 @?= Black
+  statPosition stat1 @?= Shogi.Position.fromLists ([((F5, R1), king White), ((F5, R3), pawn False Black), ((F4, R3), gold Black)], [])
+  statClock    stat1 @?= clock1
+  statTime     stat1 @?= time1
+
+  step "局面2"
+  let stat2 = stats !! 0
+  statColor    stat2 @?= White
+  statPosition stat2 @?= Shogi.Position.fromLists ([((F5, R1), king White), ((F5, R3), pawn False Black), ((F5, R2), gold Black)], [])
+  statClock    stat2 @?= GameClock.countdown 1 Black clock1
+  statTime     stat2 @?= time2
+
+  step "手順"
+  let moves' = shogiMoves shogi2
+  let move'  = head moves'
+  length moves' @?= 1
+  moveColor    move' @?= Black
+  moveMoveType move' @?= movePiece (F4, R3) ((F5, R2), False)
+  moveSec      move' @?= 1
+  moveTime     move' @?= time2
+
+  return ()
+
+先手時間切れ :: (String -> IO ()) -> IO ()
+先手時間切れ step = do
+  time <- getCurrentTime
+  let shogi = Shogi.hirate (clock $ GameClock.Clock.suddenDeath 1 (60 * 10)) time
+
+  step "先手26歩"
+  let sec1   = 60 * 10
+  let time1  = addUTCTime (fromInteger sec1) $ statTime $ currentStat shogi
+  let shogi1 = fromJust $ Shogi.move (movePiece (F2, R7) ((F2, R6), False)) (fromIntegral sec1) time1 shogi
+
+  step "時間切れ"
+  shogiResult shogi1 @?= Win White TimeForfeit
+
+  step "手順"
+  shogiMoves  shogi1 @?= []
+
+  return ()
+
+後手時間切れ :: (String -> IO ()) -> IO ()
+後手時間切れ step = do
+  time <- getCurrentTime
+  let shogi = Shogi.hirate (clock $ GameClock.Clock.suddenDeath 1 (60 * 10)) time
+
+  step "先手26歩"
+  let sec1   = 10
+  let time1  = addUTCTime (fromInteger sec1) $ statTime $ currentStat shogi
+  let shogi1 = fromJust $ Shogi.move (movePiece (F2, R7) ((F2, R6), False)) (fromIntegral sec1) time1 shogi
+
+  step "後手84歩"
+  let sec2   = 60 * 10
+  let time2  = addUTCTime (fromInteger sec2) $ statTime $ currentStat shogi1
+  let shogi2 = fromJust $ Shogi.move (movePiece (F8, R3) ((F8, R4), False)) (fromIntegral sec2) time2 shogi1
+
+  step "時間切れ"
+  shogiResult shogi2 @?= Win Black TimeForfeit
+
+  step "手順"
+  let moves' = shogiMoves shogi2
+  let move'  = head moves'
+  length moves' @?= 1
+  moveColor    move' @?= Black
+  moveMoveType move' @?= movePiece (F2, R7) ((F2, R6), False)
+  moveSec      move' @?= 10
+  moveTime     move' @?= time1
+
+  return ()
