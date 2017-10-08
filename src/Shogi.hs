@@ -12,6 +12,7 @@ module Shogi
   , Termination(..)
   , initShogi
   , hirate
+  , currentStat
   , countdown
   , move
   , movePiece
@@ -34,7 +35,7 @@ data Shogi = Shogi
            , shogiResult :: Result -- 結果
            } deriving (Eq, Show)
 
--- | 駒の状態リスト
+-- | 状態リスト
 type Stats = [Stat]
 
 -- | 状態
@@ -99,6 +100,10 @@ initShogi color position clock time = shogi
 -- | 平手初期データ作成
 hirate :: Clock -> UTCTime -> Shogi
 hirate = initShogi Black Position.hirate
+
+-- | 現在の状態取得
+currentStat :: Shogi -> Stat
+currentStat = head . shogiStats
 
 -- | 経過時間チェック
 countdown :: Sec -> UTCTime -> Shogi -> Maybe Shogi

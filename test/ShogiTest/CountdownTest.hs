@@ -27,7 +27,7 @@ tests = testGroup "countdown"
   assertBool "結果は Just" $ isJust shogi'
 
   let shogi = fromJust shogi'
-  let stat  = head . shogiStats $ shogi
+  let stat  = currentStat $ shogi
 
   step "時計が進む"
   statClock stat @?= GC.countdown 10 Black shogiClock
@@ -47,7 +47,7 @@ tests = testGroup "countdown"
   assertBool "結果は Just" $ isJust shogi'
 
   let shogi = fromJust shogi'
-  let stat  = head . shogiStats $ shogi
+  let stat  = currentStat $ shogi
 
   step "時計が進む"
   statClock stat @?= GC.countdown 10 White shogiClock
@@ -66,7 +66,7 @@ tests = testGroup "countdown"
   assertBool "結果は Just" $ isJust shogi'
 
   let shogi = fromJust shogi'
-  let stat  = head . shogiStats $ shogi
+  let stat  = currentStat $ shogi
 
   step "時計が進む"
   statClock stat @?= GC.countdown (60 * 10 + 1) Black shogiClock
@@ -86,7 +86,7 @@ tests = testGroup "countdown"
   assertBool "結果は Just" $ isJust shogi'
 
   let shogi = fromJust shogi'
-  let stat  = head . shogiStats $ shogi
+  let stat  = currentStat $ shogi
 
   step "時計が進む"
   statClock stat @?= GC.countdown (60 * 10 + 1) White shogiClock

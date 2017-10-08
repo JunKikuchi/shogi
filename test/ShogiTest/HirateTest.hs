@@ -21,7 +21,7 @@ tests = testGroup "hirate"
   let stats  = shogiStats shogi
   let moves  = shogiMoves shogi
   let result = shogiResult shogi
-  let stat   = head stats
+  let stat   = currentStat shogi
 
   step "手番の数"
   length stats @?= 1
