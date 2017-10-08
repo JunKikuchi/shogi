@@ -41,8 +41,8 @@ test-suite shogi-test
                      , smallcheck
                      -- , tasty-quickcheck
                      , time
-                     , shogi
                      , game-clock
+                     , shogi
   other-modules:       ShogiTest
                      , ShogiTest.HirateTest
                      , ShogiTest.PositionTest

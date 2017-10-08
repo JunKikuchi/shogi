@@ -1,7 +1,22 @@
 module Shogi
   ( Shogi
+  , shogiStats
+  , shogiMoves
+  , shogiResult
+  , Stat
+  , statColor
+  , statPosition
+  , statClock
+  , statTime
+  , Result(..)
+  , Termination(..)
   , initShogi
   , hirate
+  , countdown
+  , move
+  , movePiece
+  , dropPiece
+  , resign
   ) where
 
 import Data.Time.Clock (UTCTime)
@@ -85,13 +100,12 @@ initShogi color position clock time = shogi
 hirate :: Clock -> UTCTime -> Shogi
 hirate = initShogi Black Position.hirate
 
-{--
 -- | 経過時間チェック
-countdown :: Shogi -> Sec -> UTCTime -> Maybe Shogi
+countdown :: Sec -> UTCTime -> Shogi -> Maybe Shogi
 countdown = undefined
 
 -- | 手を指す
-move :: Move -> Shogi -> Sec -> UTCTime -> Maybe Shogi
+move :: Move -> Sec -> UTCTime -> Shogi -> Maybe Shogi
 move = undefined
 
 -- | 駒を動かす手
@@ -105,4 +119,3 @@ dropPiece = undefined
 -- | 投了する手
 resign :: Move
 resign = undefined
---}
