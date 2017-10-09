@@ -31,6 +31,7 @@ import qualified GameClock as GameClock
 import Shogi.Color
 import Shogi.Clock
 import qualified Shogi.Position as Position
+import qualified Shogi.Piece    as Piece
 import Shogi.Position (Position)
 import Shogi.Piece    (Piece)
 import Shogi.Square
@@ -65,11 +66,11 @@ data Move = Move
           } deriving (Eq, Show)
 
 -- | 指し手
-data MoveType = MovePiece Square MoveTo -- 駒を動かす
-              | DropPiece Piece  MoveTo -- 持ち駒を指す
-              | Resign                  -- 投了
-              | TimeIsUp                -- 時間切れ
-              -- | Impasse                 -- 持将棋
+data MoveType = MovePiece Square     MoveTo -- 駒を動かす
+              | DropPiece Piece.Type Square -- 持ち駒を指す
+              | Resign                      -- 投了
+              | TimeIsUp                    -- 時間切れ
+              -- | Impasse                     -- 持将棋
               deriving (Eq, Show)
 
 -- | 結果
@@ -161,8 +162,8 @@ movePiece :: Square -> MoveTo -> MoveType
 movePiece = MovePiece
 
 -- | 持ち駒を指す手
-dropPiece :: Piece -> MoveTo -> MoveType
-dropPiece = DropPiece
+dropPiece :: Piece.Type -> Square -> MoveType
+dropPiece piece square = DropPiece piece square
 
 -- | 投了する手
 resign :: MoveType
