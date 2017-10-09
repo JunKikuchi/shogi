@@ -63,7 +63,7 @@ tests = testGroup "DropPiece"
 
   step "後手57歩"
   let time3  = addUTCTime (fromInteger 3) time2
-  let shogi3 = fromJust $ Shogi.move (dropPiece (pawn False White) (F5, R7)) 1 time3 shogi2
+  let shogi3 = fromJust $ Shogi.move (dropPiece (pawn False White) (F5, R7)) 3 time3 shogi2
 
   step "後手は手番違いで指せない"
   Shogi.move (dropPiece (pawn False White) (F5, R9)) 1 time3 shogi3 @?= Nothing
@@ -123,7 +123,7 @@ tests = testGroup "DropPiece"
   statTime  stat3 @?= time3
 
   step "手順"
-  let moves' = shogiMoves shogi2
+  let moves' = shogiMoves shogi3
   length moves' @?= 2
 
   step "手順1"
@@ -239,7 +239,7 @@ tests = testGroup "DropPiece"
   statPosition stat1 @?= Shogi.Position.fromLists ([ ((F5, R1), king White)
                                                    , ((F5, R3), pawn False Black)
                                                    ],
-                                                   [ gold White
+                                                   [ gold Black
                                                    ])
   statClock    stat1 @?= clock1
   statTime     stat1 @?= time1
@@ -252,7 +252,7 @@ tests = testGroup "DropPiece"
                                                    , ((F5, R2), gold Black)
                                                    ],
                                                    [])
-  statClock    stat2 @?= GameClock.countdown 1 White clock1
+  statClock    stat2 @?= GameClock.countdown 1 Black clock1
   statTime     stat2 @?= time2
 
   step "手順"
@@ -301,7 +301,7 @@ tests = testGroup "DropPiece"
                                                    , pawn False Black
                                                    , pawn False Black
                                                    ])
-  statClock stat1 @?= clock1
+  statClock stat1 @?= GameClock.countdown (60 * 10) Black clock1
   statTime  stat1 @?= time1
 
   step "手順"
@@ -344,7 +344,7 @@ tests = testGroup "DropPiece"
                                                    , pawn False Black
                                                    , pawn False Black
                                                    ])
-  statClock stat1 @?= clock1
+  statClock stat1 @?= GameClock.countdown (60 * 10) White clock1
   statTime  stat1 @?= time1
 
   step "手順"
