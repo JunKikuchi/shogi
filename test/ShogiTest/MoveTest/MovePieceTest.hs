@@ -328,7 +328,8 @@ tests = testGroup "MovePiece"
 先手時間切れ :: (String -> IO ()) -> IO ()
 先手時間切れ step = do
   time <- getCurrentTime
-  let shogi = Shogi.hirate (clock $ GameClock.Clock.suddenDeath 1 (60 * 10)) time
+  let clock' = clock $ GameClock.Clock.suddenDeath 1 (60 * 10)
+  let shogi  = Shogi.hirate clock' time
 
   step "先手26歩"
   let sec1   = 60 * 10
@@ -338,6 +339,17 @@ tests = testGroup "MovePiece"
   step "時間切れ"
   shogiResult shogi1 @?= Win White TimeForfeit
 
+  step "局面"
+  let stats = shogiStats shogi1
+  length stats @?= 1
+
+  step "局面1"
+  let stat  = stats !! 0
+  statColor    stat @?= Black
+  statPosition stat @?= Shogi.Position.hirate
+  statClock    stat @?= GameClock.countdown (60 * 10) Black clock'
+  statTime     stat @?= time
+
   step "手順"
   shogiMoves  shogi1 @?= []
 
@@ -346,7 +358,8 @@ tests = testGroup "MovePiece"
 後手時間切れ :: (String -> IO ()) -> IO ()
 後手時間切れ step = do
   time <- getCurrentTime
-  let shogi = Shogi.hirate (clock $ GameClock.Clock.suddenDeath 1 (60 * 10)) time
+  let clock' = clock $ GameClock.Clock.suddenDeath 1 (60 * 10)
+  let shogi  = Shogi.hirate clock' time
 
   step "先手26歩"
   let sec1   = 10
@@ -360,6 +373,24 @@ tests = testGroup "MovePiece"
 
   step "時間切れ"
   shogiResult shogi2 @?= Win Black TimeForfeit
+
+  step "局面"
+  let stats = shogiStats shogi1
+  length stats @?= 2
+
+  step "局面1"
+  let stat1  = stats !! 1
+  statColor    stat1 @?= Black
+  statPosition stat1 @?= Shogi.Position.hirate
+  statClock    stat1 @?= clock'
+  statTime     stat1 @?= time
+
+  step "局面2"
+  let stat2  = stats !! 0
+  statColor    stat2 @?= White
+  statPosition stat2 @?= (fromJust $ Shogi.Position.move ((F2, R7), Black) ((F2, R6), False) Shogi.Position.hirate)
+  statClock    stat2 @?= GameClock.countdown 10 Black clock'
+  statTime     stat2 @?= time1
 
   step "手順"
   let moves' = shogiMoves shogi2
