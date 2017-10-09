@@ -128,16 +128,15 @@ countdown sec time shogi = do
 
 -- | 手を指す
 move :: MoveType -> Sec -> UTCTime -> Shogi -> Maybe Shogi
-move mt@(MovePiece square to) sec time shogi = do
+move moveType sec time shogi = do
   cdShogi <- countdown sec time shogi
   if shogiResult cdShogi /= InProgress
   then return cdShogi
   else do
     let stat  = currentStat cdShogi
     let color = statColor stat
-    let from  = (square, color)
     let pos   = statPosition stat
-    position <- Position.move from to pos
+    position <- move' moveType color pos
     let newStat = stat
                 { statColor    = turn color
                 , statPosition = position
@@ -145,7 +144,7 @@ move mt@(MovePiece square to) sec time shogi = do
                 }
     let newMove = Move
                 { moveColor    = color
-                , moveMoveType = mt
+                , moveMoveType = moveType
                 , moveSec      = sec
                 , moveTime     = time
                 }
@@ -156,34 +155,11 @@ move mt@(MovePiece square to) sec time shogi = do
     return $ if Position.checkmate (turn color) position
       then newShogi { shogiResult = Win color Checkmate }
       else newShogi
-
-move mt@(DropPiece piece square) sec time shogi = do
-  cdShogi <- countdown sec time shogi
-  if shogiResult cdShogi /= InProgress
-  then return cdShogi
-  else do
-    let stat  = currentStat cdShogi
-    let color = statColor stat
-    let pos   = statPosition stat
-    position <- Position.drop piece square pos
-    let newStat = stat
-                { statColor    = turn color
-                , statPosition = position
-                , statTime     = time
-                }
-    let newMove = Move
-                { moveColor    = color
-                , moveMoveType = mt
-                , moveSec      = sec
-                , moveTime     = time
-                }
-    let newShogi = cdShogi
-                 { shogiStats = newStat:shogiStats shogi
-                 , shogiMoves = newMove:shogiMoves shogi
-                 }
-    return $ if Position.checkmate (turn color) position
-      then newShogi { shogiResult = Win color Checkmate }
-      else newShogi
+  where
+    move' (MovePiece square to    ) color pos = Position.move (square, color) to pos
+    move' (DropPiece piece  square) color pos = if Piece.pieceColor piece == color
+                                                then Position.drop piece square pos
+                                                else Nothing
 
 -- | 駒を動かす手
 movePiece :: Square -> MoveTo -> MoveType
