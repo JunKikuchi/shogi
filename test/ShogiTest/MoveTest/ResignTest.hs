@@ -55,7 +55,7 @@ tests = testGroup "Resign"
   moveColor    move1 @?= Black
   moveMoveType move1 @?= resign
   moveSec      move1 @?= 1
-  moveTime     move1 @?= time1
+  moveTime     move1 @?= time2
 
   return ()
 
@@ -93,7 +93,7 @@ tests = testGroup "Resign"
   moveColor    move1 @?= White
   moveMoveType move1 @?= resign
   moveSec      move1 @?= 1
-  moveTime     move1 @?= time1
+  moveTime     move1 @?= time2
 
   return ()
 

@@ -135,26 +135,33 @@ move moveType sec time shogi = do
   else do
     let stat  = currentStat cdShogi
     let color = statColor stat
-    let pos   = statPosition stat
-    position <- move' moveType color pos
-    let newStat = stat
-                { statColor    = turn color
-                , statPosition = position
-                , statTime     = time
-                }
     let newMove = Move
                 { moveColor    = color
                 , moveMoveType = moveType
                 , moveSec      = sec
                 , moveTime     = time
                 }
-    let newShogi = cdShogi
-                 { shogiStats = newStat:shogiStats shogi
-                 , shogiMoves = newMove:shogiMoves shogi
-                 }
-    return $ if Position.checkmate (turn color) position
-      then newShogi { shogiResult = Win color Checkmate }
-      else newShogi
+    if moveType == Resign
+      then
+        return $ shogi
+               { shogiMoves  = newMove:shogiMoves shogi
+               , shogiResult = Win (turn color) Resignation
+               }
+      else do
+        let pos   = statPosition stat
+        position <- move' moveType color pos
+        let newStat = stat
+                    { statColor    = turn color
+                    , statPosition = position
+                    , statTime     = time
+                    }
+        let newShogi = cdShogi
+                     { shogiStats = newStat:shogiStats shogi
+                     , shogiMoves = newMove:shogiMoves shogi
+                     }
+        return $ if Position.checkmate (turn color) position
+          then newShogi { shogiResult = Win color Checkmate }
+          else newShogi
   where
     move' (MovePiece square to    ) color pos = Position.move (square, color) to pos
     move' (DropPiece piece  square) color pos = if Piece.pieceColor piece == color
