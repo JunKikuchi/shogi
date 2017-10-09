@@ -49,6 +49,7 @@ test-suite shogi-test
                      , ShogiTest.MoveTest
                      , ShogiTest.MoveTest.MovePieceTest
                      , ShogiTest.MoveTest.DropPieceTest
+                     , ShogiTest.MoveTest.ResignTest
                      , ShogiTest.PositionTest
                      , ShogiTest.PositionTest.ListsTest
                      , ShogiTest.PositionTest.CheckTest

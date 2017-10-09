@@ -11,7 +11,7 @@ import Shogi.Color
 import Shogi.Square
 import Shogi.Piece as Piece
 import qualified GameClock
-import qualified GameClock.Clock (suddenDeath {--, countdown --})
+import qualified GameClock.Clock (suddenDeath)
 
 tests :: TestTree
 tests = testGroup "DropPiece"
