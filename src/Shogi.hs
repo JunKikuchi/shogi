@@ -66,11 +66,11 @@ data Move = Move
           } deriving (Eq, Show)
 
 -- | 指し手
-data MoveType = MovePiece Square     MoveTo -- 駒を動かす
-              | DropPiece Piece.Type Square -- 持ち駒を指す
-              | Resign                      -- 投了
-              | TimeIsUp                    -- 時間切れ
-              -- | Impasse                     -- 持将棋
+data MoveType = MovePiece Square MoveTo -- 駒を動かす
+              | DropPiece Piece  Square -- 持ち駒を指す
+              | Resign                  -- 投了
+              | TimeIsUp                -- 時間切れ
+              -- | Impasse                 -- 持将棋
               deriving (Eq, Show)
 
 -- | 結果
@@ -162,8 +162,8 @@ movePiece :: Square -> MoveTo -> MoveType
 movePiece = MovePiece
 
 -- | 持ち駒を指す手
-dropPiece :: Piece.Type -> Square -> MoveType
-dropPiece piece square = DropPiece piece square
+dropPiece :: Piece -> Square -> MoveType
+dropPiece = DropPiece
 
 -- | 投了する手
 resign :: MoveType

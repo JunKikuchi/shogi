@@ -53,23 +53,23 @@ tests = testGroup "DropPiece"
 
   step "先手53歩"
   let time2  = addUTCTime (fromInteger 1) time1
-  let shogi2 = fromJust $ Shogi.move (dropPiece Pawn (F5, R3)) 1 time2 shogi1
+  let shogi2 = fromJust $ Shogi.move (dropPiece (pawn False Black) (F5, R3)) 1 time2 shogi1
+
+  step "先手は手番違いで指せない"
+  Shogi.move (dropPiece (pawn False Black) (F5, R9)) 1 time2 shogi2 @?= Nothing
 
   step "後手59歩指せない"
-  Shogi.move (dropPiece Pawn (F5, R9)) 1 time2 shogi2 @?= Nothing
-
-  -- step "先手は手番違いで指せない"
-  -- Shogi.move (dropPiece Pawn (F5, R9)) 1 time2 shogi2 @?= Nothing
+  Shogi.move (dropPiece (pawn False White) (F5, R9)) 1 time2 shogi2 @?= Nothing
 
   step "後手57歩"
   let time3  = addUTCTime (fromInteger 3) time2
-  let shogi3 = fromJust $ Shogi.move (dropPiece Pawn (F5, R7)) 1 time3 shogi2
+  let shogi3 = fromJust $ Shogi.move (dropPiece (pawn False White) (F5, R7)) 1 time3 shogi2
+
+  step "後手は手番違いで指せない"
+  Shogi.move (dropPiece (pawn False White) (F5, R9)) 1 time3 shogi3 @?= Nothing
 
   step "先手51歩指せない"
-  Shogi.move (dropPiece Pawn (F5, R1)) 1 time3 shogi3 @?= Nothing
-
-  -- step "後手は手番違いで指せない"
-  -- Shogi.move (dropPiece Pawn (F5, R9)) 1 time3 shogi3 @?= Nothing
+  Shogi.move (dropPiece (pawn False Black) (F5, R1)) 1 time3 shogi3 @?= Nothing
 
   step "結果"
   shogiResult shogi3 @?= InProgress
@@ -129,14 +129,14 @@ tests = testGroup "DropPiece"
   step "手順1"
   let move1 = moves' !! 1
   moveColor    move1 @?= Black
-  moveMoveType move1 @?= dropPiece Pawn (F5, R3)
+  moveMoveType move1 @?= dropPiece (pawn False Black) (F5, R3)
   moveSec      move1 @?= 1
   moveTime     move1 @?= time2
 
   step "手順2"
   let move2 = moves' !! 0
   moveColor    move2 @?= White
-  moveMoveType move2 @?= dropPiece Pawn (F5, R7)
+  moveMoveType move2 @?= dropPiece (pawn False White) (F5, R7)
   moveSec      move2 @?= 3
   moveTime     move2 @?= time3
 
@@ -162,7 +162,7 @@ tests = testGroup "DropPiece"
 
   step "後手58金"
   let time2  = addUTCTime (fromInteger 1) time1
-  let shogi2 = fromJust $ Shogi.move (dropPiece Pawn (F5, R8)) 1 time2 shogi1
+  let shogi2 = fromJust $ Shogi.move (dropPiece (gold White) (F5, R8)) 1 time2 shogi1
 
   step "結果"
   shogiResult shogi2 @?= Win White Checkmate
@@ -198,7 +198,7 @@ tests = testGroup "DropPiece"
   let move1  = head moves'
   length moves' @?= 1
   moveColor    move1 @?= White
-  moveMoveType move1 @?= dropPiece Gold (F5, R8)
+  moveMoveType move1 @?= dropPiece (gold White) (F5, R8)
   moveSec      move1 @?= 1
   moveTime     move1 @?= time2
 
@@ -224,7 +224,7 @@ tests = testGroup "DropPiece"
 
   step "先手52金"
   let time2  = addUTCTime (fromInteger 1) time1
-  let shogi2 = fromJust $ Shogi.move (dropPiece Pawn (F5, R2)) 1 time2 shogi1
+  let shogi2 = fromJust $ Shogi.move (dropPiece (gold Black) (F5, R2)) 1 time2 shogi1
 
   step "結果"
   shogiResult shogi2 @?= Win Black Checkmate
@@ -260,7 +260,7 @@ tests = testGroup "DropPiece"
   let move1  = head moves'
   length moves' @?= 1
   moveColor    move1 @?= Black
-  moveMoveType move1 @?= dropPiece Gold (F5, R2)
+  moveMoveType move1 @?= dropPiece (gold Black) (F5, R2)
   moveSec      move1 @?= 1
   moveTime     move1 @?= time2
 
@@ -282,7 +282,7 @@ tests = testGroup "DropPiece"
 
   step "先手53歩"
   let time2  = addUTCTime (fromInteger 60 * 10) time1
-  let shogi2 = fromJust $ Shogi.move (dropPiece Pawn (F5, R3)) (60 * 10) time2 shogi1
+  let shogi2 = fromJust $ Shogi.move (dropPiece (pawn False Black) (F5, R3)) (60 * 10) time2 shogi1
 
   step "時間切れ"
   shogiResult shogi2 @?= Win White TimeForfeit
@@ -325,7 +325,7 @@ tests = testGroup "DropPiece"
 
   step "先手53歩"
   let time2  = addUTCTime (fromInteger 60 * 10) time1
-  let shogi2 = fromJust $ Shogi.move (dropPiece Pawn (F5, R7)) (60 * 10) time2 shogi1
+  let shogi2 = fromJust $ Shogi.move (dropPiece (pawn False White) (F5, R7)) (60 * 10) time2 shogi1
 
   step "時間切れ"
   shogiResult shogi2 @?= Win Black TimeForfeit
