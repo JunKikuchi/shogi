@@ -1,7 +1,6 @@
 module Shogi
   ( Shogi
   , shogiStat
-  , shogiInitStat
   , shogiMoves
   , shogiResult
   , Stat
@@ -15,7 +14,7 @@ module Shogi
   , moveSec
   , moveTime
   , moveStat
-  , MoveType
+  , MoveType(..)
   , Result(..)
   , Termination(..)
   , shogi
@@ -40,10 +39,9 @@ import Shogi.Square
 
 -- | 将棋データ
 data Shogi = Shogi
-           { shogiStat     :: Stat   -- 最新の局面
-           , shogiInitStat :: Stat   -- 最初の局面
-           , shogiMoves    :: Moves  -- 手順リスト
-           , shogiResult   :: Result -- 結果
+           { shogiStat   :: Stat   -- 最新の局面
+           , shogiMoves  :: Moves  -- 手順リスト
+           , shogiResult :: Result -- 結果
            } deriving (Eq, Show)
 
 -- | 状態
@@ -67,7 +65,8 @@ data Move = Move
           } deriving (Eq, Show)
 
 -- | 指し手
-data MoveType = MovePiece Square MoveTo -- 駒を動かす
+data MoveType = Init                    -- 初期配置
+              | MovePiece Square MoveTo -- 駒を動かす
               | DropPiece Piece  Square -- 持ち駒を指す
               | Resign                  -- 投了
               | TimeIsUp                -- 時間切れ
@@ -92,7 +91,26 @@ data Termination = Checkmate      -- Win 詰み
 
 -- | 将棋データ作成
 shogi :: Color -> Position -> Clock -> UTCTime -> Shogi
-shogi color position clock time = undefined
+shogi color position clock time = shogi'
+  where
+    shogi' = Shogi
+           { shogiStat   = stat
+           , shogiMoves  = [move]
+           , shogiResult = InProgress
+           }
+    stat = Stat
+         { statColor    = color
+         , statPosition = position
+         , statClock    = clock
+         , statTime     = time
+         }
+    move = Move
+         { moveColor = color
+         , moveType  = Init
+         , moveSec   = 0
+         , moveTime  = time
+         , moveStat  = stat
+         }
 
 -- | 平手初期データ作成
 hirate :: Clock -> UTCTime -> Shogi
