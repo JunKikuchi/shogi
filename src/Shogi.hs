@@ -1,6 +1,7 @@
 module Shogi
   ( Shogi
-  , shogiStats
+  , shogiStat
+  , shogiInitStat
   , shogiMoves
   , shogiResult
   , Stat
@@ -10,14 +11,15 @@ module Shogi
   , statTime
   , Move
   , moveColor
-  , moveMoveType
+  , moveType
   , moveSec
   , moveTime
+  , moveStat
+  , MoveType
   , Result(..)
   , Termination(..)
-  , initShogi
+  , shogi
   , hirate
-  , currentStat
   , countdown
   , move
   , movePiece
@@ -38,13 +40,11 @@ import Shogi.Square
 
 -- | 将棋データ
 data Shogi = Shogi
-           { shogiStats  :: Stats  -- 状態リスト
-           , shogiMoves  :: Moves  -- 手順リスト
-           , shogiResult :: Result -- 結果
+           { shogiStat     :: Stat   -- 最新の局面
+           , shogiInitStat :: Stat   -- 最初の局面
+           , shogiMoves    :: Moves  -- 手順リスト
+           , shogiResult   :: Result -- 結果
            } deriving (Eq, Show)
-
--- | 状態リスト
-type Stats = [Stat]
 
 -- | 状態
 data Stat = Stat
@@ -59,10 +59,11 @@ type Moves = [Move]
 
 -- | 手順
 data Move = Move
-          { moveColor    :: Color    -- 手番
-          , moveMoveType :: MoveType -- 指した手
-          , moveSec      :: Sec      -- 秒数
-          , moveTime     :: UTCTime  -- 時間
+          { moveColor :: Color    -- 手番
+          , moveType  :: MoveType -- 指した手
+          , moveSec   :: Sec      -- 秒数
+          , moveTime  :: UTCTime  -- 時間
+          , moveStat  :: Stat     -- 指した後の局面
           } deriving (Eq, Show)
 
 -- | 指し手
@@ -89,84 +90,21 @@ data Termination = Checkmate      -- Win 詰み
                  -- | IllegalMove    -- Win, 不正な手 (https://en.wikipedia.org/wiki/Shogi#Illegal_move)
                  deriving (Eq, Show)
 
--- | 初期将棋データ作成
-initShogi :: Color -> Position -> Clock -> UTCTime -> Shogi
-initShogi color position clock time = shogi
-  where
-    shogi = Shogi
-          { shogiStats  = [stat]
-          , shogiMoves  = []
-          , shogiResult = InProgress
-          }
-    stat = Stat
-         { statColor    = color
-         , statPosition = position
-         , statClock    = clock
-         , statTime     = time
-         }
+-- | 将棋データ作成
+shogi :: Color -> Position -> Clock -> UTCTime -> Shogi
+shogi color position clock time = undefined
 
 -- | 平手初期データ作成
 hirate :: Clock -> UTCTime -> Shogi
-hirate = initShogi Black Position.hirate
-
--- | 現在の状態取得
-currentStat :: Shogi -> Stat
-currentStat = head . shogiStats
+hirate = shogi Black Position.hirate
 
 -- | 経過時間チェック
 countdown :: Sec -> UTCTime -> Shogi -> Maybe Shogi
-countdown sec time shogi = do
-  guard $ shogiResult shogi == InProgress
-  return $ if GameClock.over color clock
-    then newShogi { shogiResult = Win (turn color) TimeForfeit }
-    else newShogi
-  where
-    newShogi = shogi { shogiStats = stat { statClock = clock }:stats }
-    clock    = GameClock.countdown sec color $ statClock stat
-    color    = statColor stat
-    (stat:stats) = shogiStats shogi
+countdown sec time shogi = undefined
 
 -- | 手を指す
 move :: MoveType -> Sec -> UTCTime -> Shogi -> Maybe Shogi
-move moveType sec time shogi = do
-  cdShogi <- countdown sec time shogi
-  if shogiResult cdShogi /= InProgress
-  then return cdShogi
-  else do
-    let stat  = currentStat cdShogi
-    let color = statColor stat
-    let newMove = Move
-                { moveColor    = color
-                , moveMoveType = moveType
-                , moveSec      = sec
-                , moveTime     = time
-                }
-    if moveType == Resign
-      then
-        return $ shogi
-               { shogiMoves  = newMove:shogiMoves shogi
-               , shogiResult = Win (turn color) Resignation
-               }
-      else do
-        let pos   = statPosition stat
-        position <- move' moveType color pos
-        let newStat = stat
-                    { statColor    = turn color
-                    , statPosition = position
-                    , statTime     = time
-                    }
-        let newShogi = cdShogi
-                     { shogiStats = newStat:shogiStats shogi
-                     , shogiMoves = newMove:shogiMoves shogi
-                     }
-        return $ if Position.checkmate (turn color) position
-          then newShogi { shogiResult = Win color Checkmate }
-          else newShogi
-  where
-    move' (MovePiece square to    ) color pos = Position.move (square, color) to pos
-    move' (DropPiece piece  square) color pos = if Piece.pieceColor piece == color
-                                                then Position.drop piece square pos
-                                                else Nothing
+move moveType sec time shogi = undefined
 
 -- | 駒を動かす手
 movePiece :: Square -> MoveTo -> MoveType
