@@ -23,7 +23,7 @@ module Shogi
 
 import Control.Monad (guard)
 import Data.Time.Clock (UTCTime)
-import qualified GameClock as GameClock
+import qualified GameClock
 import Shogi.Color
 import Shogi.Clock
 import qualified Shogi.Position as Position
@@ -113,7 +113,26 @@ hirate = shogi Black Position.hirate
 
 -- | 経過時間チェック
 countdown :: Sec -> UTCTime -> Shogi -> Maybe Shogi
-countdown sec time shogi = undefined
+countdown sec time shogi = do
+  guard $ shogiResult shogi == InProgress
+  return $ if GameClock.over color clock'
+    then shogi' { shogiMoves = move':moves, shogiResult = result' }
+    else shogi'
+  where
+    color  = statColor stat
+    stat   = shogiStat shogi
+    moves  = shogiMoves shogi
+    shogi' = shogi { shogiStat = stat' }
+    stat'  = stat { statClock = clock', statTime = time }
+    clock' = GameClock.countdown sec color $ statClock stat
+    move'  = Move
+           { moveColor = color
+           , moveType  = TimeIsUp
+           , moveSec   = sec
+           , moveTime  = time
+           , moveStat  = stat'
+           }
+    result' = Win (turn color) TimeForfeit
 
 -- | 手を指す
 move :: MoveType -> Sec -> UTCTime -> Shogi -> Maybe Shogi

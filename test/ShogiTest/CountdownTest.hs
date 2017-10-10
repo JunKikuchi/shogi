@@ -98,14 +98,17 @@ tests = testGroup "countdown"
   statTime  stat2 @?= time2
 
   step "手順リストに時間切れ追加"
-  let move2 = Move
-            { moveColor = Black
-            , moveType  = TimeIsUp
-            , moveSec   = 10
-            , moveTime  = time2
-            , moveStat  = stat2
-            }
-  shogiMoves shogi2 @?= move2:shogiMoves shogi1
+  let moves2 = shogiMoves shogi2
+  length moves2 @?= 2
+
+  let move2 = moves2 !! 0
+  moveColor move2 @?= Black
+  moveType  move2 @?= TimeIsUp
+  moveSec   move2 @?= 10
+  moveTime  move2 @?= time2
+  moveStat  move2 @?= stat2
+
+  (moves2 !! 1) @?= (shogiMoves shogi1 !! 0)
 
   step "結果は時間切れで後手の勝ち"
   shogiResult shogi2 @?= Win White TimeForfeit
@@ -133,14 +136,17 @@ tests = testGroup "countdown"
   statTime  stat2 @?= time2
 
   step "手順リストに時間切れ追加"
-  let move2 = Move
-            { moveColor = White
-            , moveType  = TimeIsUp
-            , moveSec   = 10
-            , moveTime  = time2
-            , moveStat  = stat2
-            }
-  shogiMoves shogi2 @?= move2:shogiMoves shogi1
+  let moves2 = shogiMoves shogi2
+  length moves2 @?= 2
+
+  let move2 = moves2 !! 0
+  moveColor move2 @?= White
+  moveType  move2 @?= TimeIsUp
+  moveSec   move2 @?= 10
+  moveTime  move2 @?= time2
+  moveStat  move2 @?= stat2
+
+  (moves2 !! 1) @?= (shogiMoves shogi1 !! 0)
 
   step "結果は時間切れで先手の勝ち"
   shogiResult shogi2 @?= Win Black TimeForfeit
