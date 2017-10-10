@@ -8,12 +8,7 @@ module Shogi
   , statPosition
   , statClock
   , statTime
-  , Move
-  , moveColor
-  , moveType
-  , moveSec
-  , moveTime
-  , moveStat
+  , Move(..)
   , MoveType(..)
   , Result(..)
   , Termination(..)
