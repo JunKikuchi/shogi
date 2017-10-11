@@ -176,7 +176,7 @@ tests = testGroup "Resign"
 先手対局中以外 :: (String -> IO ()) -> IO ()
 先手対局中以外 step = do
   time1 <- getCurrentTime
-  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let clock1 = clock $ suddenDeath 1 10
   let shogi1 = (return $ hirate clock1 time1) >>= countdown 10 (addUTCTime 10 time1) >>= move resign 10 (addUTCTime 20 time1)
 
   step "終了した対局"
@@ -187,7 +187,7 @@ tests = testGroup "Resign"
 後手対局中以外 :: (String -> IO ()) -> IO ()
 後手対局中以外 step = do
   time1 <- getCurrentTime
-  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let clock1 = clock $ suddenDeath 1 10
   let shogi1 = (return $ shogi White Position.hirate clock1 time1) >>= countdown 10 (addUTCTime 10 time1) >>= move resign 10 (addUTCTime 20 time1)
 
   step "終了した対局"

@@ -136,7 +136,8 @@ countdown sec time shogi = do
 
 -- | 手を指す
 move :: MoveType -> Sec -> UTCTime -> Shogi -> Maybe Shogi
-move moveType sec time shogi = undefined
+move moveType sec time shogi = do
+  countdown sec time shogi
 
 -- | 駒を動かす手
 movePiece :: Square -> MoveTo -> MoveType
