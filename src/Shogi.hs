@@ -116,7 +116,9 @@ countdown :: Sec -> UTCTime -> Shogi -> Maybe Shogi
 countdown sec time shogi = do
   guard $ shogiResult shogi == InProgress
   return $ if GameClock.over color clock'
-    then shogi' { shogiMoves = move':moves, shogiResult = result' }
+    then shogi' { shogiMoves  = move':moves
+                , shogiResult = result'
+                }
     else shogi'
   where
     color  = statColor stat
@@ -137,7 +139,24 @@ countdown sec time shogi = do
 -- | 手を指す
 move :: MoveType -> Sec -> UTCTime -> Shogi -> Maybe Shogi
 move moveType sec time shogi = do
-  countdown sec time shogi
+  shogi' <- countdown sec time shogi
+  return $ if shogiResult shogi' /= InProgress
+    then shogi'
+    else do
+      let stat  = shogiStat shogi'
+      let color = statColor stat
+      let move' = Move
+                { moveColor = color
+                , moveType  = moveType
+                , moveSec   = sec
+                , moveTime  = time
+                , moveStat  = stat
+                }
+      if moveType == Resign
+        then shogi' { shogiMoves  = move':shogiMoves shogi'
+                    , shogiResult = Win (turn color) Resignation
+                    }
+        else shogi'
 
 -- | 駒を動かす手
 movePiece :: Square -> MoveTo -> MoveType
