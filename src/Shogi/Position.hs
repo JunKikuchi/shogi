@@ -26,9 +26,9 @@ import Shogi.Color
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
-                            R1
-                            R2
-                            R3
+V香V桂V銀V金V王V金V銀V桂V香 R1
+   V飛               V角    R2
+V歩V歩V歩V歩V歩V歩V歩V歩V歩 R3
                             R4
                             R5
                             R6
