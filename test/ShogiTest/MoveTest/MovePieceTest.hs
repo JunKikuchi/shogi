@@ -40,7 +40,7 @@ tests = testGroup "MovePiece"
   let clock1 = clock $ suddenDeath 1 (60 * 10)
   let pos1   = Position.fromLists ([ ((F5, R1), king White)
                                    , ((F5, R3), pawn False White)
-                                   , ((F5, R7), pawn False White)
+                                   , ((F5, R7), pawn False Black)
                                    , ((F5, R9), king Black)
                                    ], [])
   let shogi1 = shogi Black pos1 clock1 time1
@@ -56,7 +56,7 @@ tests = testGroup "MovePiece"
   statColor    stat2 @?= White
   statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
                                              , ((F5, R3), pawn False White)
-                                             , ((F5, R6), pawn False White)
+                                             , ((F5, R6), pawn False Black)
                                              , ((F5, R9), king Black)
                                              ], [])
   statClock    stat2 @?= clock2
@@ -82,7 +82,7 @@ tests = testGroup "MovePiece"
   statColor    stat3 @?= Black
   statPosition stat3 @?= Position.fromLists ([ ((F5, R1), king White)
                                              , ((F5, R4), pawn False White)
-                                             , ((F5, R6), pawn False White)
+                                             , ((F5, R6), pawn False Black)
                                              , ((F5, R9), king Black)
                                              ], [])
   statClock    stat3 @?= clock3
@@ -109,7 +109,7 @@ tests = testGroup "MovePiece"
   statColor    stat4 @?= White
   statPosition stat4 @?= Position.fromLists ([ ((F5, R1), king White)
                                              , ((F5, R4), pawn False White)
-                                             , ((F5, R6), pawn False White)
+                                             , ((F5, R6), pawn False Black)
                                              , ((F4, R9), king Black)
                                              ], [])
   statClock    stat4 @?= clock4
@@ -137,8 +137,8 @@ tests = testGroup "MovePiece"
   statColor    stat5 @?= Black
   statPosition stat5 @?= Position.fromLists ([ ((F5, R1), king White)
                                              , ((F5, R5), pawn False White)
-                                             , ((F5, R6), pawn False White)
-                                             , ((F5, R9), king Black)
+                                             , ((F5, R6), pawn False Black)
+                                             , ((F4, R9), king Black)
                                              ], [])
   statClock    stat5 @?= clock5
   statTime     stat5 @?= time5
@@ -189,7 +189,7 @@ tests = testGroup "MovePiece"
 
   step "局面"
   let stat2  = shogiStat shogi2
-  let clock2 = GameClock.countdown 1 Black clock1
+  let clock2 = GameClock.countdown 1 White clock1
   statColor    stat2 @?= Black
   statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
                                              , ((F5, R3), pawn False Black)

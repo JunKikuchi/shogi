@@ -140,8 +140,8 @@ countdown sec time shogi = do
 move :: MoveType -> Sec -> UTCTime -> Shogi -> Maybe Shogi
 move moveType sec time shogi = do
   shogi' <- countdown sec time shogi
-  return $ if shogiResult shogi' /= InProgress
-    then shogi'
+  if shogiResult shogi' /= InProgress
+    then return $ shogi'
     else do
       let stat  = shogiStat shogi'
       let color = statColor stat
@@ -153,10 +153,26 @@ move moveType sec time shogi = do
                 , moveStat  = stat
                 }
       if moveType == Resign
-        then shogi' { shogiMoves  = move':shogiMoves shogi'
-                    , shogiResult = Win (turn color) Resignation
-                    }
-        else shogi'
+        then return $ shogi' { shogiMoves  = move':shogiMoves shogi'
+                             , shogiResult = Win (turn color) Resignation
+                             }
+        else do
+          position <- movePosition moveType color (statPosition stat)
+          let newStat = stat
+                      { statColor    = (turn color)
+                      , statPosition = position
+                      , statTime     = time
+                      }
+          let newMove = move' { moveStat = newStat }
+          let newShogi = shogi'
+                       { shogiStat  = newStat
+                       , shogiMoves = newMove:shogiMoves shogi'
+                       }
+          return $ if Position.checkmate (turn color) position
+            then newShogi { shogiResult = Win color Checkmate }
+            else newShogi
+  where
+    movePosition (MovePiece square moveTo) color position = Position.move (square, color) moveTo position
 
 -- | 駒を動かす手
 movePiece :: Square -> MoveTo -> MoveType
