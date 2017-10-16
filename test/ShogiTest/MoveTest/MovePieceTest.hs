@@ -18,6 +18,8 @@ tests = testGroup "MovePiece"
   [ testCaseSteps "駒を動かす"    駒を動かす
   , testCaseSteps "先手詰み"      先手詰み
   , testCaseSteps "後手詰み"      後手詰み
+  , testCaseSteps "先手詰み回避"  先手詰み回避
+  , testCaseSteps "後手詰み回避"  後手詰み回避
   , testCaseSteps "先手時間切れ"  先手時間切れ
   , testCaseSteps "後手時間切れ"  後手時間切れ
   ]
@@ -272,6 +274,68 @@ tests = testGroup "MovePiece"
 
   step "対局終了"
   shogiResult shogi2 @?= Win Black Checkmate
+
+  return ()
+
+{--
+ F9 F8 F7 F6 F5 F4 F3 F2 F1
+             V王            R1
+                            R2
+              金            R3
+                            R4
+                            R5
+                            R6
+             V金            R7
+             V歩            R8
+              王            R9
+--}
+先手詰み回避 :: (String -> IO ()) -> IO ()
+先手詰み回避 step = do
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R3), gold Black)
+                                   , ((F5, R7), gold White)
+                                   , ((F5, R8), pawn False White)
+                                   , ((F5, R9), king Black)
+                                   ], [])
+  let shogi1 = shogi Black pos1 clock1 time1
+
+  step "先手52金は王手回避していないので指せない"
+  let time2 = addUTCTime 1 time1
+  let move2 = movePiece (F5, R3) ((F5, R2), False)
+  move move2 1 time2 shogi1 @?= Nothing
+
+  return ()
+
+{--
+ F9 F8 F7 F6 F5 F4 F3 F2 F1
+             V王            R1
+              歩            R2
+              金            R3
+                            R4
+                            R5
+                            R6
+             V金            R7
+                            R8
+              王            R9
+--}
+後手詰み回避 :: (String -> IO ()) -> IO ()
+後手詰み回避 step = do
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R2), pawn False Black)
+                                   , ((F5, R3), gold Black)
+                                   , ((F5, R7), gold White)
+                                   , ((F5, R9), king Black)
+                                   ], [])
+  let shogi1 = shogi White pos1 clock1 time1
+
+  step "後手58金は王手回避していないので指せない"
+  let time2 = addUTCTime 1 time1
+  let move2 = movePiece (F5, R7) ((F5, R8), False)
+  move move2 1 time2 shogi1 @?= Nothing
 
   return ()
 
