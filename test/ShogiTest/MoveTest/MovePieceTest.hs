@@ -126,6 +126,16 @@ tests = testGroup "MovePiece"
   step "対局中"
   shogiResult shogi4 @?= InProgress
 
+  step "[後手53歩には動かせない]"
+  let time4' = addUTCTime 1 time4
+  let move4' = movePiece (F5, R4) ((F5, R3), False)
+  move move4' 1 time4' shogi4 @?= Nothing
+
+  step "[先手手番違い]"
+  let time4'' = addUTCTime 1 time4
+  let move4'' = movePiece (F5, R6) ((F5, R5), False)
+  move move4'' 1 time4'' shogi4 @?= Nothing
+
   step "[後手55歩]"
   let time5  = addUTCTime 1 time4
   let move5  = movePiece (F5, R4) ((F5, R5), False)
@@ -154,6 +164,16 @@ tests = testGroup "MovePiece"
 
   step "対局中"
   shogiResult shogi5 @?= InProgress
+
+  step "[先手54歩には動かせない]"
+  let time5'  = addUTCTime 1 time5
+  let move5'  = movePiece (F5, R6) ((F5, R4), False)
+  move move5' 1 time5' shogi5 @?= Nothing
+
+  step "[後手手番違い]"
+  let time5''  = addUTCTime 1 time5
+  let move5''  = movePiece (F5, R5) ((F5, R6), False)
+  move move5'' 1 time5'' shogi5 @?= Nothing
 
   return ()
 
