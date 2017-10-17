@@ -402,12 +402,98 @@ tests = testGroup "DropPiece"
 
 先手時間切れ :: (String -> IO ()) -> IO ()
 先手時間切れ step = do
-  step ""
-  assertBool "未実装" False
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 10
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R3), pawn False Black)
+                                   , ((F5, R7), pawn False White)
+                                   , ((F5, R9), king Black)
+                                   ]
+                                  ,[ gold White
+                                   , pawn False White
+                                   , gold Black
+                                   , pawn False Black
+                                   ])
+  let shogi1 = shogi Black pos1 clock1 time1
+
+  step "先手43歩"
+  let time2  = addUTCTime 10 time1
+  let move2  = dropPiece (pawn False Black) (F4, R3)
+  let shogi2 = fromJust $ move move2 10 time2 shogi1
+
+  step "局面"
+  let stat2  = shogiStat shogi2
+  let clock2 = GameClock.countdown 10 Black clock1
+  statColor    stat2 @?= Black
+  statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
+                                             , ((F5, R3), pawn False Black)
+                                             , ((F5, R7), pawn False White)
+                                             , ((F5, R9), king Black)
+                                             ]
+                                            ,[ gold White
+                                             , pawn False White
+                                             , gold Black
+                                             , pawn False Black
+                                             ])
+  statClock    stat2 @?= clock2
+  statTime     stat2 @?= time2
+
+  step "手順"
+  let moves2 = shogiMoves shogi2
+  length moves2 @?= 2
+  moves2 !! 0 @?= Move Black TimeIsUp 10 time2 stat2
+  moves2 !! 1 @?= shogiMoves shogi1 !! 0
+
+  step "対局終了"
+  shogiResult shogi2 @?= Win White TimeForfeit
+
   return ()
 
 後手時間切れ :: (String -> IO ()) -> IO ()
 後手時間切れ step = do
-  step ""
-  assertBool "未実装" False
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 10
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R3), pawn False Black)
+                                   , ((F5, R7), pawn False White)
+                                   , ((F5, R9), king Black)
+                                   ]
+                                  ,[ gold White
+                                   , pawn False White
+                                   , gold Black
+                                   , pawn False Black
+                                   ])
+  let shogi1 = shogi White pos1 clock1 time1
+
+  step "先手43歩"
+  let time2  = addUTCTime 10 time1
+  let move2  = dropPiece (pawn False White) (F4, R3)
+  let shogi2 = fromJust $ move move2 10 time2 shogi1
+
+  step "局面"
+  let stat2  = shogiStat shogi2
+  let clock2 = GameClock.countdown 10 White clock1
+  statColor    stat2 @?= White
+  statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
+                                             , ((F5, R3), pawn False Black)
+                                             , ((F5, R7), pawn False White)
+                                             , ((F5, R9), king Black)
+                                             ]
+                                            ,[ gold White
+                                             , pawn False White
+                                             , gold Black
+                                             , pawn False Black
+                                             ])
+  statClock    stat2 @?= clock2
+  statTime     stat2 @?= time2
+
+  step "手順"
+  let moves2 = shogiMoves shogi2
+  length moves2 @?= 2
+  moves2 !! 0 @?= Move White TimeIsUp 10 time2 stat2
+  moves2 !! 1 @?= shogiMoves shogi1 !! 0
+
+  step "対局終了"
+  shogiResult shogi2 @?= Win Black TimeForfeit
+
   return ()
