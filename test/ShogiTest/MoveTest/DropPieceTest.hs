@@ -50,7 +50,12 @@ tests = testGroup "DropPiece"
                                    , ((F5, R3), pawn False Black)
                                    , ((F5, R7), pawn False White)
                                    , ((F5, R9), king Black)
-                                   ], [gold White, pawn False White, gold Black, pawn False Black])
+                                   ]
+                                  ,[ gold White
+                                   , pawn False White
+                                   , gold Black
+                                   , pawn False Black
+                                   ])
   let shogi1 = shogi Black pos1 clock1 time1
 
   step "[先手43歩]"
@@ -67,7 +72,11 @@ tests = testGroup "DropPiece"
                                              , ((F4, R3), pawn False Black)
                                              , ((F5, R7), pawn False White)
                                              , ((F5, R9), king Black)
-                                             ], [gold White, pawn False White, gold Black])
+                                             ]
+                                            ,[ gold White
+                                             , pawn False White
+                                             , gold Black
+                                             ])
   statClock    stat2 @?= clock2
   statTime     stat2 @?= time2
 
@@ -95,7 +104,10 @@ tests = testGroup "DropPiece"
                                              , ((F5, R7), pawn False White)
                                              , ((F4, R7), pawn False White)
                                              , ((F5, R9), king Black)
-                                             ], [gold White, gold Black])
+                                             ]
+                                            ,[ gold White
+                                             , gold Black
+                                             ])
   statClock    stat3 @?= clock3
   statTime     stat3 @?= time3
 
@@ -119,7 +131,12 @@ tests = testGroup "DropPiece"
                                    , ((F5, R3), pawn False Black)
                                    , ((F5, R7), pawn False White)
                                    , ((F5, R9), king Black)
-                                   ], [gold White, pawn False White, gold Black, pawn False Black])
+                                   ]
+                                  ,[ gold White
+                                   , pawn False White
+                                   , gold Black
+                                   , pawn False Black
+                                   ])
   let shogi1 = shogi Black pos1 clock1 time1
 
   step "[先手54歩]"
@@ -137,7 +154,12 @@ tests = testGroup "DropPiece"
                                    , ((F5, R3), pawn False Black)
                                    , ((F5, R7), pawn False White)
                                    , ((F5, R9), king Black)
-                                   ], [gold White, pawn False White, gold Black, pawn False Black])
+                                   ]
+                                  ,[ gold White
+                                   , pawn False White
+                                   , gold Black
+                                   , pawn False Black
+                                   ])
   let shogi1 = shogi White pos1 clock1 time1
 
   step "[後手56歩]"
@@ -155,7 +177,12 @@ tests = testGroup "DropPiece"
                                    , ((F5, R3), pawn False Black)
                                    , ((F5, R7), pawn False White)
                                    , ((F5, R9), king Black)
-                                   ], [gold White, pawn False White, gold Black, pawn False Black])
+                                   ]
+                                  ,[ gold White
+                                   , pawn False White
+                                   , gold Black
+                                   , pawn False Black
+                                   ])
   let shogi1 = shogi White pos1 clock1 time1
 
   step "[後手58金]"
@@ -172,7 +199,11 @@ tests = testGroup "DropPiece"
                                              , ((F5, R7), pawn False White)
                                              , ((F5, R8), gold White)
                                              , ((F5, R9), king Black)
-                                             ], [pawn False White, gold Black, pawn False Black])
+                                             ]
+                                            ,[ pawn False White
+                                             , gold Black
+                                             , pawn False Black
+                                             ])
   statClock    stat2 @?= clock2
   statTime     stat2 @?= time2
 
@@ -195,7 +226,12 @@ tests = testGroup "DropPiece"
                                    , ((F5, R3), pawn False Black)
                                    , ((F5, R7), pawn False White)
                                    , ((F5, R9), king Black)
-                                   ], [gold White, pawn False White, gold Black, pawn False Black])
+                                   ]
+                                  ,[ gold White
+                                   , pawn False White
+                                   , gold Black
+                                   , pawn False Black
+                                   ])
   let shogi1 = shogi Black pos1 clock1 time1
 
   step "[先手52金]"
@@ -212,7 +248,11 @@ tests = testGroup "DropPiece"
                                              , ((F5, R3), pawn False Black)
                                              , ((F5, R7), pawn False White)
                                              , ((F5, R9), king Black)
-                                             ], [gold White, pawn False White, pawn False Black])
+                                             ]
+                                            ,[ gold White
+                                             , pawn False White
+                                             , pawn False Black
+                                             ])
   statClock    stat2 @?= clock2
   statTime     stat2 @?= time2
 
