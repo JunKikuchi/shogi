@@ -26,15 +26,15 @@ tests = testGroup "MovePiece"
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
-             V王            R1
+            V王             R1
                             R2
-             V歩            R3
+            V歩             R3
                             R4
                             R5
                             R6
-              歩            R7
+             歩             R7
                             R8
-              王            R9
+             王             R9
 --}
 駒を動かす :: (String -> IO ()) -> IO ()
 駒を動かす step = do
@@ -181,15 +181,15 @@ tests = testGroup "MovePiece"
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
-             V王            R1
+            V王             R1
                             R2
-              歩 金         R3
+             歩 金          R3
                             R4
                             R5
                             R6
-             V歩V金         R7
+            V歩V金          R7
                             R8
-              王            R9
+             王             R9
 --}
 先手詰み :: (String -> IO ()) -> IO ()
 先手詰み step = do
@@ -279,15 +279,15 @@ tests = testGroup "MovePiece"
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
-             V王            R1
+            V王             R1
                             R2
-              金            R3
+             金             R3
                             R4
                             R5
                             R6
-             V金            R7
-             V歩            R8
-              王            R9
+            V金             R7
+            V歩             R8
+             王             R9
 --}
 先手詰み回避 :: (String -> IO ()) -> IO ()
 先手詰み回避 step = do
@@ -310,15 +310,15 @@ tests = testGroup "MovePiece"
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
-             V王            R1
-              歩            R2
-              金            R3
+            V王             R1
+             歩             R2
+             金             R3
                             R4
                             R5
                             R6
-             V金            R7
+            V金             R7
                             R8
-              王            R9
+             王             R9
 --}
 後手詰み回避 :: (String -> IO ()) -> IO ()
 後手詰み回避 step = do
