@@ -9,7 +9,7 @@ module Shogi.Stand
   ) where
 
 import Prelude hiding (take)
-import Data.List (delete)
+import Data.List (delete, sort)
 import Shogi.Piece
 import Shogi.Color
 
@@ -18,7 +18,7 @@ newtype Stand = Stand { unStand :: [Piece] } deriving (Eq, Show)
 
 -- | 駒のリストから駒台作成
 fromList :: [Piece] -> Stand
-fromList = Stand
+fromList = Stand . sort
 
 -- | 駒のリスト
 toList :: Stand -> [Piece]
@@ -30,7 +30,7 @@ pieces color (Stand stand) = filter (\piece -> pieceColor piece == color) stand
 
 -- | 駒台に駒を載せる
 put :: Piece -> Stand -> Stand
-put piece (Stand stand) = Stand $ piece { pieceColor = turn $ pieceColor piece }:stand
+put piece (Stand stand) = fromList $ piece { pieceColor = turn $ pieceColor piece }:stand
 
 -- | 駒台から駒を取り除く
 take :: Piece -> Stand -> Maybe Stand
