@@ -173,6 +173,9 @@ move moveType sec time shogi = do
             else newShogi
   where
     movePosition (MovePiece square moveTo) color position = Position.move (square, color) moveTo position
+    movePosition (DropPiece piece square ) color position = do
+      guard $ color == Piece.pieceColor piece
+      Position.drop piece square position
 
 -- | 駒を動かす手
 movePiece :: Square -> MoveTo -> MoveType

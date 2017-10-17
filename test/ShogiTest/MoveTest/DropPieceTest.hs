@@ -98,8 +98,8 @@ tests = testGroup "DropPiece"
 
   step "局面"
   let stat3  = shogiStat shogi3
-  let clock3 = GameClock.countdown 1 Black clock2
-  statColor    stat3 @?= White
+  let clock3 = GameClock.countdown 1 White clock2
+  statColor    stat3 @?= Black
   statPosition stat3 @?= Position.fromLists ([ ((F5, R1), king White)
                                              , ((F5, R3), pawn False Black)
                                              , ((F4, R3), pawn False Black)
@@ -116,9 +116,9 @@ tests = testGroup "DropPiece"
   step "手順"
   let moves3 = shogiMoves shogi3
   length moves3 @?= 3
-  moves2 !! 0 @?= Move Black move3 1 time3 stat3
-  moves2 !! 1 @?= shogiMoves shogi2 !! 0
-  moves2 !! 2 @?= shogiMoves shogi2 !! 1
+  moves3 !! 0 @?= Move White move3 1 time3 stat3
+  moves3 !! 1 @?= shogiMoves shogi2 !! 0
+  moves3 !! 2 @?= shogiMoves shogi2 !! 1
 
   step "対局中"
   shogiResult shogi2 @?= InProgress
@@ -241,7 +241,7 @@ tests = testGroup "DropPiece"
   step "局面"
   let stat2  = shogiStat shogi2
   let clock2 = GameClock.countdown 1 White clock1
-  statColor    stat2 @?= White
+  statColor    stat2 @?= Black
   statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
                                              , ((F5, R3), pawn False Black)
                                              , ((F5, R7), pawn False White)
@@ -290,7 +290,7 @@ tests = testGroup "DropPiece"
   step "局面"
   let stat2  = shogiStat shogi2
   let clock2 = GameClock.countdown 1 Black clock1
-  statColor    stat2 @?= Black
+  statColor    stat2 @?= White
   statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
                                              , ((F5, R2), gold Black)
                                              , ((F5, R3), pawn False Black)
@@ -307,7 +307,7 @@ tests = testGroup "DropPiece"
   step "手順"
   let moves2 = shogiMoves shogi2
   length moves2 @?= 2
-  moves2 !! 0 @?= Move White move2 1 time2 stat2
+  moves2 !! 0 @?= Move Black move2 1 time2 stat2
   moves2 !! 1 @?= shogiMoves shogi1 !! 0
 
   step "後手の勝ち"
