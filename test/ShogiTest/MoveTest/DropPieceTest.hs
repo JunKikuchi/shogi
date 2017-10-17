@@ -266,16 +266,78 @@ tests = testGroup "DropPiece"
   shogiResult shogi2 @?= Win Black Checkmate
   return ()
 
+{--
+ V金V歩
+ F9 F8 F7 F6 F5 F4 F3 F2 F1
+            V王             R1
+                            R2
+             歩             R3
+                            R4
+                            R5
+                            R6
+                            R7
+            V歩             R8
+             王             R9
+ 金 歩
+--}
 先手詰み回避 :: (String -> IO ()) -> IO ()
 先手詰み回避 step = do
-  step ""
-  assertBool "未実装" False
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R3), pawn False Black)
+                                   , ((F5, R8), pawn False White)
+                                   , ((F5, R9), king Black)
+                                   ]
+                                  ,[ gold White
+                                   , pawn False White
+                                   , gold Black
+                                   , pawn False Black
+                                   ])
+  let shogi1 = shogi Black pos1 clock1 time1
+
+  step "[先手52金]"
+  let time2  = addUTCTime 1 time1
+  let move2  = dropPiece (gold Black) (F5, R2)
+  move move2 1 time2 shogi1 @?= Nothing
+
   return ()
 
+{--
+ V金V歩
+ F9 F8 F7 F6 F5 F4 F3 F2 F1
+            V王             R1
+             歩             R2
+                            R3
+                            R4
+                            R5
+                            R6
+            V歩             R7
+                            R8
+             王             R9
+ 金 歩
+--}
 後手詰み回避 :: (String -> IO ()) -> IO ()
 後手詰み回避 step = do
-  step ""
-  assertBool "未実装" False
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R2), pawn False Black)
+                                   , ((F5, R7), pawn False White)
+                                   , ((F5, R9), king Black)
+                                   ]
+                                  ,[ gold White
+                                   , pawn False White
+                                   , gold Black
+                                   , pawn False Black
+                                   ])
+  let shogi1 = shogi White pos1 clock1 time1
+
+  step "[後手58金]"
+  let time2  = addUTCTime 1 time1
+  let move2  = dropPiece (gold White) (F5, R8)
+  move move2 1 time2 shogi1 @?= Nothing
+
   return ()
 
 先手打ち歩詰め :: (String -> IO ()) -> IO ()
