@@ -26,20 +26,20 @@ tests = testGroup "countdown"
   time1 <- getCurrentTime
   let clock1 = clock $ suddenDeath 1 (60 * 10)
   let shogi1 = hirate clock1 time1
-  let stat1  = shogiStat shogi1
+  let state1 = shogiState shogi1
 
   let time2  = addUTCTime 10 time1
   let shogi2 = fromJust $ countdown 10 time2 shogi1
-  let stat2  = shogiStat shogi2
+  let state2 = shogiState shogi2
   let clock2 = GameClock.countdown 10 Black clock1
 
   step "最新の局面は時計以外は同じ"
-  statColor    stat2 @?= statColor    stat1
-  statPosition stat2 @?= statPosition stat1
+  stateColor    state2 @?= stateColor    state1
+  statePosition state2 @?= statePosition state1
 
   step "時計は更新される"
-  statClock stat2 @?= clock2
-  statTime  stat2 @?= time2
+  stateClock state2 @?= clock2
+  stateTime  state2 @?= time2
 
   step "手順リストは変わらず"
   shogiMoves shogi2 @?= shogiMoves shogi1
@@ -54,20 +54,20 @@ tests = testGroup "countdown"
   time1 <- getCurrentTime
   let clock1 = clock $ suddenDeath 1 (60 * 10)
   let shogi1 = shogi White Position.hirate clock1 time1
-  let stat1  = shogiStat shogi1
+  let state1 = shogiState shogi1
 
   let time2  = addUTCTime 10 time1
   let shogi2 = fromJust $ countdown 10 time2 shogi1
-  let stat2  = shogiStat shogi2
+  let state2 = shogiState shogi2
   let clock2 = GameClock.countdown 10 White clock1
 
   step "最新の局面は時計以外は同じ"
-  statColor    stat2 @?= statColor    stat1
-  statPosition stat2 @?= statPosition stat1
+  stateColor    state2 @?= stateColor    state1
+  statePosition state2 @?= statePosition state1
 
   step "時計は更新される"
-  statClock stat2 @?= clock2
-  statTime  stat2 @?= time2
+  stateClock state2 @?= clock2
+  stateTime  state2 @?= time2
 
   step "手順リストは変わらず"
   shogiMoves shogi2 @?= shogiMoves shogi1
@@ -82,20 +82,20 @@ tests = testGroup "countdown"
   time1 <- getCurrentTime
   let clock1 = clock $ suddenDeath 1 10
   let shogi1 = hirate clock1 time1
-  let stat1  = shogiStat shogi1
+  let state1 = shogiState shogi1
 
   let time2  = addUTCTime 10 time1
   let shogi2 = fromJust $ countdown 10 time2 shogi1
-  let stat2  = shogiStat shogi2
+  let state2 = shogiState shogi2
   let clock2 = GameClock.countdown 10 Black clock1
 
   step "最新の局面は時計以外は同じ"
-  statColor    stat2 @?= statColor    stat1
-  statPosition stat2 @?= statPosition stat1
+  stateColor    state2 @?= stateColor    state1
+  statePosition state2 @?= statePosition state1
 
   step "時計は更新される"
-  statClock stat2 @?= clock2
-  statTime  stat2 @?= time2
+  stateClock state2 @?= clock2
+  stateTime  state2 @?= time2
 
   step "手順リストに時間切れ追加"
   let moves2 = shogiMoves shogi2
@@ -106,7 +106,7 @@ tests = testGroup "countdown"
   moveType  move2 @?= TimeIsUp
   moveSec   move2 @?= 10
   moveTime  move2 @?= time2
-  moveStat  move2 @?= stat2
+  moveState move2 @?= state2
 
   (moves2 !! 1) @?= (shogiMoves shogi1 !! 0)
 
@@ -120,20 +120,20 @@ tests = testGroup "countdown"
   time1 <- getCurrentTime
   let clock1 = clock $ suddenDeath 1 10
   let shogi1 = shogi White Position.hirate clock1 time1
-  let stat1  = shogiStat shogi1
+  let state1 = shogiState shogi1
 
   let time2  = addUTCTime 10 time1
   let shogi2 = fromJust $ countdown 10 time2 shogi1
-  let stat2  = shogiStat shogi2
+  let state2 = shogiState shogi2
   let clock2 = GameClock.countdown 10 White clock1
 
   step "最新の局面は時計以外は同じ"
-  statColor    stat2 @?= statColor    stat1
-  statPosition stat2 @?= statPosition stat1
+  stateColor    state2 @?= stateColor    state1
+  statePosition state2 @?= statePosition state1
 
   step "時計は更新される"
-  statClock stat2 @?= clock2
-  statTime  stat2 @?= time2
+  stateClock state2 @?= clock2
+  stateTime  state2 @?= time2
 
   step "手順リストに時間切れ追加"
   let moves2 = shogiMoves shogi2
@@ -144,7 +144,7 @@ tests = testGroup "countdown"
   moveType  move2 @?= TimeIsUp
   moveSec   move2 @?= 10
   moveTime  move2 @?= time2
-  moveStat  move2 @?= stat2
+  moveState move2 @?= state2
 
   (moves2 !! 1) @?= (shogiMoves shogi1 !! 0)
 

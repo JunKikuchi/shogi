@@ -1,13 +1,13 @@
 module Shogi
   ( Shogi
-  , shogiStat
+  , shogiState
   , shogiMoves
   , shogiResult
-  , Stat
-  , statColor
-  , statPosition
-  , statClock
-  , statTime
+  , State
+  , stateColor
+  , statePosition
+  , stateClock
+  , stateTime
   , Move(..)
   , MoveType(..)
   , Result(..)
@@ -34,18 +34,18 @@ import Shogi.Square
 
 -- | 将棋データ
 data Shogi = Shogi
-           { shogiStat   :: Stat   -- 最新の局面
+           { shogiState  :: State  -- 最新の局面
            , shogiMoves  :: Moves  -- 手順リスト
            , shogiResult :: Result -- 結果
            } deriving (Eq, Show)
 
 -- | 状態
-data Stat = Stat
-          { statColor    :: Color    -- 手番
-          , statPosition :: Position -- 駒の配置
-          , statClock    :: Clock    -- 時計
-          , statTime     :: UTCTime  -- 時間
-          } deriving (Eq, Show)
+data State = State
+           { stateColor    :: Color    -- 手番
+           , statePosition :: Position -- 駒の配置
+           , stateClock    :: Clock    -- 時計
+           , stateTime     :: UTCTime  -- 時間
+           } deriving (Eq, Show)
 
 -- | 手順リスト
 type Moves = [Move]
@@ -56,7 +56,7 @@ data Move = Move
           , moveType  :: MoveType -- 指した手
           , moveSec   :: Sec      -- 秒数
           , moveTime  :: UTCTime  -- 時間
-          , moveStat  :: Stat     -- 指した後の局面
+          , moveState :: State    -- 指した後の局面
           } deriving (Eq, Show)
 
 -- | 指し手
@@ -89,22 +89,22 @@ shogi :: Color -> Position -> Clock -> UTCTime -> Shogi
 shogi color position clock time = shogi'
   where
     shogi' = Shogi
-           { shogiStat   = stat
+           { shogiState  = state
            , shogiMoves  = [move]
            , shogiResult = InProgress
            }
-    stat = Stat
-         { statColor    = color
-         , statPosition = position
-         , statClock    = clock
-         , statTime     = time
-         }
+    state = State
+          { stateColor    = color
+          , statePosition = position
+          , stateClock    = clock
+          , stateTime     = time
+          }
     move = Move
          { moveColor = color
          , moveType  = Init
          , moveSec   = 0
          , moveTime  = time
-         , moveStat  = stat
+         , moveState = state
          }
 
 -- | 平手初期データ作成
@@ -121,18 +121,18 @@ countdown sec time shogi = do
                 }
     else shogi'
   where
-    color  = statColor stat
-    stat   = shogiStat shogi
+    color  = stateColor state
+    state  = shogiState shogi
     moves  = shogiMoves shogi
-    shogi' = shogi { shogiStat = stat' }
-    stat'  = stat { statClock = clock', statTime = time }
-    clock' = GameClock.countdown sec color $ statClock stat
+    shogi' = shogi { shogiState = state' }
+    state' = state { stateClock = clock', stateTime = time }
+    clock' = GameClock.countdown sec color $ stateClock state
     move'  = Move
            { moveColor = color
            , moveType  = TimeIsUp
            , moveSec   = sec
            , moveTime  = time
-           , moveStat  = stat'
+           , moveState = state'
            }
     result' = Win (turn color) TimeForfeit
 
@@ -143,29 +143,29 @@ move moveType sec time shogi = do
   if shogiResult shogi' /= InProgress
     then return $ shogi'
     else do
-      let stat  = shogiStat shogi'
-      let color = statColor stat
+      let state = shogiState shogi'
+      let color = stateColor state
       let move' = Move
                 { moveColor = color
                 , moveType  = moveType
                 , moveSec   = sec
                 , moveTime  = time
-                , moveStat  = stat
+                , moveState = state
                 }
       if moveType == Resign
         then return $ shogi' { shogiMoves  = move':shogiMoves shogi'
                              , shogiResult = Win (turn color) Resignation
                              }
         else do
-          position <- movePosition moveType color (statPosition stat)
-          let newStat = stat
-                      { statColor    = (turn color)
-                      , statPosition = position
-                      , statTime     = time
-                      }
-          let newMove = move' { moveStat = newStat }
+          position <- movePosition moveType color (statePosition state)
+          let newState = state
+                       { stateColor    = (turn color)
+                       , statePosition = position
+                       , stateTime     = time
+                       }
+          let newMove = move' { moveState = newState }
           let newShogi = shogi'
-                       { shogiStat  = newStat
+                       { shogiState = newState
                        , shogiMoves = newMove:shogiMoves shogi'
                        }
           return $ if Position.checkmate (turn color) position

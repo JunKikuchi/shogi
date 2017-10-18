@@ -19,15 +19,15 @@ tests = testGroup "hirate"
   time1 <- getCurrentTime
   let clock1 = clock $ suddenDeath 1 (60 * 10)
   let shogi1 = hirate clock1 time1
-  let stat1  = shogiStat shogi1
+  let state1 = shogiState shogi1
   let moves1 = shogiMoves shogi1
   let move1  = head moves1
 
   step "最新の局面"
-  statColor    stat1 @?= Black
-  statPosition stat1 @?= Position.hirate
-  statClock    stat1 @?= clock1
-  statTime     stat1 @?= time1
+  stateColor    state1 @?= Black
+  statePosition state1 @?= Position.hirate
+  stateClock    state1 @?= clock1
+  stateTime     state1 @?= time1
 
   step "手順リスト"
   length moves1 @?= 1
@@ -35,7 +35,7 @@ tests = testGroup "hirate"
   moveType  move1 @?= Init
   moveSec   move1 @?= 0
   moveTime  move1 @?= time1
-  moveStat  move1 @?= stat1
+  moveState move1 @?= state1
 
   step "結果"
   shogiResult shogi1 @?= InProgress

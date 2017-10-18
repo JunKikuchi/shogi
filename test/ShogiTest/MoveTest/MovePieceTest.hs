@@ -53,21 +53,21 @@ tests = testGroup "MovePiece"
   let shogi2 = fromJust $ move move2 1 time2 shogi1
 
   step "局面"
-  let stat2  = shogiStat shogi2
+  let state2 = shogiState shogi2
   let clock2 = GameClock.countdown 1 Black clock1
-  statColor    stat2 @?= White
-  statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
-                                             , ((F5, R3), pawn False White)
-                                             , ((F5, R6), pawn False Black)
-                                             , ((F5, R9), king Black)
-                                             ], [])
-  statClock    stat2 @?= clock2
-  statTime     stat2 @?= time2
+  stateColor    state2 @?= White
+  statePosition state2 @?= Position.fromLists ([ ((F5, R1), king White)
+                                               , ((F5, R3), pawn False White)
+                                               , ((F5, R6), pawn False Black)
+                                               , ((F5, R9), king Black)
+                                               ], [])
+  stateClock    state2 @?= clock2
+  stateTime     state2 @?= time2
 
   step "手順"
   let moves2 = shogiMoves shogi2
   length moves2 @?= 2
-  moves2 !! 0 @?= Move Black move2 1 time2 stat2
+  moves2 !! 0 @?= Move Black move2 1 time2 state2
   moves2 !! 1 @?= shogiMoves shogi1 !! 0
 
   step "対局中"
@@ -79,21 +79,21 @@ tests = testGroup "MovePiece"
   let shogi3 = fromJust $ move move3 1 time3 shogi2
 
   step "局面"
-  let stat3  = shogiStat shogi3
+  let state3 = shogiState shogi3
   let clock3 = GameClock.countdown 1 White clock2
-  statColor    stat3 @?= Black
-  statPosition stat3 @?= Position.fromLists ([ ((F5, R1), king White)
-                                             , ((F5, R4), pawn False White)
-                                             , ((F5, R6), pawn False Black)
-                                             , ((F5, R9), king Black)
-                                             ], [])
-  statClock    stat3 @?= clock3
-  statTime     stat3 @?= time3
+  stateColor    state3 @?= Black
+  statePosition state3 @?= Position.fromLists ([ ((F5, R1), king White)
+                                               , ((F5, R4), pawn False White)
+                                               , ((F5, R6), pawn False Black)
+                                               , ((F5, R9), king Black)
+                                               ], [])
+  stateClock    state3 @?= clock3
+  stateTime     state3 @?= time3
 
   step "手順"
   let moves3 = shogiMoves shogi3
   length moves3 @?= 3
-  moves3 !! 0 @?= Move White move3 1 time3 stat3
+  moves3 !! 0 @?= Move White move3 1 time3 state3
   moves3 !! 1 @?= shogiMoves shogi2 !! 0
   moves3 !! 2 @?= shogiMoves shogi2 !! 1
 
@@ -106,21 +106,21 @@ tests = testGroup "MovePiece"
   let shogi4 = fromJust $ move move4 1 time4 shogi3
 
   step "局面"
-  let stat4  = shogiStat shogi4
+  let state4 = shogiState shogi4
   let clock4 = GameClock.countdown 1 Black clock3
-  statColor    stat4 @?= White
-  statPosition stat4 @?= Position.fromLists ([ ((F5, R1), king White)
-                                             , ((F5, R4), pawn False White)
-                                             , ((F5, R6), pawn False Black)
-                                             , ((F4, R9), king Black)
-                                             ], [])
-  statClock    stat4 @?= clock4
-  statTime     stat4 @?= time4
+  stateColor    state4 @?= White
+  statePosition state4 @?= Position.fromLists ([ ((F5, R1), king White)
+                                               , ((F5, R4), pawn False White)
+                                               , ((F5, R6), pawn False Black)
+                                               , ((F4, R9), king Black)
+                                               ], [])
+  stateClock    state4 @?= clock4
+  stateTime     state4 @?= time4
 
   step "手順"
   let moves4 = shogiMoves shogi4
   length moves4 @?= 4
-  moves4 !! 0 @?= Move Black move4 1 time4 stat4
+  moves4 !! 0 @?= Move Black move4 1 time4 state4
   moves4 !! 1 @?= shogiMoves shogi3 !! 0
   moves4 !! 2 @?= shogiMoves shogi3 !! 1
   moves4 !! 3 @?= shogiMoves shogi3 !! 2
@@ -144,21 +144,21 @@ tests = testGroup "MovePiece"
   let shogi5 = fromJust $ move move5 1 time5 shogi4
 
   step "局面"
-  let stat5  = shogiStat shogi5
+  let state5 = shogiState shogi5
   let clock5 = GameClock.countdown 1 White clock4
-  statColor    stat5 @?= Black
-  statPosition stat5 @?= Position.fromLists ([ ((F5, R1), king White)
-                                             , ((F5, R5), pawn False White)
-                                             , ((F5, R6), pawn False Black)
-                                             , ((F4, R9), king Black)
-                                             ], [])
-  statClock    stat5 @?= clock5
-  statTime     stat5 @?= time5
+  stateColor    state5 @?= Black
+  statePosition state5 @?= Position.fromLists ([ ((F5, R1), king White)
+                                               , ((F5, R5), pawn False White)
+                                               , ((F5, R6), pawn False Black)
+                                               , ((F4, R9), king Black)
+                                               ], [])
+  stateClock    state5 @?= clock5
+  stateTime     state5 @?= time5
 
   step "手順"
   let moves5 = shogiMoves shogi5
   length moves5 @?= 5
-  moves5 !! 0 @?= Move White move5 1 time5 stat5
+  moves5 !! 0 @?= Move White move5 1 time5 state5
   moves5 !! 1 @?= shogiMoves shogi4 !! 0
   moves5 !! 2 @?= shogiMoves shogi4 !! 1
   moves5 !! 3 @?= shogiMoves shogi4 !! 2
@@ -210,23 +210,23 @@ tests = testGroup "MovePiece"
   let shogi2 = fromJust $ move move2 1 time2 shogi1
 
   step "局面"
-  let stat2  = shogiStat shogi2
+  let state2 = shogiState shogi2
   let clock2 = GameClock.countdown 1 White clock1
-  statColor    stat2 @?= Black
-  statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
-                                             , ((F5, R3), pawn False Black)
-                                             , ((F4, R3), gold Black)
-                                             , ((F5, R7), pawn False White)
-                                             , ((F5, R8), gold White)
-                                             , ((F5, R9), king Black)
-                                             ], [])
-  statClock    stat2 @?= clock2
-  statTime     stat2 @?= time2
+  stateColor    state2 @?= Black
+  statePosition state2 @?= Position.fromLists ([ ((F5, R1), king White)
+                                               , ((F5, R3), pawn False Black)
+                                               , ((F4, R3), gold Black)
+                                               , ((F5, R7), pawn False White)
+                                               , ((F5, R8), gold White)
+                                               , ((F5, R9), king Black)
+                                               ], [])
+  stateClock    state2 @?= clock2
+  stateTime     state2 @?= time2
 
   step "手順"
   let moves2 = shogiMoves shogi2
   length moves2 @?= 2
-  moves2 !! 0 @?= Move White move2 1 time2 stat2
+  moves2 !! 0 @?= Move White move2 1 time2 state2
   moves2 !! 1 @?= shogiMoves shogi1 !! 0
 
   step "対局終了"
@@ -253,23 +253,23 @@ tests = testGroup "MovePiece"
   let shogi2 = fromJust $ move move2 1 time2 shogi1
 
   step "局面"
-  let stat2  = shogiStat shogi2
+  let state2 = shogiState shogi2
   let clock2 = GameClock.countdown 1 Black clock1
-  statColor    stat2 @?= White
-  statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
-                                             , ((F5, R3), pawn False Black)
-                                             , ((F5, R2), gold Black)
-                                             , ((F5, R7), pawn False White)
-                                             , ((F4, R7), gold White)
-                                             , ((F5, R9), king Black)
-                                             ], [])
-  statClock    stat2 @?= clock2
-  statTime     stat2 @?= time2
+  stateColor    state2 @?= White
+  statePosition state2 @?= Position.fromLists ([ ((F5, R1), king White)
+                                               , ((F5, R3), pawn False Black)
+                                               , ((F5, R2), gold Black)
+                                               , ((F5, R7), pawn False White)
+                                               , ((F4, R7), gold White)
+                                               , ((F5, R9), king Black)
+                                               ], [])
+  stateClock    state2 @?= clock2
+  stateTime     state2 @?= time2
 
   step "手順"
   let moves2 = shogiMoves shogi2
   length moves2 @?= 2
-  moves2 !! 0 @?= Move Black move2 1 time2 stat2
+  moves2 !! 0 @?= Move Black move2 1 time2 state2
   moves2 !! 1 @?= shogiMoves shogi1 !! 0
 
   step "対局終了"
@@ -358,23 +358,23 @@ tests = testGroup "MovePiece"
   let shogi2 = fromJust $ move move2 10 time2 shogi1
 
   step "局面"
-  let stat2  = shogiStat shogi2
+  let state2 = shogiState shogi2
   let clock2 = GameClock.countdown 10 Black clock1
-  statColor    stat2 @?= Black
-  statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
-                                             , ((F5, R3), pawn False Black)
-                                             , ((F4, R3), gold Black)
-                                             , ((F5, R7), pawn False White)
-                                             , ((F4, R7), gold White)
-                                             , ((F5, R9), king Black)
-                                             ], [])
-  statClock    stat2 @?= clock2
-  statTime     stat2 @?= time2
+  stateColor    state2 @?= Black
+  statePosition state2 @?= Position.fromLists ([ ((F5, R1), king White)
+                                               , ((F5, R3), pawn False Black)
+                                               , ((F4, R3), gold Black)
+                                               , ((F5, R7), pawn False White)
+                                               , ((F4, R7), gold White)
+                                               , ((F5, R9), king Black)
+                                               ], [])
+  stateClock    state2 @?= clock2
+  stateTime     state2 @?= time2
 
   step "手順"
   let moves2 = shogiMoves shogi2
   length moves2 @?= 2
-  moves2 !! 0 @?= Move Black TimeIsUp 10 time2 stat2
+  moves2 !! 0 @?= Move Black TimeIsUp 10 time2 state2
   moves2 !! 1 @?= shogiMoves shogi1 !! 0
 
   step "対局終了"
@@ -401,23 +401,23 @@ tests = testGroup "MovePiece"
   let shogi2 = fromJust $ move move2 10 time2 shogi1
 
   step "局面"
-  let stat2  = shogiStat shogi2
+  let state2 = shogiState shogi2
   let clock2 = GameClock.countdown 10 White clock1
-  statColor    stat2 @?= White
-  statPosition stat2 @?= Position.fromLists ([ ((F5, R1), king White)
-                                             , ((F5, R3), pawn False Black)
-                                             , ((F4, R3), gold Black)
-                                             , ((F5, R7), pawn False White)
-                                             , ((F4, R7), gold White)
-                                             , ((F5, R9), king Black)
-                                             ], [])
-  statClock    stat2 @?= clock2
-  statTime     stat2 @?= time2
+  stateColor    state2 @?= White
+  statePosition state2 @?= Position.fromLists ([ ((F5, R1), king White)
+                                               , ((F5, R3), pawn False Black)
+                                               , ((F4, R3), gold Black)
+                                               , ((F5, R7), pawn False White)
+                                               , ((F4, R7), gold White)
+                                               , ((F5, R9), king Black)
+                                               ], [])
+  stateClock    state2 @?= clock2
+  stateTime     state2 @?= time2
 
   step "手順"
   let moves2 = shogiMoves shogi2
   length moves2 @?= 2
-  moves2 !! 0 @?= Move White TimeIsUp 10 time2 stat2
+  moves2 !! 0 @?= Move White TimeIsUp 10 time2 state2
   moves2 !! 1 @?= shogiMoves shogi1 !! 0
 
   step "対局終了"
