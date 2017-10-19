@@ -18,6 +18,8 @@ tests = testGroup "DropPiece"
   [ testCaseSteps "持ち駒を打つ"   持ち駒を打つ
   , testCaseSteps "先手持ち駒なし" 先手持ち駒なし
   , testCaseSteps "後手持ち駒なし" 後手持ち駒なし
+  , testCaseSteps "先手相手の駒"   先手相手の駒
+  , testCaseSteps "後手相手の駒"   後手相手の駒
   , testCaseSteps "先手二歩"       先手二歩
   , testCaseSteps "後手二歩"       後手二歩
   , testCaseSteps "先手詰み"       先手詰み
@@ -167,6 +169,58 @@ tests = testGroup "DropPiece"
   step "[後手56歩]"
   let time2  = addUTCTime 1 time1
   let move2  = dropPiece (pawn False White) (F5, R6)
+  move move2 1 time2 shogi1 @?= Nothing
+
+  return ()
+
+{--
+ V歩
+ F9 F8 F7 F6 F5 F4 F3 F2 F1
+             V王            R1
+                            R2
+                            R3
+                            R4
+                            R5
+                            R6
+                            R7
+                            R8
+              王            R9
+ 歩
+--}
+先手相手の駒 :: (String -> IO ()) -> IO ()
+先手相手の駒 step = do
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R9), king Black)
+                                   ]
+                                  ,[ pawn False White
+                                   , pawn False Black
+                                   ])
+  let shogi1 = shogi Black pos1 clock1 time1
+
+  step "[先手54歩]"
+  let time2  = addUTCTime 1 time1
+  let move2  = dropPiece (pawn False White) (F5, R4)
+  move move2 1 time2 shogi1 @?= Nothing
+
+  return ()
+
+後手相手の駒 :: (String -> IO ()) -> IO ()
+後手相手の駒 step = do
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R9), king Black)
+                                   ]
+                                  ,[ pawn False White
+                                   , pawn False Black
+                                   ])
+  let shogi1 = shogi White pos1 clock1 time1
+
+  step "[後手56歩]"
+  let time2  = addUTCTime 1 time1
+  let move2  = dropPiece (pawn False Black) (F5, R6)
   move move2 1 time2 shogi1 @?= Nothing
 
   return ()

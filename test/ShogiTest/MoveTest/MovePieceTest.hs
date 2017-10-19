@@ -15,13 +15,17 @@ import GameClock.Clock (suddenDeath)
 
 tests :: TestTree
 tests = testGroup "MovePiece"
-  [ testCaseSteps "駒を動かす"    駒を動かす
-  , testCaseSteps "先手詰み"      先手詰み
-  , testCaseSteps "後手詰み"      後手詰み
-  , testCaseSteps "先手詰み回避"  先手詰み回避
-  , testCaseSteps "後手詰み回避"  後手詰み回避
-  , testCaseSteps "先手時間切れ"  先手時間切れ
-  , testCaseSteps "後手時間切れ"  後手時間切れ
+  [ testCaseSteps "駒を動かす"         駒を動かす
+  , testCaseSteps "先手動かす駒がない" 先手動かす駒がない
+  , testCaseSteps "後手動かす駒がない" 後手動かす駒がない
+  , testCaseSteps "先手相手の駒"       先手相手の駒
+  , testCaseSteps "後手相手の駒"       後手相手の駒
+  , testCaseSteps "先手詰み"           先手詰み
+  , testCaseSteps "後手詰み"           後手詰み
+  , testCaseSteps "先手詰み回避"       先手詰み回避
+  , testCaseSteps "後手詰み回避"       後手詰み回避
+  , testCaseSteps "先手時間切れ"       先手時間切れ
+  , testCaseSteps "後手時間切れ"       後手時間切れ
   ]
 
 {--
@@ -176,6 +180,100 @@ tests = testGroup "MovePiece"
   let time5''  = addUTCTime 1 time5
   let move5''  = movePiece (F5, R5) ((F5, R6), False)
   move move5'' 1 time5'' shogi5 @?= Nothing
+
+  return ()
+
+{--
+ F9 F8 F7 F6 F5 F4 F3 F2 F1
+            V王             R1
+                            R2
+             歩             R3
+                            R4
+                            R5
+                            R6
+            V歩             R7
+                            R8
+             王             R9
+--}
+先手動かす駒がない :: (String -> IO ()) -> IO ()
+先手動かす駒がない step = do
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R3), pawn False Black)
+                                   , ((F5, R7), pawn False White)
+                                   , ((F5, R9), king Black)
+                                   ], [])
+  let shogi1 = shogi Black pos1 clock1 time1
+
+  step "先手43x"
+  let time2  = addUTCTime 1 time1
+  let move2  = movePiece (F4, R2) ((F4, R3), False)
+  move move2 1 time2 shogi1 @?= Nothing
+
+  return ()
+
+後手動かす駒がない :: (String -> IO ()) -> IO ()
+後手動かす駒がない step = do
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R3), pawn False Black)
+                                   , ((F5, R7), pawn False White)
+                                   , ((F5, R9), king Black)
+                                   ], [])
+  let shogi1 = shogi White pos1 clock1 time1
+
+  step "後手48x"
+  let time2  = addUTCTime 1 time1
+  let move2  = movePiece (F4, R7) ((F4, R8), False)
+  move move2 1 time2 shogi1 @?= Nothing
+
+  return ()
+
+先手相手の駒 :: (String -> IO ()) -> IO ()
+先手相手の駒 step = do
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R3), pawn False Black)
+                                   , ((F5, R7), pawn False White)
+                                   , ((F5, R9), king Black)
+                                   ], [])
+  let shogi1 = shogi Black pos1 clock1 time1
+
+  step "先手56歩"
+  let time2  = addUTCTime 1 time1
+  let move2  = movePiece (F5, R7) ((F5, R6), False)
+  move move2 1 time2 shogi1 @?= Nothing
+
+  step "先手58歩"
+  let time3  = addUTCTime 1 time1
+  let move3  = movePiece (F5, R7) ((F5, R8), False)
+  move move3 1 time3 shogi1 @?= Nothing
+
+  return ()
+
+後手相手の駒 :: (String -> IO ()) -> IO ()
+後手相手の駒 step = do
+  time1 <- getCurrentTime
+  let clock1 = clock $ suddenDeath 1 (60 * 10)
+  let pos1   = Position.fromLists ([ ((F5, R1), king White)
+                                   , ((F5, R3), pawn False Black)
+                                   , ((F5, R7), pawn False White)
+                                   , ((F5, R9), king Black)
+                                   ], [])
+  let shogi1 = shogi White pos1 clock1 time1
+
+  step "後手54歩"
+  let time2  = addUTCTime 1 time1
+  let move2  = movePiece (F5, R3) ((F5, R4), False)
+  move move2 1 time2 shogi1 @?= Nothing
+
+  step "先手52歩"
+  let time3  = addUTCTime 1 time1
+  let move3  = movePiece (F5, R3) ((F5, R2), False)
+  move move3 1 time3 shogi1 @?= Nothing
 
   return ()
 
