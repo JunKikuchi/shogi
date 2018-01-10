@@ -11,18 +11,18 @@ module Shogi.Position
   , drops
   ) where
 
-import Prelude hiding (drop)
-import Data.List (nub)
-import Data.Maybe (maybe, maybeToList)
-import Control.Monad (guard)
-import qualified Shogi.Board as Board
-import qualified Shogi.Stand as Stand
-import qualified Shogi.Piece as Piece
-import Shogi.Board (Board)
-import Shogi.Stand (Stand)
-import Shogi.Piece (Piece, pieceType, pieceColor)
-import Shogi.Square
-import Shogi.Color
+import           Control.Monad (guard)
+import           Data.List     (nub)
+import           Data.Maybe    (maybe, maybeToList)
+import           Prelude       hiding (drop)
+import           Shogi.Board   (Board)
+import qualified Shogi.Board   as Board
+import           Shogi.Color
+import           Shogi.Piece   (Piece, pieceColor, pieceType)
+import qualified Shogi.Piece   as Piece
+import           Shogi.Square
+import           Shogi.Stand   (Stand)
+import qualified Shogi.Stand   as Stand
 
 {--
  F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -41,11 +41,11 @@ V歩V歩V歩V歩V歩V歩V歩V歩V歩 R3
 data Position = Position { getBoard :: Board, getStand :: Stand } deriving (Eq, Show)
 
 -- | 将棋盤作成用リストと駒台作成用リストから局面作成
-fromLists :: ([(Square, Piece)], [(Piece)]) -> Position
+fromLists :: ([(Square, Piece)], [Piece]) -> Position
 fromLists (board, stand) = Position (Board.fromList board) (Stand.fromList stand)
 
 -- | 局面から将棋盤リストと駒台リストのタプルを作成
-toLists :: Position -> ([(Square, Piece)], [(Piece)])
+toLists :: Position -> ([(Square, Piece)], [Piece])
 toLists position = (Board.toList $ getBoard position, Stand.toList $ getStand position)
 
 -- | 平手の局面を作成
@@ -120,7 +120,7 @@ standPieces color = Stand.pieces color . getStand
 -- | 駒を動かす
 move :: MoveFrom -> MoveTo -> Position -> Maybe Position
 move from@(_, color) to position = do
-  stand' <- return . maybe stand (flip Stand.put stand) $ Board.lookup (fst to) board
+  stand' <- return . maybe stand (`Stand.put` stand) $ Board.lookup (fst to) board
   board' <- Board.move from to board
   guard $ not $ Board.check color board'
   return position { getBoard = board', getStand = stand' }

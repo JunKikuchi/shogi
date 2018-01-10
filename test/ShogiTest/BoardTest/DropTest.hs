@@ -1,12 +1,12 @@
 module ShogiTest.BoardTest.DropTest (tests) where
 
-import Test.Tasty
-import Test.Tasty.HUnit
-import Prelude hiding (drop)
-import Shogi.Board
-import Shogi.Piece
-import Shogi.Square
-import Shogi.Color
+import           Prelude          hiding (drop)
+import           Shogi.Board
+import           Shogi.Color
+import           Shogi.Piece
+import           Shogi.Square
+import           Test.Tasty
+import           Test.Tasty.HUnit
 
 tests :: TestTree
 tests = testGroup "drop"

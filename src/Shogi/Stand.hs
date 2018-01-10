@@ -8,10 +8,10 @@ module Shogi.Stand
   , included
   ) where
 
-import Prelude hiding (take)
-import Data.List (delete, sort)
-import Shogi.Piece
-import Shogi.Color
+import           Data.List   (delete, sort)
+import           Prelude     hiding (take)
+import           Shogi.Color
+import           Shogi.Piece
 
 -- | 駒台
 newtype Stand = Stand { unStand :: [Piece] } deriving (Eq, Show)
@@ -35,9 +35,9 @@ put piece (Stand stand) = fromList $ piece { pieceColor = turn $ pieceColor piec
 -- | 駒台から駒を取り除く
 take :: Piece -> Stand -> Maybe Stand
 take piece (Stand stand)
-  | elem piece stand = Just $ Stand $ delete piece stand
+  | piece `elem` stand = Just $ Stand $ delete piece stand
   | otherwise        = Nothing
 
 -- | 駒が駒台にあるか
 included :: Piece -> Stand -> Bool
-included piece (Stand stand) = elem piece stand
+included piece (Stand stand) = piece `elem` stand

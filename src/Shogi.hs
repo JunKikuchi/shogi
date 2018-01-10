@@ -21,16 +21,16 @@ module Shogi
   , resign
   ) where
 
-import Control.Monad (guard)
-import Data.Time.Clock (UTCTime)
+import           Control.Monad   (guard)
+import           Data.Time.Clock (UTCTime)
 import qualified GameClock
-import Shogi.Color
-import Shogi.Clock
-import qualified Shogi.Position as Position
-import qualified Shogi.Piece    as Piece
-import Shogi.Position (Position)
-import Shogi.Piece    (Piece)
-import Shogi.Square
+import           Shogi.Clock
+import           Shogi.Color
+import           Shogi.Piece     (Piece)
+import qualified Shogi.Piece     as Piece
+import           Shogi.Position  (Position)
+import qualified Shogi.Position  as Position
+import           Shogi.Square
 
 -- | 将棋データ
 data Shogi = Shogi
@@ -141,7 +141,7 @@ move :: MoveType -> Sec -> UTCTime -> Shogi -> Maybe Shogi
 move moveType sec time shogi = do
   shogi' <- countdown sec time shogi
   if shogiResult shogi' /= InProgress
-    then return $ shogi'
+    then return shogi'
     else do
       let state = shogiState shogi'
       let color = stateColor state
@@ -159,7 +159,7 @@ move moveType sec time shogi = do
         else do
           position <- movePosition moveType color (statePosition state)
           let newState = state
-                       { stateColor    = (turn color)
+                       { stateColor    = turn color
                        , statePosition = position
                        , stateTime     = time
                        }

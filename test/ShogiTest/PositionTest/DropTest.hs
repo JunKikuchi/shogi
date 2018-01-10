@@ -138,7 +138,7 @@ tests = testGroup "drop"
                        金       R2
      歩
     --}
-  , testCase "先手打ち歩詰め回避していない" $ drop (pawn False Black) (F1, R2) (fromLists ([((F1, R1), king White), ((F2, R1), silver False Black), ((F3, R2), gold Black)], [(pawn False Black)])) @?= Nothing
+  , testCase "先手打ち歩詰め回避していない" $ drop (pawn False Black) (F1, R2) (fromLists ([((F1, R1), king White), ((F2, R1), silver False Black), ((F3, R2), gold Black)], [pawn False Black])) @?= Nothing
 
     {--
      V歩
@@ -146,5 +146,5 @@ tests = testGroup "drop"
                       V金       R8
                          V銀 王 R9
     --}
-  , testCase "後手打ち歩詰め回避していない" $ drop (pawn False White) (F1, R8) (fromLists ([((F1, R9), king Black), ((F2, R9), silver False White), ((F3, R8), gold White)], [(pawn False White)])) @?= Nothing
+  , testCase "後手打ち歩詰め回避していない" $ drop (pawn False White) (F1, R8) (fromLists ([((F1, R9), king Black), ((F2, R9), silver False White), ((F3, R8), gold White)], [pawn False White])) @?= Nothing
   ]

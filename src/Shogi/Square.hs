@@ -6,8 +6,8 @@ module Shogi.Square
   , MoveTo
   ) where
 
-import Shogi.Color
-import Shogi.Promotion
+import           Shogi.Color
+import           Shogi.Promotion
 
 -- | 升目
 type Square = (File, Rank)

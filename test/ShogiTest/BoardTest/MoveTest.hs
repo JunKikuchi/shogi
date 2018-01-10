@@ -1,11 +1,11 @@
 module ShogiTest.BoardTest.MoveTest (tests) where
 
-import Test.Tasty
-import Test.Tasty.HUnit
-import Shogi.Board
-import Shogi.Piece hiding (moves)
-import Shogi.Square
-import Shogi.Color
+import           Shogi.Board
+import           Shogi.Color
+import           Shogi.Piece
+import           Shogi.Square
+import           Test.Tasty
+import           Test.Tasty.HUnit
 
 tests :: TestTree
 tests = testGroup "move"

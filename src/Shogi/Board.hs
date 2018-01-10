@@ -11,17 +11,17 @@ module Shogi.Board
   , lookup
   ) where
 
-import Prelude hiding (drop, lookup)
-import Data.Maybe (maybe, maybeToList)
-import qualified Data.Map as Map
-import Control.Monad (guard)
-import qualified Shogi.Piece as Piece
-import Shogi.Piece (Piece, pieceType, piecePromotion, pieceColor)
-import Shogi.Color
-import Shogi.Square
+import           Control.Monad (guard)
+import qualified Data.Map      as Map
+import           Data.Maybe    (isNothing, maybe, maybeToList)
+import           Prelude       hiding (drop, lookup)
+import           Shogi.Color
+import           Shogi.Piece   (Piece, pieceColor, piecePromotion, pieceType)
+import qualified Shogi.Piece   as Piece
+import           Shogi.Square
 
 -- | 将棋盤
-newtype Board = Board { unBoard :: (Map.Map Square Piece) } deriving (Eq, Show)
+newtype Board = Board { unBoard :: Map.Map Square Piece } deriving (Eq, Show)
 
 -- | 升目と駒のリストから将棋盤作成
 fromList :: [(Square, Piece)] -> Board
@@ -33,7 +33,7 @@ toList (Board board) = Map.toList board
 
 -- | 王手判定
 check :: Color -> Board -> Bool
-check color board = maybe False (flip elem moves') $ kingSquare color board
+check color board = maybe False (`elem` moves') $ kingSquare color board
   where
     moves' = do
       (from, _) <- pieces turnedColor board
@@ -76,7 +76,7 @@ moves from@(from', color) board = do
   moves' squares piece board
   where
     moves' [] _ _ = []
-    moves' (square:squares) piece board = do
+    moves' (square:squares) piece board =
       case lookup square board of
         (Just piece') -> if pieceColor piece' == pieceColor piece
                          then []
@@ -91,9 +91,9 @@ drops piece board
   | pieceType piece == Piece.Pawn = filterPawnFiles squares
   | otherwise                         = squares
   where
-    filterPawnFiles = filter (\(file, _) -> not $ elem file pawnFiles)
-    pawnFiles       = map (fst . fst) $ filter (\(_, piece) -> pieceType piece == Piece.Pawn && piecePromotion piece == False) $ pieces (pieceColor piece) board
-    squares         = filter (\square -> (lookup square board) == Nothing) $ Piece.drops piece
+    filterPawnFiles = filter (\(file, _) -> notElem file pawnFiles)
+    pawnFiles       = map (fst . fst) $ filter (\(_, piece) -> pieceType piece == Piece.Pawn && not (piecePromotion piece)) $ pieces (pieceColor piece) board
+    squares         = filter (\square -> isNothing (lookup square board)) $ Piece.drops piece
 
 -- | 升目の駒
 lookup :: Square -> Board -> Maybe Piece

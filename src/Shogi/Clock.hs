@@ -4,10 +4,10 @@ module Shogi.Clock
   , Sec
   ) where
 
-import GameClock
-import GameClock.Clock
-import GameClock.Clock.Sec
-import Shogi.Color
+import           GameClock
+import           GameClock.Clock
+import           GameClock.Clock.Sec
+import           Shogi.Color
 
 type Clock = GameClock Color
 

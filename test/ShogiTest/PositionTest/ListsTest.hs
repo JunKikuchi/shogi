@@ -15,4 +15,4 @@ tests = testGroup "move"
   ]
 
 shogiBoard :: Position
-shogiBoard = fromLists ([((F5, R9), king Black), ((F5, R1), king White)], [(pawn False Black), (pawn False White)])
+shogiBoard = fromLists ([((F5, R9), king Black), ((F5, R1), king White)], [pawn False Black, pawn False White])

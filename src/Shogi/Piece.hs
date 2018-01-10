@@ -19,9 +19,9 @@ module Shogi.Piece
   , drops
   ) where
 
-import Shogi.Color
-import Shogi.Promotion
-import Shogi.Square
+import           Shogi.Color
+import           Shogi.Promotion
+import           Shogi.Square
 
 -- | 駒
 data Piece = Piece
@@ -78,7 +78,7 @@ promote :: Piece -> Maybe Piece
 promote (Piece _ True _) = Nothing
 promote (Piece Gold _ _) = Nothing
 promote (Piece King _ _) = Nothing
-promote piece = Just piece { piecePromotion = True }
+promote piece            = Just piece { piecePromotion = True }
 
 -- | 成り不成
 promotions :: Piece -> Square -> [Promotion]
