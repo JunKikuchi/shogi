@@ -8,6 +8,7 @@ import qualified ShogiTest.PositionTest  as PositionTest
 import qualified ShogiTest.BoardTest     as BoardTest
 import qualified ShogiTest.StandTest     as StandTest
 import qualified ShogiTest.PieceTest     as PieceTest
+import qualified ShogiTest.ColorTest     as ColorTest
 
 tests :: TestTree
 tests = testGroup "Shogi"
@@ -18,4 +19,5 @@ tests = testGroup "Shogi"
   , BoardTest.tests
   , StandTest.tests
   , PieceTest.tests
+  , ColorTest.tests
   ]

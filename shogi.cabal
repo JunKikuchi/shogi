@@ -43,6 +43,8 @@ test-suite shogi-test
                      , smallcheck
                      -- , tasty-quickcheck
                      , time
+                     , aeson
+                     , containers
                      , game-clock
                      , shogi
   other-modules:       ShogiTest
@@ -70,6 +72,7 @@ test-suite shogi-test
                      , ShogiTest.PieceTest.MovesTest
                      , ShogiTest.PieceTest.DropsTest
                      , ShogiTest.PieceTest.PromotionsTest
+                     , ShogiTest.ColorTest
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N -Wall -Werror
   default-language:    Haskell2010
 

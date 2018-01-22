@@ -16,6 +16,8 @@ data Color = Black -- 先手
            | White -- 後手
            deriving (Eq, Ord, Enum, Bounded, Show)
 
+$(deriveJSON defaultOptions ''Color)
+
 instance ToJSONKey Color where
   toJSONKey = toJSONKeyText $ pack . show
 
@@ -25,8 +27,6 @@ instance FromJSONKey Color where
       convert "Black" = pure Black
       convert "White" = pure White
       convert t       = fail $ "Cannot parse key into Color: " ++ unpack t
-
-$(deriveJSON defaultOptions ''Color)
 
 -- | 手番変更
 turn :: Color -> Color
