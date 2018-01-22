@@ -1,3 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell   #-}
+
 module Shogi.Stand
   ( Stand
   , fromList
@@ -8,13 +11,17 @@ module Shogi.Stand
   , included
   ) where
 
-import           Data.List   (delete, sort)
-import           Prelude     hiding (take)
+import           Data.Aeson
+import           Data.Aeson.TH
+import           Data.List     (delete, sort)
+import           Prelude       hiding (take)
 import           Shogi.Color
 import           Shogi.Piece
 
 -- | 駒台
 newtype Stand = Stand { unStand :: [Piece] } deriving (Eq, Show)
+
+$(deriveJSON defaultOptions ''Stand)
 
 -- | 駒のリストから駒台作成
 fromList :: [Piece] -> Stand

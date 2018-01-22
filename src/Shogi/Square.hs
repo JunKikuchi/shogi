@@ -1,3 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell   #-}
+
 module Shogi.Square
   ( Square
   , File(..)
@@ -6,6 +9,8 @@ module Shogi.Square
   , MoveTo
   ) where
 
+import           Data.Aeson
+import           Data.Aeson.TH
 import           Shogi.Color
 import           Shogi.Promotion
 
@@ -23,3 +28,6 @@ type MoveFrom = (Square, Color)
 
 -- | 駒の移動先の升目
 type MoveTo = (Square, Promotion)
+
+$(deriveJSON defaultOptions ''File)
+$(deriveJSON defaultOptions ''Rank)

@@ -1,3 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell   #-}
+
 module Shogi.Position
   ( Position
   , fromLists
@@ -12,6 +15,8 @@ module Shogi.Position
   ) where
 
 import           Control.Monad (guard)
+import           Data.Aeson
+import           Data.Aeson.TH
 import           Data.List     (nub)
 import           Data.Maybe    (maybe, maybeToList)
 import           Prelude       hiding (drop)
@@ -39,6 +44,8 @@ V歩V歩V歩V歩V歩V歩V歩V歩V歩 R3
 
 -- | 局面
 data Position = Position { getBoard :: Board, getStand :: Stand } deriving (Eq, Show)
+
+$(deriveJSON defaultOptions ''Position)
 
 -- | 将棋盤作成用リストと駒台作成用リストから局面作成
 fromLists :: ([(Square, Piece)], [Piece]) -> Position
