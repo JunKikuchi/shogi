@@ -1,6 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell   #-}
-
 module Shogi
   ( Shogi
   , shogiState
@@ -25,8 +22,6 @@ module Shogi
   ) where
 
 import           Control.Monad   (guard)
-import qualified Data.Aeson      as Aeson
-import           Data.Aeson.TH
 import           Data.Time.Clock (UTCTime)
 import qualified GameClock
 import           Shogi.Clock
@@ -88,13 +83,6 @@ data Termination = Checkmate      -- Win 詰み
                  -- | Impasse        -- Win, Drawn 持将棋
                  -- | IllegalMove    -- Win, 不正な手 (https://en.wikipedia.org/wiki/Shogi#Illegal_move)
                  deriving (Eq, Show)
-
-$(deriveJSON defaultOptions ''Shogi)
-$(deriveJSON defaultOptions ''State)
-$(deriveJSON defaultOptions ''Move)
-$(deriveJSON defaultOptions ''MoveType)
-$(deriveJSON defaultOptions ''Result)
-$(deriveJSON defaultOptions ''Termination)
 
 -- | 将棋データ作成
 shogi :: Color -> Position -> Clock -> UTCTime -> Shogi

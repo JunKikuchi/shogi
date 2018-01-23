@@ -1,6 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell   #-}
-
 module Shogi.Piece
   ( Piece
   , Type(..)
@@ -22,8 +19,6 @@ module Shogi.Piece
   , drops
   ) where
 
-import           Data.Aeson
-import           Data.Aeson.TH
 import           Shogi.Color
 import           Shogi.Promotion
 import           Shogi.Square
@@ -45,9 +40,6 @@ data Type = Pawn   -- 歩兵
           | Rook   -- 飛車
           | King   -- 王将
           deriving (Eq, Ord, Enum, Bounded, Show)
-
-$(deriveJSON defaultOptions ''Piece)
-$(deriveJSON defaultOptions ''Type)
 
 -- | 歩兵
 pawn :: Promotion -> Color -> Piece

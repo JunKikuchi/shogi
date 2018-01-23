@@ -4,7 +4,6 @@ module Shogi.Clock
   , Sec
   ) where
 
-import           Data.Aeson
 import           GameClock
 import           GameClock.Clock
 import           GameClock.Clock.Sec

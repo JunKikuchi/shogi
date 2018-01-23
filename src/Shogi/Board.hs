@@ -1,6 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell   #-}
-
 module Shogi.Board
   ( Board
   , fromList
@@ -15,8 +12,6 @@ module Shogi.Board
   ) where
 
 import           Control.Monad (guard)
-import           Data.Aeson
-import           Data.Aeson.TH
 import qualified Data.Map      as Map
 import           Data.Maybe    (isNothing, maybe, maybeToList)
 import           Prelude       hiding (drop, lookup)
@@ -27,8 +22,6 @@ import           Shogi.Square
 
 -- | 将棋盤
 newtype Board = Board { unBoard :: Map.Map Square Piece } deriving (Eq, Show)
-
-$(deriveJSON defaultOptions ''Board)
 
 -- | 升目と駒のリストから将棋盤作成
 fromList :: [(Square, Piece)] -> Board
