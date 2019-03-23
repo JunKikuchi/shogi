@@ -19,6 +19,7 @@ module Shogi
   , movePiece
   , dropPiece
   , resign
+  , module Shogi.Color
   ) where
 
 import           Control.Monad   (guard)
