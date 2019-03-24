@@ -1,5 +1,7 @@
 module Shogi.Position
   ( Position
+  , getBoard
+  , getStand
   , fromLists
   , toLists
   , hirate

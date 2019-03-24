@@ -1,9 +1,6 @@
 module Shogi.Piece
-  ( Piece
+  ( Piece(..)
   , Type(..)
-  , pieceType
-  , piecePromotion
-  , pieceColor
   , Promotion
   , pawn
   , lance
