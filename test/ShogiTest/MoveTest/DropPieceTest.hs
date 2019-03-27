@@ -6,7 +6,6 @@ import Data.Maybe
 import Data.Time.Clock
 import Shogi
 import Shogi.Clock
-import Shogi.Color
 import Shogi.Square
 import Shogi.Piece
 import qualified Shogi.Position as Position

@@ -5,7 +5,6 @@ import Test.Tasty.HUnit
 import Data.Time.Clock
 import Shogi
 import Shogi.Clock (clock)
-import Shogi.Color
 import GameClock.Clock (suddenDeath)
 import qualified Shogi.Position as Position
 
