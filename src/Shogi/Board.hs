@@ -58,7 +58,7 @@ move from@(from', color) moveTo@(to, promoted) board = do
   guard $ pieceColor piece == color
   guard $ elem moveTo $ Shogi.Board.moves from board
   let deletedBoard = Map.delete from' (unBoard board)
-  return board { unBoard = Map.insert to piece { piecePromotion = promoted } deletedBoard }
+  return board { unBoard = Map.insert to piece { piecePromotion = piecePromotion piece || promoted } deletedBoard }
 
 -- | 持ち駒を指す
 drop :: Piece -> Square -> Board -> Maybe Board
