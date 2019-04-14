@@ -30,7 +30,7 @@ pieces color (Stand stand) = filter (\piece -> pieceColor piece == color) stand
 
 -- | 駒台に駒を載せる
 put :: Piece -> Stand -> Stand
-put piece (Stand stand) = fromList $ piece { pieceColor = turn $ pieceColor piece }:stand
+put piece (Stand stand) = fromList $ piece { pieceColor = turn $ pieceColor piece, piecePromotion = False }:stand
 
 -- | 駒台から駒を取り除く
 take :: Piece -> Stand -> Maybe Stand
