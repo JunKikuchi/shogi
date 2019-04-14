@@ -50,7 +50,7 @@ tests = testGroup "move"
                                 R1
                  と             R2
     --}
-    , testCase "先手と金移動" $ move ((F5, R2), Black) ((F5, R1), False) (fromLists ([((F5, R2), pawn True Black)], [])) @?= Just (fromLists ([((F5, R1), pawn True Black)], []))
+  , testCase "先手と金移動" $ move ((F5, R2), Black) ((F5, R1), False) (fromLists ([((F5, R2), pawn True Black)], [])) @?= Just (fromLists ([((F5, R1), pawn True Black)], []))
 
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -64,7 +64,7 @@ tests = testGroup "move"
                 Vと             R8
                                 R9
     --}
-    , testCase "後手と金移動" $ move ((F5, R8), White) ((F5, R9), False) (fromLists ([((F5, R8), pawn True White)], [])) @?= Just (fromLists ([((F5, R9), pawn True White)], []))
+  , testCase "後手と金移動" $ move ((F5, R8), White) ((F5, R9), False) (fromLists ([((F5, R8), pawn True White)], [])) @?= Just (fromLists ([((F5, R9), pawn True White)], []))
 
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -216,7 +216,7 @@ tests = testGroup "move"
                                 R4
                  桂             R5
     --}
-    , testCase "先手桂馬後手のと金取って成り" $ move ((F5, R5), Black) ((F6, R3), True) (fromLists ([((F5, R5), knight False Black), ((F6, R3), pawn True White)], [])) @?= Just (fromLists ([((F6, R3), knight True Black)], [pawn False Black]))
+  , testCase "先手桂馬後手のと金取って成り" $ move ((F5, R5), Black) ((F6, R3), True) (fromLists ([((F5, R5), knight False Black), ((F6, R3), pawn True White)], [])) @?= Just (fromLists ([((F6, R3), knight True Black)], [pawn False Black]))
 
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
@@ -232,7 +232,7 @@ tests = testGroup "move"
                                 R6
               と                R7
     --}
-    , testCase "後手桂馬先手のと金取って成り" $ move ((F5, R5), White) ((F6, R7), True) (fromLists ([((F5, R5), knight False White), ((F6, R7), pawn True Black)], [])) @?= Just (fromLists ([((F6, R7), knight True White)], [pawn False White]))
+  , testCase "後手桂馬先手のと金取って成り" $ move ((F5, R5), White) ((F6, R7), True) (fromLists ([((F5, R5), knight False White), ((F6, R7), pawn True Black)], [])) @?= Just (fromLists ([((F6, R7), knight True White)], [pawn False White]))
 
     {--
      F9 F8 F7 F6 F5 F4 F3 F2 F1
