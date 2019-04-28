@@ -83,7 +83,7 @@ moves from@(from', color) board = do
                          else moveTo'
         Nothing       -> moveTo' ++ moves' squares piece board
       where
-        moveTo' = [(square, promotion) | promotion <- Piece.promotions piece square]
+        moveTo' = [(square, promotion) | promotion <- Piece.promotions piece from' square]
 
 -- | 持ち駒を指せる升目リスト
 drops :: Piece -> Board -> [Square]
