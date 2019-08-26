@@ -2,6 +2,7 @@ module Shogi.Board
   ( Board
   , fromList
   , toList
+  , toMap
   , check
   , pieces
   , move
@@ -30,6 +31,10 @@ fromList = Board . Map.fromList
 -- | 将棋盤の升目と駒のリスト
 toList :: Board -> [(Square, Piece)]
 toList (Board board) = Map.toList board
+
+-- | 将棋盤の升目をキーに駒を値にしたマップ
+toMap :: Board -> Map.Map Square Piece
+toMap = unBoard
 
 -- | 王手判定
 check :: Color -> Board -> Bool
