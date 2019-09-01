@@ -15,7 +15,7 @@
 # resolver:
 #  name: custom-snapshot
 #  location: "./custom-snapshot.yaml"
-resolver: lts-10.3
+resolver: lts-14.3
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -36,14 +36,13 @@ resolver: lts-10.3
 # non-dependency (i.e. a user package), and its test suites and benchmarks
 # will not be run. This is useful for tweaking upstream packages.
 packages:
-- .
-- location:
-    git: https://github.com/JunKikuchi/game-clock.git
-    commit: e2cb76166bc546274597f957379d66f2bfb1aa62
-  extra-dep: true
+  - .
+
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
-extra-deps: []
+extra-deps:
+  - git: https://github.com/JunKikuchi/game-clock.git
+    commit: 8888d7ae02dc1709e425756f54d96c734f578663
 
 # Override default flag values for local packages and extra-deps
 flags: {}
